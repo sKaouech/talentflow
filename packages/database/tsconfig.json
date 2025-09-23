@@ -1,7 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "types": ["node"],
+    "lib": ["ES2022"]
   },
   "include": ["src/**/*", "index.ts", "prisma/**/*"],
   "exclude": ["node_modules", "dist"]

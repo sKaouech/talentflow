@@ -93,7 +93,7 @@ const statusConfig = {
 
 export default function CandidatesPage() {
   const [searchTerm, setSearchTerm] = useState('')
-  const [selected setSelectedFilter] = useState('all')
+  const [selectedFilter, setSelectedFilter] = useState('all')
 
   const filteredCandidates = mockCandidates.filter(candidate => {
     const matchesSearch =
