@@ -17,8 +17,7 @@ const customJestConfig = {
   ],
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
-    '<rootDir>/e2e/',
-    '\\.disabled'
+    '<rootDir>/e2e/'
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
