@@ -162,7 +162,7 @@ jobs:
           cd packages/database && pnpm db:push
 
       - name: 🎭 Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps chromium
+        run: cd apps/web && npx playwright install --with-deps chromium
 
       - name: 🏗️ Build Application
         env:
