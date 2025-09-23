@@ -1,9 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import { Button, Card, CardContent, CardHeader, CardTitle, Badge } from '@talentflow/ui'
+import {
+  Button,
+  Card,
+  CardContent,
+  
+  
+  Badge,
+} from '@talentflow/ui'
 import { useTenders, useTenderStats } from '@/hooks/use-tenders'
-import { Plus, Search, Filter, Eye, Edit, Archive, Share } from 'lucide-react'
+import { Plus, Search,   Edit, Archive, Share } from 'lucide-react'
 import { formatDate, formatCurrency } from '@talentflow/shared'
 
 export default function TendersPage() {
@@ -25,38 +32,55 @@ export default function TendersPage() {
 
   const getStatusVariant = (status: string) => {
     switch (status) {
-      case 'active': return 'success'
-      case 'draft': return 'secondary'
-      case 'closed': return 'destructive'
-      case 'archived': return 'outline'
-      default: return 'default'
+      case 'active':
+        return 'success'
+      case 'draft':
+        return 'secondary'
+      case 'closed':
+        return 'destructive'
+      case 'archived':
+        return 'outline'
+      default:
+        return 'default'
     }
   }
 
   const getStatusLabel = (status: string) => {
     switch (status) {
-      case 'active': return 'Actif'
-      case 'draft': return 'Brouillon'
-      case 'closed': return 'Fermé'
-      case 'archived': return 'Archivé'
-      default: return status
+      case 'active':
+        return 'Actif'
+      case 'draft':
+        return 'Brouillon'
+      case 'closed':
+        return 'Fermé'
+      case 'archived':
+        return 'Archivé'
+      default:
+        return status
     }
   }
 
   const getTypeLabel = (type: string) => {
     switch (type) {
-      case 'mission': return 'Mission'
-      case 'cdi': return 'CDI'
-      case 'freelance': return 'Freelance'
-      case 'stage': return 'Stage'
-      default: return type
+      case 'mission':
+        return 'Mission'
+      case 'cdi':
+        return 'CDI'
+      case 'freelance':
+        return 'Freelance'
+      case 'stage':
+        return 'Stage'
+      default:
+        return type
     }
   }
 
   if (error) {
     return (
       <div className="text-center py-8">
-        <p className="text-destructive">Erreur lors du chargement des appels d'offres</p>
+        <p className="text-destructive">
+          Erreur lors du chargement des appels d'offres
+        </p>
         <Button onClick={() => window.location.reload()} className="mt-4">
           Réessayer
         </Button>
@@ -85,31 +109,41 @@ export default function TendersPage() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           <Card>
             <CardContent className="p-4">
-              <div className="text-2xl font-bold text-primary">{stats.total}</div>
+              <div className="text-2xl font-bold text-primary">
+                {stats.total}
+              </div>
               <div className="text-sm text-muted-foreground">Total</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4">
-              <div className="text-2xl font-bold text-green-600">{stats.active}</div>
+              <div className="text-2xl font-bold text-green-600">
+                {stats.active}
+              </div>
               <div className="text-sm text-muted-foreground">Actifs</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4">
-              <div className="text-2xl font-bold text-yellow-600">{stats.draft}</div>
+              <div className="text-2xl font-bold text-yellow-600">
+                {stats.draft}
+              </div>
               <div className="text-sm text-muted-foreground">Brouillons</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4">
-              <div className="text-2xl font-bold text-blue-600">{stats.published}</div>
+              <div className="text-2xl font-bold text-blue-600">
+                {stats.published}
+              </div>
               <div className="text-sm text-muted-foreground">Publiés</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="p-4">
-              <div className="text-2xl font-bold text-purple-600">{stats.applicationsCount}</div>
+              <div className="text-2xl font-bold text-purple-600">
+                {stats.applicationsCount}
+              </div>
               <div className="text-sm text-muted-foreground">Candidatures</div>
             </CardContent>
           </Card>
@@ -127,13 +161,17 @@ export default function TendersPage() {
                 placeholder="Rechercher des appels d'offres..."
                 className="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                 value={searchParams.q}
-                onChange={(e) => setSearchParams(prev => ({ ...prev, q: e.target.value }))}
+                onChange={e =>
+                  setSearchParams(prev => ({ ...prev, q: e.target.value }))
+                }
               />
             </div>
             <select
               className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               value={searchParams.status}
-              onChange={(e) => setSearchParams(prev => ({ ...prev, status: e.target.value }))}
+              onChange={e =>
+                setSearchParams(prev => ({ ...prev, status: e.target.value }))
+              }
             >
               <option value="">Tous les statuts</option>
               <option value="draft">Brouillon</option>
@@ -144,7 +182,9 @@ export default function TendersPage() {
             <select
               className="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
               value={searchParams.type}
-              onChange={(e) => setSearchParams(prev => ({ ...prev, type: e.target.value }))}
+              onChange={e =>
+                setSearchParams(prev => ({ ...prev, type: e.target.value }))
+              }
             >
               <option value="">Tous les types</option>
               <option value="mission">Mission</option>
@@ -169,7 +209,9 @@ export default function TendersPage() {
         ) : tenders?.items?.length === 0 ? (
           <Card>
             <CardContent className="text-center py-8">
-              <p className="text-muted-foreground mb-4">Aucun appel d'offres trouvé</p>
+              <p className="text-muted-foreground mb-4">
+                Aucun appel d'offres trouvé
+              </p>
               <Button>Créer votre premier appel d'offres</Button>
             </CardContent>
           </Card>
@@ -188,29 +230,35 @@ export default function TendersPage() {
                         {getTypeLabel(tender.type)}
                       </Badge>
                     </div>
-                    
+
                     <p className="text-muted-foreground mb-3 line-clamp-2">
                       {tender.description}
                     </p>
-                    
+
                     <div className="flex items-center gap-6 text-sm text-muted-foreground mb-4">
-                      {tender.location && (
-                        <span>📍 {tender.location}</span>
-                      )}
+                      {tender.location && <span>📍 {tender.location}</span>}
                       {tender.dailyRate && (
                         <span>💰 {formatCurrency(tender.dailyRate)}/jour</span>
                       )}
                       {tender.startDate && (
                         <span>📅 {formatDate(tender.startDate)}</span>
                       )}
-                      <span>📝 {tender.applications?.length || 0} candidatures</span>
-                      <span>📢 {tender.publications?.length || 0} publications</span>
+                      <span>
+                        📝 {tender.applications?.length || 0} candidatures
+                      </span>
+                      <span>
+                        📢 {tender.publications?.length || 0} publications
+                      </span>
                     </div>
 
                     {tender.skills && tender.skills.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-4">
                         {tender.skills.slice(0, 5).map((skill: string) => (
-                          <Badge key={skill} variant="secondary" className="text-xs">
+                          <Badge
+                            key={skill}
+                            variant="secondary"
+                            className="text-xs"
+                          >
                             {skill}
                           </Badge>
                         ))}
@@ -257,7 +305,9 @@ export default function TendersPage() {
           <Button
             variant="outline"
             disabled={tenders.pagination.page === 1}
-            onClick={() => setSearchParams(prev => ({ ...prev, page: prev.page - 1 }))}
+            onClick={() =>
+              setSearchParams(prev => ({ ...prev, page: prev.page - 1 }))
+            }
           >
             Précédent
           </Button>
@@ -267,7 +317,9 @@ export default function TendersPage() {
           <Button
             variant="outline"
             disabled={tenders.pagination.page === tenders.pagination.pages}
-            onClick={() => setSearchParams(prev => ({ ...prev, page: prev.page + 1 }))}
+            onClick={() =>
+              setSearchParams(prev => ({ ...prev, page: prev.page + 1 }))
+            }
           >
             Suivant
           </Button>

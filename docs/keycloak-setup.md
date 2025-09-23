@@ -29,6 +29,7 @@ docker-compose up -d keycloak
 ### 2. Créer les Clients
 
 #### Client API (Backend)
+
 - **Client ID** : `talentflow-api`
 - **Client Protocol** : `openid-connect`
 - **Access Type** : `confidential`
@@ -36,6 +37,7 @@ docker-compose up -d keycloak
 - **Web Origins** : `http://localhost:3001`
 
 #### Client Web (Frontend)
+
 - **Client ID** : `talentflow-web`
 - **Client Protocol** : `openid-connect`
 - **Access Type** : `public`
@@ -45,12 +47,14 @@ docker-compose up -d keycloak
 ### 3. Configurer les Rôles
 
 #### Rôles Realm
+
 - `tenant_admin` : Administration complète du tenant
 - `manager` : Gestion des équipes et projets
 - `recruiter` : Gestion des candidats et appels d'offres
 - `viewer` : Lecture seule
 
 #### Rôles Client (talentflow-api)
+
 - `api.read` : Lecture des données
 - `api.write` : Écriture des données
 - `api.admin` : Administration
@@ -58,6 +62,7 @@ docker-compose up -d keycloak
 ### 4. Mapper les Attributs Utilisateur
 
 #### Mappers à créer
+
 - **tenant_id** : Attribut personnalisé pour le multi-tenant
 - **permissions** : Liste des permissions granulaires
 - **preferences** : Préférences utilisateur
@@ -83,7 +88,7 @@ NEXTAUTH_KEYCLOAK_ISSUER=http://localhost:8080/realms/talentflow
 ### Configuration NextAuth.js (Migration Future)
 
 ```typescript
-import KeycloakProvider from "next-auth/providers/keycloak"
+import KeycloakProvider from 'next-auth/providers/keycloak'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -91,7 +96,7 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.NEXTAUTH_KEYCLOAK_ID!,
       clientSecret: process.env.NEXTAUTH_KEYCLOAK_SECRET!,
       issuer: process.env.NEXTAUTH_KEYCLOAK_ISSUER!,
-    })
+    }),
   ],
   callbacks: {
     async jwt({ token, account }) {
@@ -104,31 +109,35 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       session.accessToken = token.accessToken
       return session
-    }
-  }
+    },
+  },
 }
 ```
 
 ## 🔄 Plan de Migration
 
 ### Phase 1 : Préparation (Actuelle)
+
 - ✅ Infrastructure Keycloak prête
 - ✅ Configuration de base documentée
 - ✅ NextAuth.js opérationnel
 
 ### Phase 2 : Migration Utilisateurs
+
 1. **Export des utilisateurs** depuis la base Prisma
 2. **Import dans Keycloak** avec script automatisé
 3. **Mapping des rôles** et permissions
 4. **Tests de connexion** parallèles
 
 ### Phase 3 : Migration Code
+
 1. **Mise à jour NextAuth.js** avec provider Keycloak
 2. **Adaptation de l'API** NestJS pour JWT Keycloak
 3. **Tests d'intégration** complets
 4. **Déploiement progressif**
 
 ### Phase 4 : Nettoyage
+
 1. **Suppression de l'ancien système** d'auth
 2. **Cleanup de la base** de données
 3. **Documentation mise à jour**
@@ -136,6 +145,7 @@ export const authOptions: NextAuthOptions = {
 ## 🧪 Tests de Validation
 
 ### Tests Keycloak
+
 ```bash
 # Test de connexion admin
 curl -X POST http://localhost:8080/realms/master/protocol/openid-connect/token \
@@ -150,6 +160,7 @@ curl http://localhost:8080/realms/talentflow/.well-known/openid_configuration
 ```
 
 ### Tests d'Intégration
+
 - **Connexion utilisateur** via Keycloak
 - **Récupération des tokens** JWT
 - **Validation des permissions** dans l'API
@@ -158,18 +169,21 @@ curl http://localhost:8080/realms/talentflow/.well-known/openid_configuration
 ## 🚨 Points d'Attention
 
 ### Sécurité
+
 - **Secrets clients** à générer et sécuriser
 - **HTTPS obligatoire** en production
 - **Rotation des tokens** configurée
 - **Rate limiting** sur les endpoints auth
 
 ### Performance
+
 - **Connection pooling** vers Keycloak
 - **Cache des tokens** JWT
 - **Monitoring** des temps de réponse
 - **Fallback** en cas d'indisponibilité
 
 ### Multi-tenant
+
 - **Isolation des données** par tenant
 - **Mapping tenant_id** dans les claims JWT
 - **Permissions granulaires** par tenant

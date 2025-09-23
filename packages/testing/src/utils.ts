@@ -24,7 +24,7 @@ export const waitForAsync = () => new Promise(resolve => setTimeout(resolve, 0))
  */
 export function mockConsole() {
   const originalConsole = { ...console }
-  
+
   beforeEach(() => {
     jest.spyOn(console, 'log').mockImplementation(() => {})
     jest.spyOn(console, 'warn').mockImplementation(() => {})

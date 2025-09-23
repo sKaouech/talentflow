@@ -29,15 +29,19 @@ export class AllExceptionsFilter implements ExceptionFilter {
       // Erreurs HTTP NestJS
       status = exception.getStatus()
       const exceptionResponse = exception.getResponse()
-      
+
       errorResponse = {
         success: false,
         error: {
           code: 'HTTP_EXCEPTION',
-          message: typeof exceptionResponse === 'string' 
-            ? exceptionResponse 
-            : (exceptionResponse as any).message || exception.message,
-          details: typeof exceptionResponse === 'object' ? exceptionResponse : undefined,
+          message:
+            typeof exceptionResponse === 'string'
+              ? exceptionResponse
+              : (exceptionResponse as any).message || exception.message,
+          details:
+            typeof exceptionResponse === 'object'
+              ? exceptionResponse
+              : undefined,
         },
       }
     } else {

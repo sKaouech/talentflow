@@ -11,6 +11,7 @@ TalentFlow adopte une approche **Test-Driven Development (TDD)** avec une pyrami
 ## 📊 Types de Tests
 
 ### 1. Tests Unitaires
+
 **Objectif** : Tester des fonctions/composants isolés
 **Outils** : Jest + Testing Library
 **Localisation** : `__tests__/` dans chaque package
@@ -27,18 +28,19 @@ describe('userFactory', () => {
 ```
 
 ### 2. Tests d'Intégration
+
 **Objectif** : Tester l'interaction entre modules
 **Outils** : Jest + Supertest + MSW
 **Localisation** : `__tests__/integration/`
 
 ```typescript
 // Exemple de test d'intégration
-describe('Flux d\'authentification', () => {
+describe("Flux d'authentification", () => {
   it('devrait créer un tenant et utilisateur en transaction', async () => {
     const response = await request(app)
       .post('/api/auth/register')
       .send(validUserData)
-    
+
     expect(response.status).toBe(201)
     expect(response.body.user.tenantId).toBeDefined()
   })
@@ -46,13 +48,14 @@ describe('Flux d\'authentification', () => {
 ```
 
 ### 3. Tests End-to-End (E2E)
+
 **Objectif** : Tester les parcours utilisateur complets
 **Outils** : Playwright
 **Localisation** : `e2e/`
 
 ```typescript
 // Exemple de test E2E
-test('devrait permettre l\'inscription complète', async ({ page }) => {
+test("devrait permettre l'inscription complète", async ({ page }) => {
   await page.goto('/auth/signup')
   await page.fill('[data-testid="email"]', 'user@example.com')
   await page.click('[data-testid="submit"]')
@@ -94,6 +97,7 @@ packages/testing/
 ## 🔧 Configuration des Tests
 
 ### Jest Configuration
+
 ```javascript
 // jest.config.js
 module.exports = {
@@ -105,13 +109,14 @@ module.exports = {
       branches: 80,
       functions: 80,
       lines: 80,
-      statements: 80
-    }
-  }
+      statements: 80,
+    },
+  },
 }
 ```
 
 ### Playwright Configuration
+
 ```typescript
 // playwright.config.ts
 export default defineConfig({
@@ -119,24 +124,26 @@ export default defineConfig({
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure'
+    screenshot: 'only-on-failure',
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
     { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] } }
-  ]
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+  ],
 })
 ```
 
 ## 📋 Standards de Tests
 
 ### Nomenclature
+
 - **Fichiers de tests** : `*.test.ts` (unitaires), `*.spec.ts` (E2E)
 - **Groupes** : `@group unit`, `@group integration`, `@group e2e`
 - **Descriptions** : Français, format "devrait [action attendue]"
 
 ### Structure des Tests
+
 ```typescript
 describe('Composant/Fonctionnalité', () => {
   beforeEach(() => {
@@ -147,17 +154,17 @@ describe('Composant/Fonctionnalité', () => {
     it('devrait [comportement attendu]', async () => {
       // Arrange
       const input = createTestData()
-      
+
       // Act
       const result = await functionUnderTest(input)
-      
+
       // Assert
       expect(result).toEqual(expectedOutput)
     })
   })
 
-  describe('Cas d\'erreur', () => {
-    it('devrait gérer [cas d\'erreur]', async () => {
+  describe("Cas d'erreur", () => {
+    it("devrait gérer [cas d'erreur]", async () => {
       // Test des cas d'erreur
     })
   })
@@ -165,23 +172,25 @@ describe('Composant/Fonctionnalité', () => {
 ```
 
 ### Mocks et Factories
+
 ```typescript
 // Utiliser des factories pour les données de test
 const user = userFactory.build({ email: 'specific@test.com' })
 
 // Mocker les dépendances externes
 jest.mock('next-auth/react', () => ({
-  useSession: jest.fn(() => ({ data: mockSession }))
+  useSession: jest.fn(() => ({ data: mockSession })),
 }))
 ```
 
 ## 🚀 Processus TDD pour Nouvelles Fonctionnalités
 
 ### 1. **Red** - Écrire le Test qui Échoue
+
 ```typescript
 // 1. Créer le test d'abord
 describe('TenderService', () => {
-  it('devrait créer un appel d\'offres', async () => {
+  it("devrait créer un appel d'offres", async () => {
     const tender = await tenderService.create(validTenderData)
     expect(tender.status).toBe('draft')
   })
@@ -189,6 +198,7 @@ describe('TenderService', () => {
 ```
 
 ### 2. **Green** - Écrire le Code Minimal
+
 ```typescript
 // 2. Implémenter le code minimal pour passer le test
 class TenderService {
@@ -199,6 +209,7 @@ class TenderService {
 ```
 
 ### 3. **Refactor** - Améliorer le Code
+
 ```typescript
 // 3. Refactoriser sans casser les tests
 class TenderService {
@@ -212,12 +223,14 @@ class TenderService {
 ## 📊 Couverture de Code
 
 ### Seuils Requis
+
 - **Branches** : 80%
 - **Fonctions** : 80%
 - **Lignes** : 80%
 - **Statements** : 80%
 
 ### Commandes
+
 ```bash
 # Tests unitaires avec couverture
 pnpm test:coverage
@@ -232,18 +245,21 @@ pnpm test:all
 ## 🔍 Tests par Fonctionnalité
 
 ### Authentification ✅
+
 - [x] **API Register** : Validation, création utilisateur/tenant
 - [x] **API Signin** : Authentification, gestion erreurs
 - [x] **Pages Auth** : Formulaires, validation, UX
 - [x] **Flux complets** : Inscription → Connexion → Dashboard
 
 ### Appels d'Offres (À implémenter)
+
 - [ ] **CRUD Tenders** : Création, lecture, mise à jour, suppression
 - [ ] **Validation** : Données métier, permissions
 - [ ] **Workflow** : Brouillon → Actif → Publié → Fermé
 - [ ] **Interface** : Formulaires, listes, détails
 
 ### Candidats (À implémenter)
+
 - [ ] **Gestion CV** : Upload, parsing, templates
 - [ ] **Matching** : Algorithme de correspondance
 - [ ] **Communication** : Messages, notifications
@@ -252,6 +268,7 @@ pnpm test:all
 ## 🛠️ Outils et Utilitaires
 
 ### Factories de Test
+
 ```typescript
 // Créer des données cohérentes
 const user = userFactory.build()
@@ -260,6 +277,7 @@ const tender = tenderFactory.build({ tenantId: tenant.id })
 ```
 
 ### Mocks MSW
+
 ```typescript
 // Intercepter les requêtes HTTP
 const server = setupServer(
@@ -270,6 +288,7 @@ const server = setupServer(
 ```
 
 ### Utilitaires de Rendu
+
 ```typescript
 // Render avec providers
 render(<Component />, {
@@ -281,6 +300,7 @@ render(<Component />, {
 ## 🚦 CI/CD et Tests
 
 ### Pipeline de Tests
+
 ```yaml
 # .github/workflows/test.yml
 name: Tests
@@ -291,13 +311,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: pnpm test:unit
-      
+
   integration-tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - run: pnpm test:integration
-      
+
   e2e-tests:
     runs-on: ubuntu-latest
     steps:
@@ -306,6 +326,7 @@ jobs:
 ```
 
 ### Quality Gates
+
 - ✅ **Tests passent** : 100% des tests doivent passer
 - ✅ **Couverture** : Minimum 80% sur toutes les métriques
 - ✅ **Performance** : Tests E2E < 30s
@@ -314,12 +335,14 @@ jobs:
 ## 📚 Ressources et Formation
 
 ### Documentation
+
 - [Jest Documentation](https://jestjs.io/docs)
 - [Testing Library](https://testing-library.com/)
 - [Playwright](https://playwright.dev/)
 - [MSW (Mock Service Worker)](https://mswjs.io/)
 
 ### Bonnes Pratiques
+
 - **AAA Pattern** : Arrange, Act, Assert
 - **Test Isolation** : Chaque test est indépendant
 - **Noms descriptifs** : Tests auto-documentés

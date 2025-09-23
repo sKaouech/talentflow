@@ -15,23 +15,27 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap')
 
   // Security
-  app.use(helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'"],
-        imgSrc: ["'self'", 'data:', 'https:'],
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          scriptSrc: ["'self'"],
+          imgSrc: ["'self'", 'data:', 'https:'],
+        },
       },
-    },
-  }))
+    })
+  )
 
   // Compression
   app.use(compression())
 
   // CORS
   app.enableCors({
-    origin: configService.get('CORS_ORIGINS', 'http://localhost:3000').split(','),
+    origin: configService
+      .get('CORS_ORIGINS', 'http://localhost:3000')
+      .split(','),
     credentials: true,
   })
 
@@ -51,18 +55,15 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter())
 
   // Global interceptors
-  app.useGlobalInterceptors(
-    new ResponseInterceptor(),
-    new LoggingInterceptor()
-  )
+  app.useGlobalInterceptors(new ResponseInterceptor(), new LoggingInterceptor())
 
   // Swagger documentation
   const config = new DocumentBuilder()
     .setTitle('TalentFlow API (Dev)')
     .setDescription('API pour la plateforme TalentFlow - Mode développement')
     .setVersion('1.0')
-    .addTag('tenders', 'Gestion des appels d\'offres')
-    .addTag('health', 'Santé de l\'application')
+    .addTag('tenders', "Gestion des appels d'offres")
+    .addTag('health', "Santé de l'application")
     .build()
 
   const document = SwaggerModule.createDocument(app, config)

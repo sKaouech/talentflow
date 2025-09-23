@@ -70,38 +70,38 @@ export const ROLES = {
 
 export const PERMISSIONS = {
   // Tenders
-  'tenders.create': 'Créer des appels d\'offres',
-  'tenders.read': 'Voir les appels d\'offres',
-  'tenders.update': 'Modifier les appels d\'offres',
-  'tenders.delete': 'Supprimer les appels d\'offres',
-  'tenders.publish': 'Publier les appels d\'offres',
-  
+  'tenders.create': "Créer des appels d'offres",
+  'tenders.read': "Voir les appels d'offres",
+  'tenders.update': "Modifier les appels d'offres",
+  'tenders.delete': "Supprimer les appels d'offres",
+  'tenders.publish': "Publier les appels d'offres",
+
   // Candidates
   'candidates.create': 'Créer des candidats',
   'candidates.read': 'Voir les candidats',
   'candidates.update': 'Modifier les candidats',
   'candidates.delete': 'Supprimer les candidats',
   'candidates.export_cv': 'Générer des CV',
-  
+
   // Users
   'users.invite': 'Inviter des utilisateurs',
   'users.read': 'Voir les utilisateurs',
   'users.update': 'Modifier les utilisateurs',
   'users.delete': 'Supprimer les utilisateurs',
-  
+
   // Billing
   'billing.read': 'Voir la facturation',
-  'billing.update': 'Modifier l\'abonnement',
-  
+  'billing.update': "Modifier l'abonnement",
+
   // Settings
   'settings.read': 'Voir les paramètres',
   'settings.update': 'Modifier les paramètres',
-  
+
   // Analytics
   'analytics.read': 'Voir les statistiques',
-  
+
   // Audit
-  'audit.read': 'Voir les logs d\'audit',
+  'audit.read': "Voir les logs d'audit",
 } as const
 
 // Mapping rôles -> permissions
@@ -134,11 +134,7 @@ export const ROLE_PERMISSIONS = {
     'candidates.export_cv',
     'users.read',
   ],
-  [ROLES.VIEWER]: [
-    'tenders.read',
-    'candidates.read',
-    'users.read',
-  ],
+  [ROLES.VIEWER]: ['tenders.read', 'candidates.read', 'users.read'],
 } as const
 
 // File upload
@@ -146,8 +142,19 @@ export const FILE_UPLOAD = {
   MAX_SIZE: 10 * 1024 * 1024, // 10MB
   ALLOWED_TYPES: {
     images: ['image/jpeg', 'image/png', 'image/webp'],
-    documents: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
-    all: ['image/jpeg', 'image/png', 'image/webp', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+    documents: [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ],
+    all: [
+      'image/jpeg',
+      'image/png',
+      'image/webp',
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ],
   },
 } as const
 
@@ -169,7 +176,7 @@ export const PAGINATION = {
 
 // Date formats
 export const DATE_FORMATS = {
-  ISO: 'yyyy-MM-dd\'T\'HH:mm:ss.SSSxxx',
+  ISO: "yyyy-MM-dd'T'HH:mm:ss.SSSxxx",
   DATE: 'yyyy-MM-dd',
   DATETIME: 'yyyy-MM-dd HH:mm',
   DISPLAY: 'dd/MM/yyyy',

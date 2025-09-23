@@ -8,7 +8,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'TalentFlow - Plateforme de Gestion des Talents',
-  description: 'Plateforme SaaS moderne pour la gestion des appels d\'offres et des talents. Simplifiez votre processus de recrutement.',
+  description:
+    "Plateforme SaaS moderne pour la gestion des appels d'offres et des talents. Simplifiez votre processus de recrutement.",
 }
 
 export default function RootLayout({
@@ -20,9 +21,7 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <body className={`${inter.className} antialiased bg-slate-50`}>
         <AuthProvider>
-          <AuthLayout>
-            {children}
-          </AuthLayout>
+          <AuthLayout>{children}</AuthLayout>
         </AuthProvider>
       </body>
     </html>

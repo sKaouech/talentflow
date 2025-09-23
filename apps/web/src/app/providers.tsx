@@ -2,10 +2,14 @@
 
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider } from 'next-auth/react'
 import { queryClient } from '@/lib/query-client'
 
-export function ReactQueryProvider({ children }: { children: React.ReactNode }) {
+export function ReactQueryProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
@@ -14,16 +18,10 @@ export function ReactQueryProvider({ children }: { children: React.ReactNode }) 
   )
 }
 
-export function AuthProvider({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
-      <ReactQueryProvider>
-        {children}
-      </ReactQueryProvider>
+      <ReactQueryProvider>{children}</ReactQueryProvider>
     </SessionProvider>
   )
 }

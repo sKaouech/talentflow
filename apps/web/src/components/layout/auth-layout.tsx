@@ -9,13 +9,13 @@ interface AuthLayoutProps {
 }
 
 export function AuthLayout({ children }: AuthLayoutProps) {
-  const { data: session, status } = useSession()
+  const { data: _session, status } = useSession()
   const pathname = usePathname()
 
   // Pages d'authentification qui ne nécessitent pas le layout principal
   const isAuthPage = pathname.startsWith('/auth/')
 
-  // Affichage pendant le chargement de la session
+  // Affichage pendant le chargement de la _session
   if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">

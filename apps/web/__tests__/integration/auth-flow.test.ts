@@ -6,40 +6,44 @@
 
 import { createMockPrisma } from '@talentflow/testing'
 import { POST as registerPOST } from '@/app/api/auth/register/route'
-import { formDataFactory, userFactory, tenantFactory } from '@talentflow/testing'
+import {
+  formDataFactory,
+  userFactory,
+  tenantFactory,
+} from '@talentflow/testing'
 import { createMockRequest } from '@talentflow/testing'
 import bcrypt from 'bcryptjs'
 
 // Mock des dépendances
 jest.mock('bcryptjs')
 jest.mock('@/lib/prisma', () => ({
-  prisma: createMockPrisma()
+  prisma: createMockPrisma(),
 }))
 
 const mockBcrypt = bcrypt as jest.Mocked<typeof bcrypt>
 const { prisma } = require('@/lib/prisma')
 
-describe('Flux d\'authentification intégré', () => {
+describe("Flux d'authentification intégré", () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockBcrypt.hash.mockResolvedValue('hashed-password')
     mockBcrypt.compare.mockResolvedValue(true)
   })
 
-  describe('Parcours d\'inscription complet', () => {
+  describe("Parcours d'inscription complet", () => {
     it('devrait créer un tenant et un utilisateur admin en une transaction', async () => {
       // Arrange
       const formData = formDataFactory.register({
         firstName: 'Alice',
         lastName: 'Johnson',
         email: 'alice@company.com',
-        tenantName: 'Alice Corp'
+        tenantName: 'Alice Corp',
       })
 
       const mockTenant = tenantFactory.build({
         id: 'tenant-alice-corp',
         name: 'Alice Corp',
-        slug: 'alice-corp'
+        slug: 'alice-corp',
       })
 
       const mockUser = userFactory.build({
@@ -48,7 +52,7 @@ describe('Flux d\'authentification intégré', () => {
         lastName: 'Johnson',
         email: 'alice@company.com',
         tenantId: mockTenant.id,
-        role: 'tenant_admin'
+        role: 'tenant_admin',
       })
 
       // Configuration des mocks
@@ -59,12 +63,12 @@ describe('Flux d\'authentification intégré', () => {
         firstName: mockUser.firstName,
         lastName: mockUser.lastName,
         email: mockUser.email,
-        role: mockUser.role
+        role: mockUser.role,
       })
 
       const request = createMockRequest({
         method: 'POST',
-        body: formData
+        body: formData,
       })
 
       // Act
@@ -79,7 +83,7 @@ describe('Flux d\'authentification intégré', () => {
         firstName: 'Alice',
         lastName: 'Johnson',
         email: 'alice@company.com',
-        role: 'tenant_admin'
+        role: 'tenant_admin',
       })
 
       // Assert - Vérifier la création du tenant
@@ -91,9 +95,9 @@ describe('Flux d\'authentification intégré', () => {
           settings: {},
           branding: {
             primaryColor: '#3b82f6',
-            secondaryColor: '#1e40af'
-          }
-        }
+            secondaryColor: '#1e40af',
+          },
+        },
       })
 
       // Assert - Vérifier la création de l'utilisateur
@@ -105,22 +109,22 @@ describe('Flux d\'authentification intégré', () => {
           passwordHash: 'hashed-password',
           role: 'tenant_admin',
           emailVerified: expect.any(Date),
-          tenantId: mockTenant.id
+          tenantId: mockTenant.id,
         },
         select: {
           id: true,
           firstName: true,
           lastName: true,
           email: true,
-          role: true
-        }
+          role: true,
+        },
       })
     })
 
     it('devrait gérer les erreurs de transaction', async () => {
       // Arrange
       const formData = formDataFactory.register()
-      
+
       prisma.user.findUnique.mockResolvedValue(null)
       prisma.tenant.create.mockResolvedValue({ id: 'tenant-123' })
       // Simuler une erreur lors de la création de l'utilisateur
@@ -128,7 +132,7 @@ describe('Flux d\'authentification intégré', () => {
 
       const request = createMockRequest({
         method: 'POST',
-        body: formData
+        body: formData,
       })
 
       // Act
@@ -146,7 +150,7 @@ describe('Flux d\'authentification intégré', () => {
     it('devrait créer un slug unique pour le tenant', async () => {
       // Arrange
       const formData = formDataFactory.register({
-        tenantName: 'My Awesome Company!'
+        tenantName: 'My Awesome Company!',
       })
 
       const mockTenant = tenantFactory.build()
@@ -159,12 +163,12 @@ describe('Flux d\'authentification intégré', () => {
         firstName: mockUser.firstName,
         lastName: mockUser.lastName,
         email: mockUser.email,
-        role: mockUser.role
+        role: mockUser.role,
       })
 
       const request = createMockRequest({
         method: 'POST',
-        body: formData
+        body: formData,
       })
 
       // Act
@@ -174,8 +178,8 @@ describe('Flux d\'authentification intégré', () => {
       expect(prisma.tenant.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
           name: 'My Awesome Company!',
-          slug: 'my-awesome-company!' // Conversion en slug
-        })
+          slug: 'my-awesome-company!', // Conversion en slug
+        }),
       })
     })
 
@@ -192,12 +196,12 @@ describe('Flux d\'authentification intégré', () => {
         firstName: mockUser.firstName,
         lastName: mockUser.lastName,
         email: mockUser.email,
-        role: mockUser.role
+        role: mockUser.role,
       })
 
       const request = createMockRequest({
         method: 'POST',
-        body: formData
+        body: formData,
       })
 
       // Act
@@ -206,9 +210,9 @@ describe('Flux d\'authentification intégré', () => {
       // Assert
       expect(prisma.user.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
-          role: 'tenant_admin'
+          role: 'tenant_admin',
         }),
-        select: expect.any(Object)
+        select: expect.any(Object),
       })
     })
   })
@@ -217,7 +221,7 @@ describe('Flux d\'authentification intégré', () => {
     it('devrait hacher le mot de passe avec bcrypt', async () => {
       // Arrange
       const formData = formDataFactory.register({
-        password: 'mySecretPassword123'
+        password: 'mySecretPassword123',
       })
 
       const mockTenant = tenantFactory.build()
@@ -230,12 +234,12 @@ describe('Flux d\'authentification intégré', () => {
         firstName: mockUser.firstName,
         lastName: mockUser.lastName,
         email: mockUser.email,
-        role: mockUser.role
+        role: mockUser.role,
       })
 
       const request = createMockRequest({
         method: 'POST',
-        body: formData
+        body: formData,
       })
 
       // Act
@@ -245,9 +249,9 @@ describe('Flux d\'authentification intégré', () => {
       expect(mockBcrypt.hash).toHaveBeenCalledWith('mySecretPassword123', 12)
       expect(prisma.user.create).toHaveBeenCalledWith({
         data: expect.objectContaining({
-          passwordHash: 'hashed-password'
+          passwordHash: 'hashed-password',
         }),
-        select: expect.any(Object)
+        select: expect.any(Object),
       })
     })
 
@@ -264,12 +268,12 @@ describe('Flux d\'authentification intégré', () => {
         firstName: mockUser.firstName,
         lastName: mockUser.lastName,
         email: mockUser.email,
-        role: mockUser.role
+        role: mockUser.role,
       })
 
       const request = createMockRequest({
         method: 'POST',
-        body: formData
+        body: formData,
       })
 
       // Act
@@ -279,7 +283,7 @@ describe('Flux d\'authentification intégré', () => {
       // Assert
       expect(responseData.user).not.toHaveProperty('password')
       expect(responseData.user).not.toHaveProperty('passwordHash')
-      
+
       // Vérifier que Prisma select exclut les champs sensibles
       expect(prisma.user.create).toHaveBeenCalledWith({
         data: expect.any(Object),
@@ -288,8 +292,8 @@ describe('Flux d\'authentification intégré', () => {
           firstName: true,
           lastName: true,
           email: true,
-          role: true
-        }
+          role: true,
+        },
       })
     })
   })
@@ -300,7 +304,7 @@ describe('Flux d\'authentification intégré', () => {
       const formData = formDataFactory.register({
         firstName: 'José-María',
         lastName: 'García-López',
-        tenantName: 'Café & Réseau'
+        tenantName: 'Café & Réseau',
       })
 
       const mockTenant = tenantFactory.build()
@@ -313,12 +317,12 @@ describe('Flux d\'authentification intégré', () => {
         firstName: 'José-María',
         lastName: 'García-López',
         email: mockUser.email,
-        role: mockUser.role
+        role: mockUser.role,
       })
 
       const request = createMockRequest({
         method: 'POST',
-        body: formData
+        body: formData,
       })
 
       // Act
@@ -334,7 +338,7 @@ describe('Flux d\'authentification intégré', () => {
     it('devrait normaliser les emails en minuscules', async () => {
       // Arrange
       const formData = formDataFactory.register({
-        email: 'User@EXAMPLE.COM'
+        email: 'User@EXAMPLE.COM',
       })
 
       const mockTenant = tenantFactory.build()
@@ -347,12 +351,12 @@ describe('Flux d\'authentification intégré', () => {
         firstName: mockUser.firstName,
         lastName: mockUser.lastName,
         email: 'user@example.com', // Email normalisé
-        role: mockUser.role
+        role: mockUser.role,
       })
 
       const request = createMockRequest({
         method: 'POST',
-        body: formData
+        body: formData,
       })
 
       // Act

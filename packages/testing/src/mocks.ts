@@ -5,45 +5,45 @@ import { http, HttpResponse } from 'msw'
 export const mockApiResponses = {
   register: {
     success: {
-      message: "Compte créé avec succès",
+      message: 'Compte créé avec succès',
       user: {
-        id: "test-user-id",
-        firstName: "Test",
-        lastName: "User",
-        email: "test@example.com",
-        role: "tenant_admin",
-        tenantId: "test-tenant-id"
-      }
+        id: 'test-user-id',
+        firstName: 'Test',
+        lastName: 'User',
+        email: 'test@example.com',
+        role: 'tenant_admin',
+        tenantId: 'test-tenant-id',
+      },
     },
     error: {
-      error: "Email déjà utilisé"
+      error: 'Email déjà utilisé',
     },
     validationError: {
-      error: "Données invalides",
+      error: 'Données invalides',
       details: [
         {
-          code: "invalid_type",
-          expected: "string",
-          received: "undefined",
-          path: ["email"],
-          message: "Required"
-        }
-      ]
-    }
+          code: 'invalid_type',
+          expected: 'string',
+          received: 'undefined',
+          path: ['email'],
+          message: 'Required',
+        },
+      ],
+    },
   },
   signin: {
     success: {
       user: {
-        id: "test-user-id",
-        email: "test@example.com",
-        firstName: "Test",
-        lastName: "User"
-      }
+        id: 'test-user-id',
+        email: 'test@example.com',
+        firstName: 'Test',
+        lastName: 'User',
+      },
     },
     error: {
-      error: "CredentialsSignin"
-    }
-  }
+      error: 'CredentialsSignin',
+    },
+  },
 }
 
 // Serveur MSW pour les tests
@@ -62,7 +62,7 @@ export const server = setupServer(
   http.get('/api/auth/session', () => {
     return HttpResponse.json({
       user: mockApiResponses.signin.success.user,
-      expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
     })
   })
 )
@@ -77,7 +77,7 @@ export const setupTestServer = () => {
 // Mocks pour les modules externes
 export const mockBcrypt = {
   hash: jest.fn().mockResolvedValue('hashed-password'),
-  compare: jest.fn().mockResolvedValue(true)
+  compare: jest.fn().mockResolvedValue(true),
 }
 
 export const mockNextAuth = {
@@ -85,6 +85,6 @@ export const mockNextAuth = {
   signOut: jest.fn().mockResolvedValue({ url: '/auth/signin' }),
   useSession: jest.fn(() => ({
     data: null,
-    status: 'unauthenticated'
-  }))
+    status: 'unauthenticated',
+  })),
 }

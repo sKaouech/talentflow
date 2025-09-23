@@ -3,7 +3,10 @@ import { z } from 'zod'
 // Schémas de base réutilisables
 export const idSchema = z.string().cuid()
 export const emailSchema = z.string().email()
-export const phoneSchema = z.string().regex(/^[+]?[0-9\s\-()]+$/).optional()
+export const phoneSchema = z
+  .string()
+  .regex(/^[+]?[0-9\s\-()]+$/)
+  .optional()
 export const urlSchema = z.string().url().optional()
 export const slugSchema = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
 

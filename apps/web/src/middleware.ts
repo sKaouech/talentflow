@@ -1,18 +1,18 @@
-import { withAuth } from "next-auth/middleware"
+import { withAuth } from 'next-auth/middleware'
 
 export default withAuth(
-  function middleware(req) {
+  function middleware(_req) {
     // Middleware logic si nécessaire
   },
   {
     callbacks: {
-      authorized: ({ token, req }) => {
+      authorized: ({ token, _req }) => {
         // Vérifier si l'utilisateur est authentifié
-        if (req.nextUrl.pathname.startsWith('/auth/')) {
+        if (_req.nextUrl.pathname.startsWith('/auth/')) {
           // Les pages d'auth sont accessibles sans connexion
           return true
         }
-        
+
         // Toutes les autres pages nécessitent une authentification
         return !!token
       },
@@ -23,7 +23,7 @@ export default withAuth(
 export const config = {
   matcher: [
     /*
-     * Match all request paths except for the ones starting with:
+     * Match all _request paths except for the ones starting with:
      * - api/auth (NextAuth.js routes)
      * - _next/static (static files)
      * - _next/image (image optimization files)

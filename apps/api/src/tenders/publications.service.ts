@@ -19,7 +19,8 @@ export class PublicationsService {
     tenderId: string,
     data: CreatePublicationInput,
     tenantId: string,
-    user: any
+    user: any,
+    _user = user
   ): Promise<Publication> {
     this.logger.log(`Creating publication for tender ${tenderId}`)
 
@@ -47,7 +48,9 @@ export class PublicationsService {
           platform: validatedData.platform,
           hashtags: validatedData.hashtags || [],
           tenderId,
-          scheduledAt: validatedData.scheduledAt ? new Date(validatedData.scheduledAt) : null,
+          scheduledAt: validatedData.scheduledAt
+            ? new Date(validatedData.scheduledAt)
+            : null,
         },
       })
 
@@ -62,7 +65,10 @@ export class PublicationsService {
   /**
    * Récupérer les publications d'un appel d'offres
    */
-  async findByTenderId(tenderId: string, tenantId: string): Promise<Publication[]> {
+  async findByTenderId(
+    tenderId: string,
+    tenantId: string
+  ): Promise<Publication[]> {
     this.logger.log(`Finding publications for tender ${tenderId}`)
 
     // Vérifier que le tender existe et appartient au tenant
@@ -136,8 +142,10 @@ export class PublicationsService {
       this.logger.log(`Publication ${publicationId} published successfully`)
       return updatedPublication
     } catch (error) {
-      this.logger.error(`Failed to publish publication ${publicationId}: ${error.message}`)
-      
+      this.logger.error(
+        `Failed to publish publication ${publicationId}: ${error.message}`
+      )
+
       // Marquer comme échouée
       await this.prisma.publication.update({
         where: { id: publicationId },
@@ -179,7 +187,9 @@ export class PublicationsService {
 
       this.logger.log(`Publication ${publicationId} deleted successfully`)
     } catch (error) {
-      this.logger.error(`Failed to delete publication ${publicationId}: ${error.message}`)
+      this.logger.error(
+        `Failed to delete publication ${publicationId}: ${error.message}`
+      )
       throw new ValidationError('Failed to delete publication', error)
     }
   }
@@ -187,7 +197,10 @@ export class PublicationsService {
   /**
    * Mettre à jour les métriques d'engagement d'une publication
    */
-  async updateEngagement(publicationId: string, engagement: any): Promise<Publication> {
+  async updateEngagement(
+    publicationId: string,
+    engagement: any
+  ): Promise<Publication> {
     this.logger.log(`Updating engagement for publication ${publicationId}`)
 
     try {
@@ -213,12 +226,7 @@ export class PublicationsService {
     this.logger.log(`Getting publication stats for tenant ${tenantId}`)
 
     try {
-      const [
-        total,
-        published,
-        pending,
-        failed,
-      ] = await Promise.all([
+      const [total, published, pending, failed] = await Promise.all([
         this.prisma.publication.count({
           where: {
             tender: { tenantId, deletedAt: null },

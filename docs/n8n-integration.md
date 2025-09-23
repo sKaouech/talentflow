@@ -5,6 +5,7 @@ Ce document décrit comment configurer et utiliser n8n pour automatiser les work
 ## 🎯 Vue d'ensemble
 
 n8n permet d'automatiser les tâches répétitives de TalentFlow :
+
 - Publication automatique d'appels d'offres sur LinkedIn
 - Scraping d'AO depuis des sites externes
 - Notifications par email/Slack
@@ -70,6 +71,7 @@ Accès : http://localhost:5678 (admin/admin)
 ```
 
 **Workflow n8n** :
+
 1. **Webhook Trigger** : Réception de l'événement
 2. **Data Transformation** : Formatage du contenu LinkedIn
 3. **LinkedIn API** : Publication du post
@@ -80,6 +82,7 @@ Accès : http://localhost:5678 (admin/admin)
 **Déclencheur** : Cron job (ex: toutes les heures)
 
 **Workflow** :
+
 1. **Schedule Trigger** : Exécution périodique
 2. **HTTP Request** : Scraping du site cible
 3. **HTML Extract** : Extraction des données
@@ -92,6 +95,7 @@ Accès : http://localhost:5678 (admin/admin)
 **Déclencheur** : Webhooks multiples
 
 **Workflow** :
+
 1. **Webhook** : Événements TalentFlow
 2. **Switch** : Routage par type d'événement
 3. **Template** : Génération du message
@@ -346,13 +350,13 @@ Accès : http://localhost:5678 (admin/admin)
 export class WebhooksService {
   async triggerWorkflow(event: string, data: any) {
     const workflows = await this.getActiveWorkflows(event)
-    
+
     for (const workflow of workflows) {
       await this.callN8nWebhook(workflow.webhookUrl, {
         event,
         data,
         timestamp: new Date().toISOString(),
-        tenant: await this.getTenantContext()
+        tenant: await this.getTenantContext(),
       })
     }
   }
@@ -361,14 +365,14 @@ export class WebhooksService {
 
 ### Événements Disponibles
 
-| Événement | Description | Payload |
-|-----------|-------------|---------|
-| `tender.created` | Nouvel AO créé | `{ tender, tenant }` |
-| `tender.published` | AO publié | `{ tender, tenant }` |
-| `tender.updated` | AO modifié | `{ tender, changes, tenant }` |
-| `candidate.created` | Nouveau candidat | `{ candidate, tenant }` |
+| Événement              | Description          | Payload                                      |
+| ---------------------- | -------------------- | -------------------------------------------- |
+| `tender.created`       | Nouvel AO créé       | `{ tender, tenant }`                         |
+| `tender.published`     | AO publié            | `{ tender, tenant }`                         |
+| `tender.updated`       | AO modifié           | `{ tender, changes, tenant }`                |
+| `candidate.created`    | Nouveau candidat     | `{ candidate, tenant }`                      |
 | `application.received` | Nouvelle candidature | `{ application, tender, candidate, tenant }` |
-| `cv.generated` | CV généré | `{ cv, candidate, tenant }` |
+| `cv.generated`         | CV généré            | `{ cv, candidate, tenant }`                  |
 
 ## 🛠️ Workflows Personnalisés
 
@@ -465,22 +469,22 @@ curl -X POST http://localhost:5678/webhook/tender-published \
 
 ```javascript
 // Dans n8n Function node
-const crypto = require('crypto');
+const crypto = require('crypto')
 
-const signature = $node.Webhook.json.headers['x-talentflow-signature'];
-const payload = JSON.stringify($node.Webhook.json.body);
-const secret = 'your-webhook-secret';
+const signature = $node.Webhook.json.headers['x-talentflow-signature']
+const payload = JSON.stringify($node.Webhook.json.body)
+const secret = 'your-webhook-secret'
 
 const expectedSignature = crypto
   .createHmac('sha256', secret)
   .update(payload)
-  .digest('hex');
+  .digest('hex')
 
 if (signature !== `sha256=${expectedSignature}`) {
-  throw new Error('Invalid webhook signature');
+  throw new Error('Invalid webhook signature')
 }
 
-return [$input.first()];
+return [$input.first()]
 ```
 
 ## 📚 Ressources
@@ -494,18 +498,21 @@ return [$input.first()];
 ### Problèmes Courants
 
 **Webhook non déclenché**
+
 ```bash
 # Vérifier la configuration
 curl -X GET http://localhost:5678/webhook-test/tender-published
 ```
 
 **Erreur d'authentification LinkedIn**
+
 ```bash
 # Renouveler les tokens OAuth
 # Vérifier les scopes autorisés
 ```
 
 **Timeout sur les requêtes**
+
 ```json
 {
   "options": {

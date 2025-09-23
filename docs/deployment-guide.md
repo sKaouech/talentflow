@@ -7,10 +7,12 @@ Ce guide décrit le processus de déploiement automatisé de TalentFlow sur le s
 ## 🏗️ **Architecture de Déploiement**
 
 ### **Environnements**
+
 - **Développement** : `develop` branch → Port 3000/3001
 - **Production** : `main` branch → Port 80/443 (via Nginx)
 
 ### **Services Déployés**
+
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Nginx Proxy   │    │   Web App       │    │   API Backend   │
@@ -27,16 +29,19 @@ Ce guide décrit le processus de déploiement automatisé de TalentFlow sur le s
 ## 🔧 **Prérequis**
 
 ### **Serveur Hostinger**
+
 - **OS** : Ubuntu 20.04+ ou CentOS 8+
 - **RAM** : Minimum 4GB (recommandé 8GB)
 - **Stockage** : Minimum 50GB SSD
 - **Accès** : SSH root ou utilisateur sudo
 
 ### **GitHub Repository**
+
 - Repository configuré avec les secrets nécessaires
 - Actions GitHub activées
 
 ### **Domaines (Optionnel)**
+
 - `talentflow.com` → Production
 - `dev.talentflow.com` → Développement
 - `api.talentflow.com` → API
@@ -47,6 +52,7 @@ Ce guide décrit le processus de déploiement automatisé de TalentFlow sur le s
 Configurez ces secrets dans votre repository GitHub (`Settings > Secrets and Variables > Actions`) :
 
 ### **Secrets SSH**
+
 ```bash
 SSH_PRIVATE_KEY=-----BEGIN OPENSSH PRIVATE KEY-----
 ...
@@ -58,12 +64,14 @@ PROD_SERVER_HOST=148.230.114.13
 ```
 
 ### **URLs d'environnement**
+
 ```bash
 DEV_URL=http://148.230.114.13:3000
 PROD_URL=https://talentflow.com
 ```
 
 ### **Tokens et Services**
+
 ```bash
 GITHUB_TOKEN=ghp_xxxxxxxxxxxxxxxxxxxx
 CODECOV_TOKEN=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
@@ -73,6 +81,7 @@ SLACK_WEBHOOK=https://hooks.slack.com/services/xxx/xxx/xxx
 ## 🐳 **Structure Docker**
 
 ### **Images Multi-Stage**
+
 ```dockerfile
 # Dockerfile.prod
 FROM node:18-alpine AS base
@@ -85,6 +94,7 @@ FROM base AS web-runtime   # Runtime Web (final)
 ```
 
 ### **Optimisations**
+
 - **Multi-stage builds** : Réduction taille image
 - **Non-root user** : Sécurité renforcée
 - **Layer caching** : Build plus rapide
@@ -132,11 +142,13 @@ graph LR
 ## 📊 **Monitoring et Logs**
 
 ### **Services de Monitoring**
+
 - **Prometheus** : Métriques système
 - **Grafana** : Dashboards et alertes
 - **Logs** : Centralisés via Docker
 
 ### **Accès Monitoring**
+
 ```bash
 # Grafana (si activé)
 http://148.230.114.13:3002
@@ -147,6 +159,7 @@ http://148.230.114.13:9090
 ```
 
 ### **Commandes de Monitoring**
+
 ```bash
 # Se connecter au serveur
 ssh root@148.230.114.13
@@ -168,6 +181,7 @@ df -h
 ## 🔒 **Sécurité**
 
 ### **Mesures Implémentées**
+
 - **Firewall UFW** : Ports 22, 80, 443 ouverts
 - **Fail2ban** : Protection brute force
 - **Non-root containers** : Isolation sécurisée
@@ -176,6 +190,7 @@ df -h
 - **Headers sécurité** : HSTS, CSP, etc.
 
 ### **SSL/TLS Configuration**
+
 ```bash
 # Installation Certbot (automatique via script)
 sudo apt install certbot python3-certbot-nginx
@@ -214,6 +229,7 @@ sudo certbot --nginx -d talentflow.com -d www.talentflow.com
 ## 🔧 **Commandes Utiles**
 
 ### **Gestion des Services**
+
 ```bash
 # Démarrer tous les services
 docker-compose up -d
@@ -234,6 +250,7 @@ docker image prune -f
 ```
 
 ### **Base de Données**
+
 ```bash
 # Backup manuel
 docker-compose exec postgres-prod pg_dump -U talentflow_prod talentflow_prod > backup.sql
@@ -246,6 +263,7 @@ docker-compose exec postgres-prod psql -U talentflow_prod talentflow_prod
 ```
 
 ### **Debug et Maintenance**
+
 ```bash
 # Entrer dans un conteneur
 docker-compose exec web-prod sh
@@ -263,6 +281,7 @@ docker stats
 ### **Problèmes Courants**
 
 #### **Service ne démarre pas**
+
 ```bash
 # Vérifier les logs
 docker-compose logs service-name
@@ -275,6 +294,7 @@ docker-compose restart service-name
 ```
 
 #### **Base de données inaccessible**
+
 ```bash
 # Vérifier PostgreSQL
 docker-compose exec postgres-prod pg_isready -U talentflow_prod
@@ -284,6 +304,7 @@ docker-compose exec api-prod nc -zv postgres-prod 5432
 ```
 
 #### **Problème de mémoire**
+
 ```bash
 # Vérifier l'utilisation
 free -h
@@ -294,6 +315,7 @@ docker-compose restart web-prod api-prod
 ```
 
 ### **Rollback d'urgence**
+
 ```bash
 # Via script automatique
 ./scripts/deploy.sh prod --rollback
@@ -308,6 +330,7 @@ docker-compose up -d --remove-orphans
 ## 📋 **Checklist de Déploiement**
 
 ### **Avant le Premier Déploiement**
+
 - [ ] Serveur configuré avec Docker
 - [ ] Secrets GitHub configurés
 - [ ] Domaines pointés (si applicable)
@@ -315,6 +338,7 @@ docker-compose up -d --remove-orphans
 - [ ] Firewall configuré
 
 ### **Pour Chaque Déploiement**
+
 - [ ] Tests passent en CI
 - [ ] Images Docker buildées
 - [ ] Variables d'environnement à jour
@@ -322,6 +346,7 @@ docker-compose up -d --remove-orphans
 - [ ] Notification équipe
 
 ### **Après Déploiement**
+
 - [ ] Services démarrés correctement
 - [ ] Health checks OK
 - [ ] Tests de fumée passent
@@ -331,16 +356,19 @@ docker-compose up -d --remove-orphans
 ## 🎯 **Prochaines Améliorations**
 
 ### **Court Terme**
+
 - [ ] Backup automatique base de données
 - [ ] Alertes Slack/Email
 - [ ] Dashboard Grafana personnalisé
 
 ### **Moyen Terme**
+
 - [ ] Déploiement Blue-Green
 - [ ] Auto-scaling horizontal
 - [ ] CDN pour assets statiques
 
 ### **Long Terme**
+
 - [ ] Migration vers Kubernetes
 - [ ] Multi-région deployment
 - [ ] Disaster recovery
@@ -350,6 +378,7 @@ docker-compose up -d --remove-orphans
 ## 📞 **Support**
 
 Pour toute question ou problème :
+
 1. Consultez les logs : `docker-compose logs -f`
 2. Vérifiez le monitoring : Grafana dashboard
 3. Contactez l'équipe DevOps

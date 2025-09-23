@@ -6,20 +6,20 @@ TalentFlow est une plateforme SaaS B2B conçue pour les ESN, cabinets de conseil
 
 ### Stack Technique
 
-| Composant | Technologie | Justification |
-|-----------|-------------|---------------|
-| **Monorepo** | Turborepo | Gestion unifiée du code, partage de types et dépendances |
-| **Backend** | NestJS + TypeScript | Framework structuré, injection de dépendances, excellent pour l'entreprise |
-| **Base de données** | PostgreSQL + Prisma | Fiabilité, performance, ORM type-safe |
-| **Validation** | Zod | Validation de schémas end-to-end, partageable frontend/backend |
-| **Cache & Queues** | Redis + BullMQ | Performance, tâches asynchrones (génération PDF, webhooks) |
-| **Frontend** | Next.js 14 (App Router) | Performance (RSC), SEO, framework unifié |
-| **UI** | shadcn/ui + TailwindCSS | Composants accessibles, design system cohérent |
-| **State Management** | TanStack Query | Gestion du state serveur, caching, optimistic updates |
-| **Authentification** | Keycloak | Solution open-source, contrôle total, multi-tenant |
-| **Stockage** | MinIO/S3 | Stockage distribué, compatible S3 |
-| **Monitoring** | OpenTelemetry + Prometheus | Observabilité complète (traces, logs, métriques) |
-| **Déploiement** | Docker + Kubernetes | Scalabilité, reproductibilité |
+| Composant            | Technologie                | Justification                                                              |
+| -------------------- | -------------------------- | -------------------------------------------------------------------------- |
+| **Monorepo**         | Turborepo                  | Gestion unifiée du code, partage de types et dépendances                   |
+| **Backend**          | NestJS + TypeScript        | Framework structuré, injection de dépendances, excellent pour l'entreprise |
+| **Base de données**  | PostgreSQL + Prisma        | Fiabilité, performance, ORM type-safe                                      |
+| **Validation**       | Zod                        | Validation de schémas end-to-end, partageable frontend/backend             |
+| **Cache & Queues**   | Redis + BullMQ             | Performance, tâches asynchrones (génération PDF, webhooks)                 |
+| **Frontend**         | Next.js 14 (App Router)    | Performance (RSC), SEO, framework unifié                                   |
+| **UI**               | shadcn/ui + TailwindCSS    | Composants accessibles, design system cohérent                             |
+| **State Management** | TanStack Query             | Gestion du state serveur, caching, optimistic updates                      |
+| **Authentification** | Keycloak                   | Solution open-source, contrôle total, multi-tenant                         |
+| **Stockage**         | MinIO/S3                   | Stockage distribué, compatible S3                                          |
+| **Monitoring**       | OpenTelemetry + Prometheus | Observabilité complète (traces, logs, métriques)                           |
+| **Déploiement**      | Docker + Kubernetes        | Scalabilité, reproductibilité                                              |
 
 ### Architecture Multi-tenant
 
@@ -95,6 +95,7 @@ talentflow/
 ### **Stratégie Hybride : NextAuth.js → Keycloak**
 
 **🚀 Phase Actuelle : NextAuth.js (Production Ready)**
+
 - ✅ **Authentification complète** : Credentials + Google OAuth
 - ✅ **Multi-tenant sécurisé** : Isolation par tenant avec Prisma
 - ✅ **RBAC intégré** : Rôles et permissions granulaires
@@ -102,6 +103,7 @@ talentflow/
 - ✅ **Session management** : JWT sécurisés avec NextAuth.js
 
 **🔄 Phase Future : Keycloak (Enterprise)**
+
 - 🏗️ **Infrastructure préparée** : Docker + configuration de base
 - 🏗️ **Migration planifiée** : Documentation complète disponible
 - 🏗️ **Standards OpenID** : Intégrations enterprise futures
@@ -109,8 +111,9 @@ talentflow/
 ### Configuration Actuelle (NextAuth.js)
 
 **Rôles Disponibles** :
+
 - `tenant_admin` : Administration complète du tenant
-- `manager` : Gestion des AO et candidats  
+- `manager` : Gestion des AO et candidats
 - `recruiter` : Création/modification des AO
 - `viewer` : Lecture seule
 
@@ -118,6 +121,7 @@ talentflow/
 
 **Realm** : `talentflow`
 **Clients** :
+
 - `talentflow-api` (backend)
 - `talentflow-web` (frontend)
 
@@ -168,6 +172,7 @@ pnpm type-check                 # Vérification TypeScript
 ### Ajout d'une Nouvelle Fonctionnalité
 
 1. **Backend** :
+
    ```bash
    # Créer un nouveau module
    cd apps/api/src
@@ -177,6 +182,7 @@ pnpm type-check                 # Vérification TypeScript
    ```
 
 2. **Frontend** :
+
    ```bash
    # Créer une nouvelle page
    mkdir apps/web/src/app/candidates
@@ -194,6 +200,7 @@ pnpm type-check                 # Vérification TypeScript
 ### n8n Workflows
 
 Les workflows n8n permettent d'automatiser :
+
 - Publication d'AO sur LinkedIn
 - Scraping d'AO depuis des sites
 - Notifications par email/Slack
@@ -203,12 +210,14 @@ Les workflows n8n permettent d'automatiser :
 
 1. **Créer un workflow dans n8n** (http://localhost:5678)
 2. **Configurer le webhook trigger** :
+
    ```
    URL: http://localhost:5678/webhook/tender-publish
    Method: POST
    ```
 
 3. **Exemple de payload** :
+
    ```json
    {
      "event": "tender.published",
@@ -231,13 +240,13 @@ Les workflows n8n permettent d'automatiser :
    // apps/api/src/tenders/tenders.service.ts
    async publish(id: string, tenantId: string) {
      const tender = await this.update(id, { status: 'active' }, tenantId)
-     
+
      // Déclencher le workflow n8n
      await this.webhookService.trigger('tender.published', {
        tender,
        tenant: await this.getTenanttById(tenantId)
      })
-     
+
      return tender
    }
    ```
@@ -384,6 +393,7 @@ describe('TendersController (e2e)', () => {
 ### Problèmes Courants
 
 **Base de données non accessible**
+
 ```bash
 # Vérifier que PostgreSQL est démarré
 docker-compose ps postgres
@@ -392,6 +402,7 @@ docker-compose up -d --force-recreate postgres
 ```
 
 **Erreur de génération Prisma**
+
 ```bash
 # Regénérer le client
 pnpm db:generate
@@ -400,6 +411,7 @@ pnpm db:studio
 ```
 
 **Problème d'authentification**
+
 ```bash
 # Vérifier Keycloak
 curl http://localhost:8080/realms/talentflow/.well-known/openid_configuration
@@ -422,6 +434,7 @@ curl http://localhost:8080/realms/talentflow/.well-known/openid_configuration
 Infrastructure TalentFlow entièrement configurée et prête pour la production !
 
 ### ✅ Fonctionnalités Déployées
+
 - Authentification NextAuth.js + Prisma
 - Tests automatisés (Jest + Playwright)
 - CI/CD GitHub Actions (8 jobs)
@@ -430,8 +443,8 @@ Infrastructure TalentFlow entièrement configurée et prête pour la production 
 - Sécurité enterprise (SSL + Firewall)
 
 ### 🌐 URLs
+
 - **DEV** : https://talentflow-dev.seyka.fr
 - **PROD** : https://talentflow.seyka.fr
 
 Date: Tue Sep 23 23:40:49 CEST 2025
-

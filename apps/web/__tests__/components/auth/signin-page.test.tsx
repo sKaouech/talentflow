@@ -17,7 +17,7 @@ const mockSignIn = signIn as jest.MockedFunction<typeof signIn>
 // Mock Next.js router
 const mockPush = jest.fn()
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: mockPush })
+  useRouter: () => ({ push: mockPush }),
 }))
 
 // Configuration du serveur de test
@@ -35,10 +35,14 @@ describe('SignInPage', () => {
       render(<SignInPage />)
 
       // Assert
-      expect(screen.getByRole('heading', { name: /connexion/i })).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', { name: /connexion/i })
+      ).toBeInTheDocument()
       expect(screen.getByLabelText(/email/i)).toBeInTheDocument()
       expect(screen.getByLabelText(/mot de passe/i)).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: /se connecter/i })).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: /se connecter/i })
+      ).toBeInTheDocument()
       expect(screen.getByText(/continuer avec google/i)).toBeInTheDocument()
     })
 
@@ -48,16 +52,20 @@ describe('SignInPage', () => {
 
       // Assert
       expect(screen.getByText('TF')).toBeInTheDocument()
-      expect(screen.getByText(/connectez-vous à votre compte talentflow/i)).toBeInTheDocument()
+      expect(
+        screen.getByText(/connectez-vous à votre compte talentflow/i)
+      ).toBeInTheDocument()
     })
 
-    it('devrait afficher le lien vers l\'inscription', () => {
+    it("devrait afficher le lien vers l'inscription", () => {
       // Act
       render(<SignInPage />)
 
       // Assert
       expect(screen.getByText(/pas encore de compte/i)).toBeInTheDocument()
-      expect(screen.getByRole('link', { name: /inscrivez-vous/i })).toHaveAttribute('href', '/auth/signup')
+      expect(
+        screen.getByRole('link', { name: /inscrivez-vous/i })
+      ).toHaveAttribute('href', '/auth/signup')
     })
   })
 
@@ -73,11 +81,13 @@ describe('SignInPage', () => {
       // Assert
       await waitFor(() => {
         expect(screen.getByText(/email invalide/i)).toBeInTheDocument()
-        expect(screen.getByText(/le mot de passe est requis/i)).toBeInTheDocument()
+        expect(
+          screen.getByText(/le mot de passe est requis/i)
+        ).toBeInTheDocument()
       })
     })
 
-    it('devrait valider le format de l\'email', async () => {
+    it("devrait valider le format de l'email", async () => {
       // Arrange
       render(<SignInPage />)
       const emailInput = screen.getByLabelText(/email/i)
@@ -112,18 +122,18 @@ describe('SignInPage', () => {
         expect(mockSignIn).toHaveBeenCalledWith('credentials', {
           redirect: false,
           email: 'test@example.com',
-          password: 'password123'
+          password: 'password123',
         })
       })
-      
+
       expect(mockPush).toHaveBeenCalledWith('/')
     })
 
-    it('devrait afficher une erreur en cas d\'échec de connexion', async () => {
+    it("devrait afficher une erreur en cas d'échec de connexion", async () => {
       // Arrange
-      mockSignIn.mockResolvedValue({ 
-        ok: false, 
-        error: 'CredentialsSignin' 
+      mockSignIn.mockResolvedValue({
+        ok: false,
+        error: 'CredentialsSignin',
       } as any)
 
       render(<SignInPage />)
@@ -144,9 +154,12 @@ describe('SignInPage', () => {
 
     it('devrait afficher un indicateur de chargement pendant la connexion', async () => {
       // Arrange
-      mockSignIn.mockImplementation(() => new Promise(resolve => 
-        setTimeout(() => resolve({ ok: true, error: null } as any), 100)
-      ))
+      mockSignIn.mockImplementation(
+        () =>
+          new Promise(resolve =>
+            setTimeout(() => resolve({ ok: true, error: null } as any), 100)
+          )
+      )
 
       render(<SignInPage />)
       const emailInput = screen.getByLabelText(/email/i)

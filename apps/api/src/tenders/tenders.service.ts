@@ -49,10 +49,16 @@ export class TendersService {
           duration: validatedData.duration,
           tenantId,
           // Convertir les dates si nécessaire
-          startDate: validatedData.startDate ? new Date(validatedData.startDate) : null,
-          endDate: validatedData.endDate ? new Date(validatedData.endDate) : null,
+          startDate: validatedData.startDate
+            ? new Date(validatedData.startDate)
+            : null,
+          endDate: validatedData.endDate
+            ? new Date(validatedData.endDate)
+            : null,
           publishedAt: validatedData.status === 'active' ? new Date() : null,
-          expiresAt: validatedData.expiresAt ? new Date(validatedData.expiresAt) : null,
+          expiresAt: validatedData.expiresAt
+            ? new Date(validatedData.expiresAt)
+            : null,
         },
         include: {
           publications: true,
@@ -113,12 +119,16 @@ export class TendersService {
   /**
    * Rechercher des appels d'offres avec pagination et filtres
    */
-  async search(params: SearchTendersInput, tenantId: string): Promise<PaginatedResponse<Tender>> {
+  async search(
+    params: SearchTendersInput,
+    tenantId: string
+  ): Promise<PaginatedResponse<Tender>> {
     this.logger.log(`Searching tenders for tenant ${tenantId}`)
 
     // Validation Zod
     const validatedParams = searchTendersSchema.parse(params)
-    const { page, limit, sortBy, sortOrder, q, filters, ...searchFilters } = validatedParams
+    const { page, limit, sortBy, sortOrder, q, filters, ...searchFilters } =
+      validatedParams
 
     // Construction de la clause WHERE
     const where: any = {
@@ -141,7 +151,8 @@ export class TendersService {
     if (searchFilters.status) where.status = searchFilters.status
     if (searchFilters.priority) where.priority = searchFilters.priority
     if (searchFilters.remote) where.remote = searchFilters.remote
-    if (searchFilters.location) where.location = { contains: searchFilters.location, mode: 'insensitive' }
+    if (searchFilters.location)
+      where.location = { contains: searchFilters.location, mode: 'insensitive' }
     if (searchFilters.assignedTo) where.assignedTo = searchFilters.assignedTo
 
     // Filtres par compétences
@@ -232,7 +243,11 @@ export class TendersService {
   /**
    * Mettre à jour un appel d'offres
    */
-  async update(id: string, data: UpdateTenderInput, tenantId: string): Promise<Tender> {
+  async update(
+    id: string,
+    data: UpdateTenderInput,
+    tenantId: string
+  ): Promise<Tender> {
     this.logger.log(`Updating tender ${id} for tenant ${tenantId}`)
 
     // Vérifier que le tender existe
@@ -245,8 +260,10 @@ export class TendersService {
       const updateData: any = { ...validatedData }
 
       // Convertir les dates si nécessaire
-      if (validatedData.startDate) updateData.startDate = new Date(validatedData.startDate)
-      if (validatedData.endDate) updateData.endDate = new Date(validatedData.endDate)
+      if (validatedData.startDate)
+        updateData.startDate = new Date(validatedData.startDate)
+      if (validatedData.endDate)
+        updateData.endDate = new Date(validatedData.endDate)
 
       // Si le statut passe à 'active', définir publishedAt
       if (validatedData.status === 'active') {
@@ -332,35 +349,29 @@ export class TendersService {
     this.logger.log(`Getting tender stats for tenant ${tenantId}`)
 
     try {
-      const [
-        total,
-        active,
-        draft,
-        closed,
-        published,
-        applicationsCount,
-      ] = await Promise.all([
-        this.prisma.tender.count({
-          where: { tenantId, deletedAt: null },
-        }),
-        this.prisma.tender.count({
-          where: { tenantId, status: 'active', deletedAt: null },
-        }),
-        this.prisma.tender.count({
-          where: { tenantId, status: 'draft', deletedAt: null },
-        }),
-        this.prisma.tender.count({
-          where: { tenantId, status: 'closed', deletedAt: null },
-        }),
-        this.prisma.tender.count({
-          where: { tenantId, publishedAt: { not: null }, deletedAt: null },
-        }),
-        this.prisma.application.count({
-          where: {
-            tender: { tenantId, deletedAt: null },
-          },
-        }),
-      ])
+      const [total, active, draft, closed, published, applicationsCount] =
+        await Promise.all([
+          this.prisma.tender.count({
+            where: { tenantId, deletedAt: null },
+          }),
+          this.prisma.tender.count({
+            where: { tenantId, status: 'active', deletedAt: null },
+          }),
+          this.prisma.tender.count({
+            where: { tenantId, status: 'draft', deletedAt: null },
+          }),
+          this.prisma.tender.count({
+            where: { tenantId, status: 'closed', deletedAt: null },
+          }),
+          this.prisma.tender.count({
+            where: { tenantId, publishedAt: { not: null }, deletedAt: null },
+          }),
+          this.prisma.application.count({
+            where: {
+              tender: { tenantId, deletedAt: null },
+            },
+          }),
+        ])
 
       return {
         total,
@@ -369,7 +380,8 @@ export class TendersService {
         closed,
         published,
         applicationsCount,
-        averageApplicationsPerTender: total > 0 ? Math.round(applicationsCount / total) : 0,
+        averageApplicationsPerTender:
+          total > 0 ? Math.round(applicationsCount / total) : 0,
       }
     } catch (error) {
       this.logger.error(`Failed to get tender stats: ${error.message}`)

@@ -14,7 +14,10 @@ import { PrismaClient } from '@talentflow/database'
               url: config.get('DATABASE_URL'),
             },
           },
-          log: config.get('NODE_ENV') === 'development' ? ['query', 'info', 'warn', 'error'] : ['error'],
+          log:
+            config.get('NODE_ENV') === 'development'
+              ? ['query', 'info', 'warn', 'error']
+              : ['error'],
         })
 
         // Middleware pour Row Level Security (RLS)
@@ -38,7 +41,10 @@ import { PrismaClient } from '@talentflow/database'
             ]
 
             if (modelsWithTenant.includes(params.model)) {
-              if (params.action === 'findMany' || params.action === 'findFirst') {
+              if (
+                params.action === 'findMany' ||
+                params.action === 'findFirst'
+              ) {
                 if (params.args.where) {
                   params.args.where.tenantId = tenantId
                 } else {
@@ -61,7 +67,10 @@ import { PrismaClient } from '@talentflow/database'
                 }
               }
 
-              if (params.action === 'update' || params.action === 'updateMany') {
+              if (
+                params.action === 'update' ||
+                params.action === 'updateMany'
+              ) {
                 if (params.args.where) {
                   params.args.where.tenantId = tenantId
                 } else {
@@ -69,7 +78,10 @@ import { PrismaClient } from '@talentflow/database'
                 }
               }
 
-              if (params.action === 'delete' || params.action === 'deleteMany') {
+              if (
+                params.action === 'delete' ||
+                params.action === 'deleteMany'
+              ) {
                 if (params.args.where) {
                   params.args.where.tenantId = tenantId
                 } else {

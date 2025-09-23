@@ -1,18 +1,18 @@
-import { NextAuthOptions } from "next-auth"
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import CredentialsProvider from "next-auth/providers/credentials"
-import GoogleProvider from "next-auth/providers/google"
-import bcrypt from "bcryptjs"
-import { prisma } from "./prisma"
+import { NextAuthOptions } from 'next-auth'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import GoogleProvider from 'next-auth/providers/google'
+import bcrypt from 'bcryptjs'
+import { prisma } from './prisma'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
@@ -26,10 +26,10 @@ export const authOptions: NextAuthOptions = {
             include: {
               memberships: {
                 include: {
-                  tenant: true
-                }
-              }
-            }
+                  tenant: true,
+                },
+              },
+            },
           })
 
           if (!user || !user.passwordHash) {
@@ -55,21 +55,21 @@ export const authOptions: NextAuthOptions = {
             lastName: user.lastName,
             avatar: user.avatar,
             role: user.role,
-            tenantId: user.memberships[0]?.tenantId || null
+            tenantId: user.memberships[0]?.tenantId || null,
           }
         } catch (error) {
-          console.error("Auth error:", error)
+          console.error('Auth error:', error)
           return null
         }
-      }
+      },
     }),
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    })
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -91,11 +91,11 @@ export const authOptions: NextAuthOptions = {
         session.user.tenantId = token.tenantId as string
       }
       return session
-    }
+    },
   },
   pages: {
-    signIn: "/auth/signin",
-    signUp: "/auth/signup",
+    signIn: '/auth/signin',
+    signUp: '/auth/signup',
   },
   secret: process.env.NEXTAUTH_SECRET,
 }

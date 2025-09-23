@@ -15,23 +15,27 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap')
 
   // Security
-  app.use(helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"],
-        styleSrc: ["'self'", "'unsafe-inline'"],
-        scriptSrc: ["'self'"],
-        imgSrc: ["'self'", 'data:', 'https:'],
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+          scriptSrc: ["'self'"],
+          imgSrc: ["'self'", 'data:', 'https:'],
+        },
       },
-    },
-  }))
+    })
+  )
 
   // Compression
   app.use(compression())
 
   // CORS
   app.enableCors({
-    origin: configService.get('CORS_ORIGINS', 'http://localhost:3000').split(','),
+    origin: configService
+      .get('CORS_ORIGINS', 'http://localhost:3000')
+      .split(','),
     credentials: true,
   })
 
@@ -51,23 +55,22 @@ async function bootstrap() {
   app.useGlobalFilters(new AllExceptionsFilter())
 
   // Global interceptors
-  app.useGlobalInterceptors(
-    new ResponseInterceptor(),
-    new LoggingInterceptor()
-  )
+  app.useGlobalInterceptors(new ResponseInterceptor(), new LoggingInterceptor())
 
   // Swagger documentation
   if (configService.get('NODE_ENV') !== 'production') {
     const config = new DocumentBuilder()
       .setTitle('TalentFlow API')
-      .setDescription('API pour la plateforme TalentFlow - Gestion des appels d\'offres et candidats')
+      .setDescription(
+        "API pour la plateforme TalentFlow - Gestion des appels d'offres et candidats"
+      )
       .setVersion('1.0')
       .addBearerAuth()
       .addTag('auth', 'Authentification et autorisation')
-      .addTag('tenders', 'Gestion des appels d\'offres')
+      .addTag('tenders', "Gestion des appels d'offres")
       .addTag('candidates', 'Gestion des candidats')
       .addTag('users', 'Gestion des utilisateurs')
-      .addTag('health', 'Santé de l\'application')
+      .addTag('health', "Santé de l'application")
       .build()
 
     const document = SwaggerModule.createDocument(app, config)

@@ -26,7 +26,7 @@ export interface MockTenant {
  */
 export function createMockUser(overrides: Partial<MockUser> = {}): MockUser {
   const now = new Date().toISOString()
-  
+
   return {
     id: `user-${Math.random().toString(36).substr(2, 9)}`,
     email: `test-${Math.random().toString(36).substr(2, 5)}@example.com`,
@@ -42,10 +42,12 @@ export function createMockUser(overrides: Partial<MockUser> = {}): MockUser {
 /**
  * Create a mock tenant for testing
  */
-export function createMockTenant(overrides: Partial<MockTenant> = {}): MockTenant {
+export function createMockTenant(
+  overrides: Partial<MockTenant> = {}
+): MockTenant {
   const now = new Date().toISOString()
   const randomId = Math.random().toString(36).substr(2, 9)
-  
+
   return {
     id: `tenant-${randomId}`,
     name: `Test Company ${randomId}`,

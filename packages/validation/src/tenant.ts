@@ -3,7 +3,12 @@ import { idSchema, emailSchema, slugSchema } from './common'
 
 // Énumérations
 export const planSchema = z.enum(['free', 'pro', 'enterprise'])
-export const membershipRoleSchema = z.enum(['tenant_admin', 'manager', 'recruiter', 'viewer'])
+export const membershipRoleSchema = z.enum([
+  'tenant_admin',
+  'manager',
+  'recruiter',
+  'viewer',
+])
 export const membershipStatusSchema = z.enum(['active', 'suspended', 'pending'])
 
 // Tenant
@@ -15,17 +20,17 @@ export const tenantSchema = z.object({
   website: z.string().url().optional(),
   industry: z.string().max(50).optional(),
   size: z.string().max(20).optional(),
-  
+
   // Configuration
   settings: z.record(z.any()).default({}),
   branding: z.record(z.any()).default({}),
-  
+
   // Abonnement
   plan: planSchema.default('free'),
   stripeCustomerId: z.string().optional(),
   subscriptionId: z.string().optional(),
   trialEndsAt: z.string().datetime().optional(),
-  
+
   // Métadonnées
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),

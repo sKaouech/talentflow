@@ -32,7 +32,8 @@ async function main() {
     create: {
       id: 'tender-1',
       title: 'Développeur Full-Stack React/Node.js',
-      description: 'Nous recherchons un développeur expérimenté en React et Node.js',
+      description:
+        'Nous recherchons un développeur expérimenté en React et Node.js',
       content: `
 # Mission Développeur Full-Stack
 
@@ -73,7 +74,8 @@ Notre client, une startup en pleine croissance, recherche un développeur full-s
     create: {
       id: 'tender-2',
       title: 'Chef de Projet Digital',
-      description: 'Mission de management de projet digital pour un grand groupe',
+      description:
+        'Mission de management de projet digital pour un grand groupe',
       content: `
 # Mission Chef de Projet Digital
 
@@ -95,7 +97,12 @@ Grand groupe industriel cherche un chef de projet expérimenté pour piloter sa 
       type: 'cdi',
       status: 'draft',
       priority: 'medium',
-      skills: ['Project Management', 'Agile', 'Scrum', 'Digital Transformation'],
+      skills: [
+        'Project Management',
+        'Agile',
+        'Scrum',
+        'Digital Transformation',
+      ],
       location: 'Lyon',
       remote: 'hybrid',
       clientName: 'IndustrialCorp',
@@ -110,7 +117,7 @@ Grand groupe industriel cherche un chef de projet expérimenté pour piloter sa 
 }
 
 main()
-  .catch((e) => {
+  .catch(e => {
     console.error('❌ Erreur lors du seeding:', e)
     process.exit(1)
   })

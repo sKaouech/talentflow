@@ -15,7 +15,10 @@ export function createSlug(text: string): string {
 /**
  * Format a date string
  */
-export function formatDate(dateString: string, formatStr = 'dd/MM/yyyy'): string {
+export function formatDate(
+  dateString: string,
+  formatStr = 'dd/MM/yyyy'
+): string {
   return format(parseISO(dateString), formatStr)
 }
 

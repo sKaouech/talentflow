@@ -14,12 +14,12 @@ export class HealthController {
   ) {}
 
   @Get()
-  @ApiOperation({ summary: 'Vérifier la santé de l\'application' })
+  @ApiOperation({ summary: "Vérifier la santé de l'application" })
   @ApiResponse({ status: 200, description: 'Application en bonne santé' })
   @ApiResponse({ status: 503, description: 'Service indisponible' })
   async check() {
     const startTime = Date.now()
-    
+
     // Vérifier la base de données
     let dbStatus = 'healthy'
     let dbResponseTime = 0
@@ -73,14 +73,14 @@ export class HealthController {
   }
 
   @Get('ready')
-  @ApiOperation({ summary: 'Vérifier si l\'application est prête' })
+  @ApiOperation({ summary: "Vérifier si l'application est prête" })
   @ApiResponse({ status: 200, description: 'Application prête' })
   @ApiResponse({ status: 503, description: 'Application non prête' })
   async ready() {
     try {
       // Vérifier la connexion à la base de données
       await this.prisma.$queryRaw`SELECT 1`
-      
+
       return {
         status: 'ready',
         timestamp: new Date().toISOString(),
@@ -91,7 +91,7 @@ export class HealthController {
   }
 
   @Get('live')
-  @ApiOperation({ summary: 'Vérifier si l\'application est vivante' })
+  @ApiOperation({ summary: "Vérifier si l'application est vivante" })
   @ApiResponse({ status: 200, description: 'Application vivante' })
   async live() {
     return {

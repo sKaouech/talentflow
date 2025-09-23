@@ -1,24 +1,31 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { tendersApi } from '@/lib/api'
-import { SearchTendersInput, CreateTenderInput, UpdateTenderInput } from '@talentflow/validation'
+import {
+  SearchTendersInput,
+  CreateTenderInput,
+  UpdateTenderInput,
+} from '@talentflow/validation'
 import { toast } from '@/hooks/use-toast'
 
 // Clés de query pour la gestion du cache
 export const tenderKeys = {
   all: ['tenders'] as const,
   lists: () => [...tenderKeys.all, 'list'] as const,
-  list: (filters: SearchTendersInput) => [...tenderKeys.lists(), filters] as const,
+  list: (filters: SearchTendersInput) =>
+    [...tenderKeys.lists(), filters] as const,
   details: () => [...tenderKeys.all, 'detail'] as const,
   detail: (id: string) => [...tenderKeys.details(), id] as const,
   stats: () => [...tenderKeys.all, 'stats'] as const,
 }
 
 // Hook pour rechercher des tenders
-export function useTenders(params: SearchTendersInput = { page: 1, limit: 20 }) {
+export function useTenders(
+  params: SearchTendersInput = { page: 1, limit: 20 }
+) {
   return useQuery({
     queryKey: tenderKeys.list(params),
     queryFn: () => tendersApi.search(params),
-    placeholderData: (previousData) => previousData,
+    placeholderData: previousData => previousData,
   })
 }
 
@@ -45,17 +52,17 @@ export function useCreateTender() {
 
   return useMutation({
     mutationFn: (data: CreateTenderInput) => tendersApi.create(data),
-    onSuccess: (data) => {
+    onSuccess: data => {
       // Invalider les listes de tenders
       queryClient.invalidateQueries({ queryKey: tenderKeys.lists() })
       queryClient.invalidateQueries({ queryKey: tenderKeys.stats() })
-      
+
       // Ajouter le nouveau tender au cache
       queryClient.setQueryData(tenderKeys.detail(data.id), data)
-      
+
       toast({
         title: 'Succès',
-        description: 'Appel d\'offres créé avec succès',
+        description: "Appel d'offres créé avec succès",
       })
     },
     onError: (error: Error) => {
@@ -78,14 +85,14 @@ export function useUpdateTender() {
     onSuccess: (data, variables) => {
       // Mettre à jour le cache
       queryClient.setQueryData(tenderKeys.detail(variables.id), data)
-      
+
       // Invalider les listes pour refléter les changements
       queryClient.invalidateQueries({ queryKey: tenderKeys.lists() })
       queryClient.invalidateQueries({ queryKey: tenderKeys.stats() })
-      
+
       toast({
         title: 'Succès',
-        description: 'Appel d\'offres mis à jour avec succès',
+        description: "Appel d'offres mis à jour avec succès",
       })
     },
     onError: (error: Error) => {
@@ -107,14 +114,14 @@ export function useDeleteTender() {
     onSuccess: (_, id) => {
       // Retirer du cache
       queryClient.removeQueries({ queryKey: tenderKeys.detail(id) })
-      
+
       // Invalider les listes
       queryClient.invalidateQueries({ queryKey: tenderKeys.lists() })
       queryClient.invalidateQueries({ queryKey: tenderKeys.stats() })
-      
+
       toast({
         title: 'Succès',
-        description: 'Appel d\'offres supprimé avec succès',
+        description: "Appel d'offres supprimé avec succès",
       })
     },
     onError: (error: Error) => {
@@ -136,14 +143,14 @@ export function usePublishTender() {
     onSuccess: (data, id) => {
       // Mettre à jour le cache
       queryClient.setQueryData(tenderKeys.detail(id), data)
-      
+
       // Invalider les listes
       queryClient.invalidateQueries({ queryKey: tenderKeys.lists() })
       queryClient.invalidateQueries({ queryKey: tenderKeys.stats() })
-      
+
       toast({
         title: 'Succès',
-        description: 'Appel d\'offres publié avec succès',
+        description: "Appel d'offres publié avec succès",
       })
     },
     onError: (error: Error) => {
@@ -165,14 +172,14 @@ export function useArchiveTender() {
     onSuccess: (data, id) => {
       // Mettre à jour le cache
       queryClient.setQueryData(tenderKeys.detail(id), data)
-      
+
       // Invalider les listes
       queryClient.invalidateQueries({ queryKey: tenderKeys.lists() })
       queryClient.invalidateQueries({ queryKey: tenderKeys.stats() })
-      
+
       toast({
         title: 'Succès',
-        description: 'Appel d\'offres archivé avec succès',
+        description: "Appel d'offres archivé avec succès",
       })
     },
     onError: (error: Error) => {

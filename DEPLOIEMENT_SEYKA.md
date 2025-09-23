@@ -6,7 +6,7 @@ L'infrastructure CI/CD a été **entièrement adaptée** pour votre environnemen
 
 - **🌐 Serveur** : `148.230.114.13` (Ubuntu + Docker)
 - **🔑 SSH** : Clé ED25519 configurée
-- **🌍 Domaines** : 
+- **🌍 Domaines** :
   - **DEV** : `talentflow-dev.seyka.fr`
   - **PROD** : `talentflow.seyka.fr`
 - **🗄️ Base de données** : PostgreSQL sur le même serveur
@@ -23,6 +23,7 @@ Exécutez le script de configuration automatique :
 ```
 
 **Ce script va automatiquement :**
+
 - ✅ Configurer votre clé SSH
 - ✅ Mettre à jour Ubuntu
 - ✅ Vérifier Docker et Docker Compose
@@ -74,17 +75,20 @@ git push origin main
 ## 🌍 **Accès aux Services**
 
 ### **Développement**
+
 - 🌐 **Application** : `https://talentflow-dev.seyka.fr`
 - 🔌 **API** : `https://talentflow-dev.seyka.fr/api`
 - 📊 **Grafana** : `https://talentflow-dev.seyka.fr/grafana`
 
 ### **Production**
+
 - 🌐 **Application** : `https://talentflow.seyka.fr`
 - 🔌 **API** : `https://talentflow.seyka.fr/api`
 
 ## 📁 **Fichiers Adaptés**
 
 ### **Configuration Docker**
+
 ```
 docker/
 ├── docker-compose.dev.yml     # ✅ URLs seyka.fr configurées
@@ -92,6 +96,7 @@ docker/
 ```
 
 ### **Configuration Nginx**
+
 ```
 nginx/
 ├── nginx.conf                 # ✅ Domaines seyka.fr
@@ -100,6 +105,7 @@ nginx/
 ```
 
 ### **Scripts**
+
 ```
 scripts/
 ├── setup-server.sh           # ✅ Configuration automatique serveur
@@ -110,11 +116,13 @@ scripts/
 ## 🔧 **Commandes de Gestion**
 
 ### **Connexion au Serveur**
+
 ```bash
 ssh root@148.230.114.13
 ```
 
 ### **Navigation**
+
 ```bash
 # Environnement développement
 cd /opt/talentflow/dev
@@ -124,6 +132,7 @@ cd /opt/talentflow/prod
 ```
 
 ### **Gestion des Services**
+
 ```bash
 # Statut des conteneurs
 docker-compose ps
@@ -142,6 +151,7 @@ docker stats
 ```
 
 ### **Monitoring**
+
 ```bash
 # Vérifier la santé des services
 curl https://talentflow-dev.seyka.fr/health
@@ -155,6 +165,7 @@ tail -f /opt/talentflow/logs/api/app.log
 ## 🔒 **Sécurité Configurée**
 
 ### **Firewall UFW**
+
 ```bash
 # Ports ouverts :
 22/tcp    # SSH
@@ -166,12 +177,14 @@ tail -f /opt/talentflow/logs/api/app.log
 ```
 
 ### **SSL/TLS**
+
 - ✅ **Certificats Let's Encrypt** générés automatiquement
 - ✅ **Renouvellement automatique** configuré
 - ✅ **TLS 1.2/1.3** uniquement
 - ✅ **HSTS** activé
 
 ### **Protection**
+
 - ✅ **Fail2ban** contre les attaques brute force
 - ✅ **Rate limiting** Nginx
 - ✅ **Headers sécurisés** (XSS, CSRF, etc.)
@@ -180,12 +193,14 @@ tail -f /opt/talentflow/logs/api/app.log
 ## 📊 **Pipeline CI/CD**
 
 ### **Workflow GitHub Actions**
+
 ```
 Push develop → Tests → Build → Deploy DEV → Tests Smoke
 Push main    → Tests → Build → Deploy PROD → Tests Smoke
 ```
 
 ### **Jobs Exécutés**
+
 1. **Tests & Quality** : Lint, TypeScript, Tests unitaires/intégration
 2. **E2E Tests** : Tests Playwright
 3. **Docker Build** : Images optimisées
@@ -197,6 +212,7 @@ Push main    → Tests → Build → Deploy PROD → Tests Smoke
 ## 🎯 **Environnements Configurés**
 
 ### **Développement** (`talentflow-dev.seyka.fr`)
+
 - 🔧 **Branch** : `develop`
 - 🌐 **URL** : `https://talentflow-dev.seyka.fr`
 - 📊 **Monitoring** : Grafana accessible
@@ -204,6 +220,7 @@ Push main    → Tests → Build → Deploy PROD → Tests Smoke
 - 🚫 **Rate limiting** : Permissif (50 req/s)
 
 ### **Production** (`talentflow.seyka.fr`)
+
 - 🏭 **Branch** : `main`
 - 🌐 **URL** : `https://talentflow.seyka.fr`
 - 📊 **Monitoring** : Sécurisé
@@ -213,6 +230,7 @@ Push main    → Tests → Build → Deploy PROD → Tests Smoke
 ## 🚨 **Résolution de Problèmes**
 
 ### **Problèmes SSL**
+
 ```bash
 # Vérifier les certificats
 certbot certificates
@@ -225,6 +243,7 @@ nginx -t
 ```
 
 ### **Problèmes Docker**
+
 ```bash
 # Vérifier les logs
 docker-compose logs service-name
@@ -237,6 +256,7 @@ docker system prune -f
 ```
 
 ### **Problèmes de Déploiement**
+
 ```bash
 # Vérifier les GitHub Actions
 # → Aller dans l'onglet Actions de votre repo
@@ -254,12 +274,14 @@ docker-compose up -d
 ## 📈 **Métriques et Monitoring**
 
 ### **Dashboards Disponibles**
+
 - 📊 **Grafana** : Métriques système et application
 - 🔍 **Logs** : Centralisés dans `/opt/talentflow/logs/`
 - 📈 **Prometheus** : Métriques temps réel
 - 🚨 **Alertes** : Notifications automatiques
 
 ### **KPIs Surveillés**
+
 - ⚡ **Performance** : Temps de réponse API/Web
 - 💾 **Ressources** : CPU, RAM, Disque
 - 🌐 **Réseau** : Bande passante, latence
@@ -291,6 +313,7 @@ Votre infrastructure TalentFlow est maintenant :
 ## 📞 **Support**
 
 **En cas de problème :**
+
 1. Vérifiez les logs : `docker-compose logs -f`
 2. Consultez GitHub Actions pour les erreurs CI/CD
 3. Testez la connectivité : `curl https://talentflow-dev.seyka.fr/health`

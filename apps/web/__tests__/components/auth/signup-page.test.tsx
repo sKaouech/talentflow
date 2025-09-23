@@ -18,7 +18,7 @@ const mockSignIn = signIn as jest.MockedFunction<typeof signIn>
 // Mock Next.js router
 const mockPush = jest.fn()
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: mockPush })
+  useRouter: () => ({ push: mockPush }),
 }))
 
 // Mock fetch global
@@ -35,18 +35,22 @@ describe('SignUpPage', () => {
   })
 
   describe('Rendu de la page', () => {
-    it('devrait afficher le formulaire d\'inscription', () => {
+    it("devrait afficher le formulaire d'inscription", () => {
       // Act
       render(<SignUpPage />)
 
       // Assert
-      expect(screen.getByRole('heading', { name: /inscription/i })).toBeInTheDocument()
+      expect(
+        screen.getByRole('heading', { name: /inscription/i })
+      ).toBeInTheDocument()
       expect(screen.getByLabelText(/prénom/i)).toBeInTheDocument()
       expect(screen.getByLabelText(/nom/i)).toBeInTheDocument()
       expect(screen.getByLabelText(/email/i)).toBeInTheDocument()
       expect(screen.getByLabelText(/mot de passe/i)).toBeInTheDocument()
       expect(screen.getByLabelText(/nom de.*entreprise/i)).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: /créer mon compte/i })).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: /créer mon compte/i })
+      ).toBeInTheDocument()
     })
 
     it('devrait afficher le logo et la description', () => {
@@ -55,7 +59,9 @@ describe('SignUpPage', () => {
 
       // Assert
       expect(screen.getByText('TF')).toBeInTheDocument()
-      expect(screen.getByText(/créez votre compte talentflow/i)).toBeInTheDocument()
+      expect(
+        screen.getByText(/créez votre compte talentflow/i)
+      ).toBeInTheDocument()
     })
 
     it('devrait afficher le lien vers la connexion', () => {
@@ -64,7 +70,9 @@ describe('SignUpPage', () => {
 
       // Assert
       expect(screen.getByText(/déjà un compte/i)).toBeInTheDocument()
-      expect(screen.getByRole('link', { name: /connectez-vous/i })).toHaveAttribute('href', '/auth/signin')
+      expect(
+        screen.getByRole('link', { name: /connectez-vous/i })
+      ).toHaveAttribute('href', '/auth/signin')
     })
   })
 
@@ -72,26 +80,42 @@ describe('SignUpPage', () => {
     it('devrait valider tous les champs requis', async () => {
       // Arrange
       render(<SignUpPage />)
-      const submitButton = screen.getByRole('button', { name: /créer mon compte/i })
+      const submitButton = screen.getByRole('button', {
+        name: /créer mon compte/i,
+      })
 
       // Act
       fireEvent.click(submitButton)
 
       // Assert
       await waitFor(() => {
-        expect(screen.getByText(/le prénom doit contenir au moins 2 caractères/i)).toBeInTheDocument()
-        expect(screen.getByText(/le nom doit contenir au moins 2 caractères/i)).toBeInTheDocument()
+        expect(
+          screen.getByText(/le prénom doit contenir au moins 2 caractères/i)
+        ).toBeInTheDocument()
+        expect(
+          screen.getByText(/le nom doit contenir au moins 2 caractères/i)
+        ).toBeInTheDocument()
         expect(screen.getByText(/email invalide/i)).toBeInTheDocument()
-        expect(screen.getByText(/le mot de passe doit contenir au moins 8 caractères/i)).toBeInTheDocument()
-        expect(screen.getByText(/le nom de l'entreprise doit contenir au moins 2 caractères/i)).toBeInTheDocument()
+        expect(
+          screen.getByText(
+            /le mot de passe doit contenir au moins 8 caractères/i
+          )
+        ).toBeInTheDocument()
+        expect(
+          screen.getByText(
+            /le nom de l'entreprise doit contenir au moins 2 caractères/i
+          )
+        ).toBeInTheDocument()
       })
     })
 
-    it('devrait valider le format de l\'email', async () => {
+    it("devrait valider le format de l'email", async () => {
       // Arrange
       render(<SignUpPage />)
       const emailInput = screen.getByLabelText(/email/i)
-      const submitButton = screen.getByRole('button', { name: /créer mon compte/i })
+      const submitButton = screen.getByRole('button', {
+        name: /créer mon compte/i,
+      })
 
       // Act
       fireEvent.change(emailInput, { target: { value: 'invalid-email' } })
@@ -107,7 +131,9 @@ describe('SignUpPage', () => {
       // Arrange
       render(<SignUpPage />)
       const passwordInput = screen.getByLabelText(/mot de passe/i)
-      const submitButton = screen.getByRole('button', { name: /créer mon compte/i })
+      const submitButton = screen.getByRole('button', {
+        name: /créer mon compte/i,
+      })
 
       // Act
       fireEvent.change(passwordInput, { target: { value: '1234567' } })
@@ -115,7 +141,11 @@ describe('SignUpPage', () => {
 
       // Assert
       await waitFor(() => {
-        expect(screen.getByText(/le mot de passe doit contenir au moins 8 caractères/i)).toBeInTheDocument()
+        expect(
+          screen.getByText(
+            /le mot de passe doit contenir au moins 8 caractères/i
+          )
+        ).toBeInTheDocument()
       })
     })
   })
@@ -133,19 +163,29 @@ describe('SignUpPage', () => {
             firstName: 'John',
             lastName: 'Doe',
             email: 'john.doe@example.com',
-            role: 'tenant_admin'
-          }
-        })
+            role: 'tenant_admin',
+          },
+        }),
       } as any)
 
       render(<SignUpPage />)
-      
+
       // Remplir le formulaire
-      fireEvent.change(screen.getByLabelText(/prénom/i), { target: { value: 'John' } })
-      fireEvent.change(screen.getByLabelText(/nom/i), { target: { value: 'Doe' } })
-      fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'john.doe@example.com' } })
-      fireEvent.change(screen.getByLabelText(/mot de passe/i), { target: { value: 'password123' } })
-      fireEvent.change(screen.getByLabelText(/nom de.*entreprise/i), { target: { value: 'Acme Corp' } })
+      fireEvent.change(screen.getByLabelText(/prénom/i), {
+        target: { value: 'John' },
+      })
+      fireEvent.change(screen.getByLabelText(/nom/i), {
+        target: { value: 'Doe' },
+      })
+      fireEvent.change(screen.getByLabelText(/email/i), {
+        target: { value: 'john.doe@example.com' },
+      })
+      fireEvent.change(screen.getByLabelText(/mot de passe/i), {
+        target: { value: 'password123' },
+      })
+      fireEvent.change(screen.getByLabelText(/nom de.*entreprise/i), {
+        target: { value: 'Acme Corp' },
+      })
 
       // Act
       fireEvent.click(screen.getByRole('button', { name: /créer mon compte/i }))
@@ -160,8 +200,8 @@ describe('SignUpPage', () => {
             lastName: 'Doe',
             email: 'john.doe@example.com',
             password: 'password123',
-            tenantName: 'Acme Corp'
-          })
+            tenantName: 'Acme Corp',
+          }),
         })
       })
 
@@ -170,61 +210,92 @@ describe('SignUpPage', () => {
         expect(mockSignIn).toHaveBeenCalledWith('credentials', {
           redirect: false,
           email: 'john.doe@example.com',
-          password: 'password123'
+          password: 'password123',
         })
       })
 
       expect(mockPush).toHaveBeenCalledWith('/')
     })
 
-    it('devrait afficher une erreur si l\'email existe déjà', async () => {
+    it("devrait afficher une erreur si l'email existe déjà", async () => {
       // Arrange
       mockFetch.mockResolvedValueOnce({
         ok: false,
         status: 409,
         json: jest.fn().mockResolvedValue({
-          message: 'Un utilisateur avec cet email existe déjà.'
-        })
+          message: 'Un utilisateur avec cet email existe déjà.',
+        }),
       } as any)
 
       render(<SignUpPage />)
-      
+
       // Remplir le formulaire
-      fireEvent.change(screen.getByLabelText(/prénom/i), { target: { value: 'John' } })
-      fireEvent.change(screen.getByLabelText(/nom/i), { target: { value: 'Doe' } })
-      fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'existing@example.com' } })
-      fireEvent.change(screen.getByLabelText(/mot de passe/i), { target: { value: 'password123' } })
-      fireEvent.change(screen.getByLabelText(/nom de.*entreprise/i), { target: { value: 'Acme Corp' } })
+      fireEvent.change(screen.getByLabelText(/prénom/i), {
+        target: { value: 'John' },
+      })
+      fireEvent.change(screen.getByLabelText(/nom/i), {
+        target: { value: 'Doe' },
+      })
+      fireEvent.change(screen.getByLabelText(/email/i), {
+        target: { value: 'existing@example.com' },
+      })
+      fireEvent.change(screen.getByLabelText(/mot de passe/i), {
+        target: { value: 'password123' },
+      })
+      fireEvent.change(screen.getByLabelText(/nom de.*entreprise/i), {
+        target: { value: 'Acme Corp' },
+      })
 
       // Act
       fireEvent.click(screen.getByRole('button', { name: /créer mon compte/i }))
 
       // Assert
       await waitFor(() => {
-        expect(screen.getByText(/un utilisateur avec cet email existe déjà/i)).toBeInTheDocument()
+        expect(
+          screen.getByText(/un utilisateur avec cet email existe déjà/i)
+        ).toBeInTheDocument()
       })
     })
 
-    it('devrait afficher un indicateur de chargement pendant l\'inscription', async () => {
+    it("devrait afficher un indicateur de chargement pendant l'inscription", async () => {
       // Arrange
-      mockFetch.mockImplementation(() => 
-        new Promise(resolve => setTimeout(() => resolve({
-          ok: true,
-          status: 201,
-          json: jest.fn().mockResolvedValue({ message: 'Success' })
-        } as any), 100))
+      mockFetch.mockImplementation(
+        () =>
+          new Promise(resolve =>
+            setTimeout(
+              () =>
+                resolve({
+                  ok: true,
+                  status: 201,
+                  json: jest.fn().mockResolvedValue({ message: 'Success' }),
+                } as any),
+              100
+            )
+          )
       )
 
       render(<SignUpPage />)
-      
-      // Remplir le formulaire avec des données valides
-      fireEvent.change(screen.getByLabelText(/prénom/i), { target: { value: 'John' } })
-      fireEvent.change(screen.getByLabelText(/nom/i), { target: { value: 'Doe' } })
-      fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'john.doe@example.com' } })
-      fireEvent.change(screen.getByLabelText(/mot de passe/i), { target: { value: 'password123' } })
-      fireEvent.change(screen.getByLabelText(/nom de.*entreprise/i), { target: { value: 'Acme Corp' } })
 
-      const submitButton = screen.getByRole('button', { name: /créer mon compte/i })
+      // Remplir le formulaire avec des données valides
+      fireEvent.change(screen.getByLabelText(/prénom/i), {
+        target: { value: 'John' },
+      })
+      fireEvent.change(screen.getByLabelText(/nom/i), {
+        target: { value: 'Doe' },
+      })
+      fireEvent.change(screen.getByLabelText(/email/i), {
+        target: { value: 'john.doe@example.com' },
+      })
+      fireEvent.change(screen.getByLabelText(/mot de passe/i), {
+        target: { value: 'password123' },
+      })
+      fireEvent.change(screen.getByLabelText(/nom de.*entreprise/i), {
+        target: { value: 'Acme Corp' },
+      })
+
+      const submitButton = screen.getByRole('button', {
+        name: /créer mon compte/i,
+      })
 
       // Act
       fireEvent.click(submitButton)
@@ -233,9 +304,14 @@ describe('SignUpPage', () => {
       expect(screen.getByTestId('loading-spinner')).toBeInTheDocument()
       expect(submitButton).toBeDisabled()
 
-      await waitFor(() => {
-        expect(screen.queryByTestId('loading-spinner')).not.toBeInTheDocument()
-      }, { timeout: 200 })
+      await waitFor(
+        () => {
+          expect(
+            screen.queryByTestId('loading-spinner')
+          ).not.toBeInTheDocument()
+        },
+        { timeout: 200 }
+      )
     })
   })
 
@@ -252,7 +328,7 @@ describe('SignUpPage', () => {
       expect(screen.getByLabelText(/nom de.*entreprise/i)).toBeInTheDocument()
     })
 
-    it('devrait avoir les types d\'input appropriés', () => {
+    it("devrait avoir les types d'input appropriés", () => {
       // Act
       render(<SignUpPage />)
 
@@ -260,8 +336,14 @@ describe('SignUpPage', () => {
       expect(screen.getByLabelText(/prénom/i)).toHaveAttribute('type', 'text')
       expect(screen.getByLabelText(/nom/i)).toHaveAttribute('type', 'text')
       expect(screen.getByLabelText(/email/i)).toHaveAttribute('type', 'email')
-      expect(screen.getByLabelText(/mot de passe/i)).toHaveAttribute('type', 'password')
-      expect(screen.getByLabelText(/nom de.*entreprise/i)).toHaveAttribute('type', 'text')
+      expect(screen.getByLabelText(/mot de passe/i)).toHaveAttribute(
+        'type',
+        'password'
+      )
+      expect(screen.getByLabelText(/nom de.*entreprise/i)).toHaveAttribute(
+        'type',
+        'text'
+      )
     })
   })
 })

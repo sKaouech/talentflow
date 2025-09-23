@@ -1,18 +1,36 @@
 import { z } from 'zod'
-import { idSchema, emailSchema, phoneSchema, urlSchema, paginationSchema, searchSchema } from './common'
+import {
+  idSchema,
+  emailSchema,
+  phoneSchema,
+  urlSchema,
+  paginationSchema,
+  searchSchema,
+} from './common'
 import { remoteSchema } from './tender'
 
 // Énumérations
 export const candidateTypeSchema = z.enum(['internal', 'external', 'freelance'])
 export const candidateStatusSchema = z.enum(['active', 'inactive', 'archived'])
-export const skillLevelSchema = z.enum(['beginner', 'intermediate', 'advanced', 'expert'])
-export const applicationStatusSchema = z.enum(['applied', 'shortlisted', 'interviewed', 'rejected', 'hired'])
+export const skillLevelSchema = z.enum([
+  'beginner',
+  'intermediate',
+  'advanced',
+  'expert',
+])
+export const applicationStatusSchema = z.enum([
+  'applied',
+  'shortlisted',
+  'interviewed',
+  'rejected',
+  'hired',
+])
 
 // Candidat
 export const candidateSchema = z.object({
   id: idSchema,
   type: candidateTypeSchema,
-  
+
   // Informations personnelles
   firstName: z.string().min(1).max(50),
   lastName: z.string().min(1).max(50),
@@ -21,25 +39,25 @@ export const candidateSchema = z.object({
   linkedinUrl: urlSchema,
   githubUrl: urlSchema,
   portfolioUrl: urlSchema,
-  
+
   // Localisation
   location: z.string().optional(),
   remote: remoteSchema.default('hybrid'),
   mobility: z.array(z.string()).default([]),
-  
+
   // Profil professionnel
   title: z.string().max(100).optional(),
   summary: z.string().max(1000).optional(),
   availability: z.string().max(50).optional(),
   desiredSalary: z.number().positive().optional(),
   currency: z.string().length(3).default('EUR'),
-  
+
   // Métadonnées
   status: candidateStatusSchema.default('active'),
   source: z.string().default('manual'),
   tags: z.array(z.string()).default([]),
   notes: z.string().optional(),
-  
+
   // Relations
   tenantId: idSchema,
   createdAt: z.string().datetime(),
@@ -64,15 +82,17 @@ export const updateCandidateSchema = createCandidateSchema.partial()
 export type UpdateCandidateInput = z.infer<typeof updateCandidateSchema>
 
 // Recherche de candidats
-export const searchCandidatesSchema = searchSchema.extend({
-  type: candidateTypeSchema.optional(),
-  status: candidateStatusSchema.optional(),
-  remote: remoteSchema.optional(),
-  location: z.string().optional(),
-  skills: z.array(z.string()).optional(),
-  tags: z.array(z.string()).optional(),
-  availability: z.string().optional(),
-}).merge(paginationSchema)
+export const searchCandidatesSchema = searchSchema
+  .extend({
+    type: candidateTypeSchema.optional(),
+    status: candidateStatusSchema.optional(),
+    remote: remoteSchema.optional(),
+    location: z.string().optional(),
+    skills: z.array(z.string()).optional(),
+    tags: z.array(z.string()).optional(),
+    availability: z.string().optional(),
+  })
+  .merge(paginationSchema)
 
 export type SearchCandidatesInput = z.infer<typeof searchCandidatesSchema>
 
@@ -147,7 +167,9 @@ export const createCandidateSkillSchema = candidateSkillSchema.omit({
   candidateId: true,
 })
 
-export type CreateCandidateSkillInput = z.infer<typeof createCandidateSkillSchema>
+export type CreateCandidateSkillInput = z.infer<
+  typeof createCandidateSkillSchema
+>
 
 // Candidature
 export const applicationSchema = z.object({

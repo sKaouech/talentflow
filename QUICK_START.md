@@ -75,17 +75,18 @@ pnpm dev
 
 Une fois tout démarré, vous aurez accès à :
 
-| Service | URL | Identifiants |
-|---------|-----|--------------|
-| **Application Web** | http://localhost:3000 | - |
-| **API Documentation** | http://localhost:3001/api/docs | - |
-| **Keycloak Admin** | http://localhost:8080 | admin/admin |
-| **MinIO Console** | http://localhost:9001 | talentflow/talentflow_dev |
-| **n8n** | http://localhost:5678 | admin/admin |
+| Service               | URL                            | Identifiants              |
+| --------------------- | ------------------------------ | ------------------------- |
+| **Application Web**   | http://localhost:3000          | -                         |
+| **API Documentation** | http://localhost:3001/api/docs | -                         |
+| **Keycloak Admin**    | http://localhost:8080          | admin/admin               |
+| **MinIO Console**     | http://localhost:9001          | talentflow/talentflow_dev |
+| **n8n**               | http://localhost:5678          | admin/admin               |
 
 ## 🛠️ Commandes Utiles
 
 ### Développement
+
 ```bash
 # Démarrer seulement l'API
 pnpm turbo dev --filter=@talentflow/api
@@ -104,6 +105,7 @@ pnpm turbo build
 ```
 
 ### Base de Données
+
 ```bash
 # Interface graphique Prisma Studio
 pnpm turbo db:studio
@@ -116,6 +118,7 @@ pnpm turbo db:migrate status
 ```
 
 ### Docker
+
 ```bash
 # Voir les logs
 docker-compose logs -f postgres
@@ -144,7 +147,7 @@ docker-compose down -v
 
 5. **Créer les rôles** :
    - `tenant_admin`
-   - `manager` 
+   - `manager`
    - `recruiter`
    - `viewer`
 
@@ -156,6 +159,7 @@ docker-compose down -v
 ## 🐛 Dépannage
 
 ### Erreur de connexion PostgreSQL
+
 ```bash
 # Vérifier que PostgreSQL est démarré
 docker-compose ps postgres
@@ -168,6 +172,7 @@ psql postgresql://talentflow:talentflow_dev@localhost:5433/talentflow
 ```
 
 ### Erreur Turborepo
+
 ```bash
 # Nettoyer le cache
 pnpm turbo clean
@@ -178,6 +183,7 @@ pnpm install
 ```
 
 ### Port déjà utilisé
+
 ```bash
 # Vérifier les ports occupés
 lsof -i :3000  # Frontend
@@ -190,7 +196,7 @@ lsof -i :5433  # PostgreSQL
 Tous les packages sont correctement configurés :
 
 - ✅ `@talentflow/api` - API NestJS
-- ✅ `@talentflow/web` - Application Next.js  
+- ✅ `@talentflow/web` - Application Next.js
 - ✅ `@talentflow/database` - Client Prisma
 - ✅ `@talentflow/validation` - Schémas Zod
 - ✅ `@talentflow/shared` - Utilitaires communs

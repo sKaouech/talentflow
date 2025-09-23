@@ -11,41 +11,59 @@ test.describe('Inscription utilisateur', () => {
     await page.goto('/auth/signup')
   })
 
-  test('devrait afficher la page d\'inscription correctement', async ({ page }) => {
+  test("devrait afficher la page d'inscription correctement", async ({
+    page,
+  }) => {
     // Vérifier les éléments de la page
-    await expect(page.getByRole('heading', { name: /inscription/i })).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: /inscription/i })
+    ).toBeVisible()
     await expect(page.getByText(/créez votre compte talentflow/i)).toBeVisible()
     await expect(page.getByText('TF')).toBeVisible()
-    
+
     // Vérifier les champs du formulaire
     await expect(page.getByLabel(/prénom/i)).toBeVisible()
     await expect(page.getByLabel(/nom/i)).toBeVisible()
     await expect(page.getByLabel(/email/i)).toBeVisible()
     await expect(page.getByLabel(/mot de passe/i)).toBeVisible()
     await expect(page.getByLabel(/nom de.*entreprise/i)).toBeVisible()
-    
+
     // Vérifier les boutons
-    await expect(page.getByRole('button', { name: /créer mon compte/i })).toBeVisible()
-    await expect(page.getByRole('link', { name: /connectez-vous/i })).toBeVisible()
+    await expect(
+      page.getByRole('button', { name: /créer mon compte/i })
+    ).toBeVisible()
+    await expect(
+      page.getByRole('link', { name: /connectez-vous/i })
+    ).toBeVisible()
   })
 
   test('devrait valider les champs requis', async ({ page }) => {
     // Cliquer sur le bouton sans remplir les champs
     await page.getByRole('button', { name: /créer mon compte/i }).click()
-    
+
     // Vérifier les messages d'erreur
-    await expect(page.getByText(/le prénom doit contenir au moins 2 caractères/i)).toBeVisible()
-    await expect(page.getByText(/le nom doit contenir au moins 2 caractères/i)).toBeVisible()
+    await expect(
+      page.getByText(/le prénom doit contenir au moins 2 caractères/i)
+    ).toBeVisible()
+    await expect(
+      page.getByText(/le nom doit contenir au moins 2 caractères/i)
+    ).toBeVisible()
     await expect(page.getByText(/email invalide/i)).toBeVisible()
-    await expect(page.getByText(/le mot de passe doit contenir au moins 8 caractères/i)).toBeVisible()
-    await expect(page.getByText(/le nom de l'entreprise doit contenir au moins 2 caractères/i)).toBeVisible()
+    await expect(
+      page.getByText(/le mot de passe doit contenir au moins 8 caractères/i)
+    ).toBeVisible()
+    await expect(
+      page.getByText(
+        /le nom de l'entreprise doit contenir au moins 2 caractères/i
+      )
+    ).toBeVisible()
   })
 
-  test('devrait valider le format de l\'email', async ({ page }) => {
+  test("devrait valider le format de l'email", async ({ page }) => {
     // Remplir un email invalide
     await page.getByLabel(/email/i).fill('email-invalide')
     await page.getByRole('button', { name: /créer mon compte/i }).click()
-    
+
     // Vérifier le message d'erreur
     await expect(page.getByText(/email invalide/i)).toBeVisible()
   })
@@ -54,9 +72,11 @@ test.describe('Inscription utilisateur', () => {
     // Remplir un mot de passe trop court
     await page.getByLabel(/mot de passe/i).fill('123')
     await page.getByRole('button', { name: /créer mon compte/i }).click()
-    
+
     // Vérifier le message d'erreur
-    await expect(page.getByText(/le mot de passe doit contenir au moins 8 caractères/i)).toBeVisible()
+    await expect(
+      page.getByText(/le mot de passe doit contenir au moins 8 caractères/i)
+    ).toBeVisible()
   })
 
   test('devrait créer un compte avec succès', async ({ page }) => {
@@ -77,15 +97,17 @@ test.describe('Inscription utilisateur', () => {
 
     // Vérifier la redirection vers le dashboard
     await expect(page).toHaveURL('/')
-    
+
     // Vérifier que l'utilisateur est connecté
     await expect(page.getByText(/tableau de bord/i)).toBeVisible()
-    
+
     // Vérifier la présence du profil utilisateur
     await expect(page.getByText('JD')).toBeVisible() // Initiales
   })
 
-  test('devrait afficher une erreur si l\'email existe déjà', async ({ page }) => {
+  test("devrait afficher une erreur si l'email existe déjà", async ({
+    page,
+  }) => {
     // Utiliser un email qui existe déjà (créé dans un test précédent)
     await page.getByLabel(/prénom/i).fill('Jane')
     await page.getByLabel(/nom/i).fill('Smith')
@@ -125,24 +147,32 @@ test.describe('Inscription utilisateur', () => {
     await expect(page.getByTestId('loading-spinner')).toBeVisible()
   })
 
-  test('devrait permettre la navigation vers la page de connexion', async ({ page }) => {
+  test('devrait permettre la navigation vers la page de connexion', async ({
+    page,
+  }) => {
     // Cliquer sur le lien de connexion
     await page.getByRole('link', { name: /connectez-vous/i }).click()
-    
+
     // Vérifier la redirection
     await expect(page).toHaveURL('/auth/signin')
-    await expect(page.getByRole('heading', { name: /connexion/i })).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: /connexion/i })
+    ).toBeVisible()
   })
 
   test('devrait être responsive sur mobile', async ({ page }) => {
     // Simuler un écran mobile
     await page.setViewportSize({ width: 375, height: 667 })
-    
+
     // Vérifier que les éléments sont visibles et accessibles
-    await expect(page.getByRole('heading', { name: /inscription/i })).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: /inscription/i })
+    ).toBeVisible()
     await expect(page.getByLabel(/prénom/i)).toBeVisible()
-    await expect(page.getByRole('button', { name: /créer mon compte/i })).toBeVisible()
-    
+    await expect(
+      page.getByRole('button', { name: /créer mon compte/i })
+    ).toBeVisible()
+
     // Vérifier que le formulaire est utilisable
     await page.getByLabel(/prénom/i).fill('Mobile')
     await expect(page.getByLabel(/prénom/i)).toHaveValue('Mobile')
@@ -152,20 +182,22 @@ test.describe('Inscription utilisateur', () => {
     // Navigation avec Tab
     await page.keyboard.press('Tab')
     await expect(page.getByLabel(/prénom/i)).toBeFocused()
-    
+
     await page.keyboard.press('Tab')
     await expect(page.getByLabel(/nom/i)).toBeFocused()
-    
+
     await page.keyboard.press('Tab')
     await expect(page.getByLabel(/email/i)).toBeFocused()
-    
+
     await page.keyboard.press('Tab')
     await expect(page.getByLabel(/mot de passe/i)).toBeFocused()
-    
+
     await page.keyboard.press('Tab')
     await expect(page.getByLabel(/nom de.*entreprise/i)).toBeFocused()
-    
+
     await page.keyboard.press('Tab')
-    await expect(page.getByRole('button', { name: /créer mon compte/i })).toBeFocused()
+    await expect(
+      page.getByRole('button', { name: /créer mon compte/i })
+    ).toBeFocused()
   })
 })

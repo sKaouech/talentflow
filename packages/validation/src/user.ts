@@ -34,12 +34,14 @@ export const updateProfileSchema = z.object({
 export type UpdateProfileInput = z.infer<typeof updateProfileSchema>
 
 // Recherche d'utilisateurs
-export const searchUsersSchema = searchSchema.extend({
-  role: z.string().optional(),
-  status: z.string().optional(),
-  lastLoginBefore: z.string().datetime().optional(),
-  lastLoginAfter: z.string().datetime().optional(),
-}).merge(paginationSchema)
+export const searchUsersSchema = searchSchema
+  .extend({
+    role: z.string().optional(),
+    status: z.string().optional(),
+    lastLoginBefore: z.string().datetime().optional(),
+    lastLoginAfter: z.string().datetime().optional(),
+  })
+  .merge(paginationSchema)
 
 export type SearchUsersInput = z.infer<typeof searchUsersSchema>
 
@@ -63,4 +65,6 @@ export const notificationPreferencesSchema = z.object({
   }),
 })
 
-export type NotificationPreferences = z.infer<typeof notificationPreferencesSchema>
+export type NotificationPreferences = z.infer<
+  typeof notificationPreferencesSchema
+>

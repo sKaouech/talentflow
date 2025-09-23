@@ -1,14 +1,18 @@
-import { NextResponse } from "next/server"
-import bcrypt from "bcryptjs"
-import { z } from "zod"
-import { prisma } from "@/lib/prisma"
+import { NextResponse } from 'next/server'
+import bcrypt from 'bcryptjs'
+import { z } from 'zod'
+import { prisma } from '@/lib/prisma'
 
 const registerSchema = z.object({
-  firstName: z.string().min(2, "Le prénom doit contenir au moins 2 caractères"),
-  lastName: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
-  email: z.string().email("Email invalide"),
-  password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères"),
-  tenantName: z.string().min(2, "Le nom de l'entreprise doit contenir au moins 2 caractères"),
+  firstName: z.string().min(2, 'Le prénom doit contenir au moins 2 caractères'),
+  lastName: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+  email: z.string().email('Email invalide'),
+  password: z
+    .string()
+    .min(8, 'Le mot de passe doit contenir au moins 8 caractères'),
+  tenantName: z
+    .string()
+    .min(2, "Le nom de l'entreprise doit contenir au moins 2 caractères"),
 })
 
 export async function POST(request: Request) {
@@ -18,12 +22,12 @@ export async function POST(request: Request) {
 
     // Vérifier si l'utilisateur existe déjà
     const existingUser = await prisma.user.findUnique({
-      where: { email: validatedData.email }
+      where: { email: validatedData.email },
     })
 
     if (existingUser) {
       return NextResponse.json(
-        { error: "Un utilisateur avec cet email existe déjà" },
+        { error: 'Un utilisateur avec cet email existe déjà' },
         { status: 400 }
       )
     }
@@ -41,8 +45,8 @@ export async function POST(request: Request) {
         branding: {
           primaryColor: '#3b82f6',
           secondaryColor: '#1e40af',
-        }
-      }
+        },
+      },
     })
 
     // Créer l'utilisateur
@@ -61,39 +65,38 @@ export async function POST(request: Request) {
         firstName: true,
         lastName: true,
         email: true,
-        role: true
-      }
+        role: true,
+      },
     })
 
     // TODO: Créer les rôles et permissions (pour une version ultérieure)
 
     return NextResponse.json({
-      message: "Compte créé avec succès",
+      message: 'Compte créé avec succès',
       user: {
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
         role: user.role,
-        tenantId: tenant.id
-      }
+        tenantId: tenant.id,
+      },
     })
-
   } catch (error) {
-    console.error("Registration error:", error)
-    
+    console.error('Registration error:', error)
+
     if (error instanceof z.ZodError) {
       return NextResponse.json(
-        { error: "Données invalides", details: error.errors },
+        { error: 'Données invalides', details: error.errors },
         { status: 400 }
       )
     }
 
     return NextResponse.json(
-      { 
-        error: "Erreur lors de la création du compte", 
+      {
+        error: 'Erreur lors de la création du compte',
         details: error.message || error.toString(),
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
       },
       { status: 500 }
     )

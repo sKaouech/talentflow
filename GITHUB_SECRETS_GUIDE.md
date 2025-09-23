@@ -3,20 +3,21 @@
 ## 📋 Secrets à Configurer
 
 ### Navigation GitHub
+
 1. Allez sur : https://github.com/sKaouech/talentflow
 2. Cliquez sur `Settings` → `Secrets and variables` → `Actions`
 3. Cliquez sur `New repository secret` pour chaque secret
 
 ### 🔑 Liste des Secrets
 
-| Name | Value |
-|------|-------|
-| `SSH_PRIVATE_KEY` | Votre clé privée SSH complète (voir ci-dessous) |
-| `SERVER_USER` | `root` |
-| `DEV_SERVER_HOST` | `148.230.114.13` |
-| `PROD_SERVER_HOST` | `148.230.114.13` |
-| `DEV_URL` | `https://talentflow-dev.seyka.fr` |
-| `PROD_URL` | `https://talentflow.seyka.fr` |
+| Name               | Value                                           |
+| ------------------ | ----------------------------------------------- |
+| `SSH_PRIVATE_KEY`  | Votre clé privée SSH complète (voir ci-dessous) |
+| `SERVER_USER`      | `root`                                          |
+| `DEV_SERVER_HOST`  | `148.230.114.13`                                |
+| `PROD_SERVER_HOST` | `148.230.114.13`                                |
+| `DEV_URL`          | `https://talentflow-dev.seyka.fr`               |
+| `PROD_URL`         | `https://talentflow.seyka.fr`                   |
 
 ### 🔑 Clé SSH Privée (SSH_PRIVATE_KEY)
 
@@ -33,8 +34,9 @@ ogAAAAQPVoQV7BYyb8vQmeU5K8jKuBT1Ov8jKJXJHfZhKvJYFAhoa76ACBG90lbrK8ksm1
 ## ✅ Vérification
 
 Une fois tous les secrets configurés, vous devriez voir 6 secrets dans la liste :
+
 - SSH_PRIVATE_KEY
-- SERVER_USER  
+- SERVER_USER
 - DEV_SERVER_HOST
 - PROD_SERVER_HOST
 - DEV_URL

@@ -48,20 +48,24 @@ talentflow/
 ## 🧪 **Tests Créés pour l'Authentification**
 
 ### **Tests Unitaires**
+
 - ✅ **API Register** : Validation, création utilisateur/tenant, gestion erreurs
 - ✅ **Page SignIn** : Rendu, validation, soumission, UX
 - ✅ **Page SignUp** : Formulaire, validation, création de compte
 
 ### **Tests d'Intégration**
+
 - ✅ **Flux d'authentification** : Transaction complète, sécurité, cas limites
 
 ### **Tests E2E**
+
 - ✅ **Parcours d'inscription** : Validation, création, redirection
 - ✅ **Parcours de connexion** : Authentication, erreurs, responsive
 
 ## 🚀 **Commandes de Tests**
 
 ### Installation et Démarrage
+
 ```bash
 # Installer les dépendances (déjà fait)
 pnpm install
@@ -71,7 +75,7 @@ pnpm test:all
 
 # Tests par type
 pnpm test:unit        # Tests unitaires
-pnpm test:integration # Tests d'intégration  
+pnpm test:integration # Tests d'intégration
 pnpm test:e2e         # Tests End-to-End
 
 # Développement
@@ -80,6 +84,7 @@ pnpm test:coverage    # Avec couverture
 ```
 
 ### Tests Spécifiques
+
 ```bash
 # Tests d'authentification uniquement
 cd apps/web
@@ -95,12 +100,14 @@ pnpm test:e2e auth/signin.spec.ts
 ## 📊 **Couverture de Code**
 
 ### **Seuils Configurés**
+
 - **Branches** : 70-80%
 - **Fonctions** : 70-80%
 - **Lignes** : 70-80%
 - **Statements** : 70-80%
 
 ### **Rapports**
+
 ```bash
 # Générer rapport de couverture
 pnpm test:coverage
@@ -114,10 +121,11 @@ open apps/web/coverage/lcov-report/index.html
 ### **Processus à Suivre**
 
 #### 1. **Red** - Écrire le Test qui Échoue
+
 ```typescript
 // Exemple pour nouvelle fonctionnalité Tenders
 describe('TenderService', () => {
-  it('devrait créer un appel d\'offres', async () => {
+  it("devrait créer un appel d'offres", async () => {
     const tender = await tenderService.create(validData)
     expect(tender.status).toBe('draft')
   })
@@ -125,6 +133,7 @@ describe('TenderService', () => {
 ```
 
 #### 2. **Green** - Code Minimal qui Passe
+
 ```typescript
 class TenderService {
   async create(data: CreateTenderInput) {
@@ -134,6 +143,7 @@ class TenderService {
 ```
 
 #### 3. **Refactor** - Améliorer sans Casser
+
 ```typescript
 class TenderService {
   async create(data: CreateTenderInput): Promise<Tender> {
@@ -146,15 +156,16 @@ class TenderService {
 ### **Templates de Tests**
 
 #### **Test Unitaire API**
+
 ```typescript
 describe('POST /api/nouvelle-fonctionnalite', () => {
   it('devrait créer avec succès', async () => {
     // Arrange
     const mockData = factory.build()
-    
+
     // Act
     const response = await POST(mockRequest)
-    
+
     // Assert
     expect(response.status).toBe(201)
   })
@@ -162,6 +173,7 @@ describe('POST /api/nouvelle-fonctionnalite', () => {
 ```
 
 #### **Test Composant React**
+
 ```typescript
 describe('NouveauComposant', () => {
   it('devrait afficher correctement', () => {
@@ -172,6 +184,7 @@ describe('NouveauComposant', () => {
 ```
 
 #### **Test E2E**
+
 ```typescript
 test('devrait permettre la nouvelle action', async ({ page }) => {
   await page.goto('/nouvelle-page')
@@ -183,6 +196,7 @@ test('devrait permettre la nouvelle action', async ({ page }) => {
 ## 🔧 **Utilitaires Disponibles**
 
 ### **Factories de Données**
+
 ```typescript
 import { userFactory, tenantFactory } from '@talentflow/testing'
 
@@ -191,6 +205,7 @@ const tenant = tenantFactory.build({ name: 'Test Corp' })
 ```
 
 ### **Mocks MSW**
+
 ```typescript
 import { server, setupTestServer } from '@talentflow/testing'
 
@@ -205,6 +220,7 @@ server.use(
 ```
 
 ### **Render avec Providers**
+
 ```typescript
 import { render, createMockSession } from '@talentflow/testing'
 
@@ -226,6 +242,7 @@ render(<Component />, {
 ### **Exemples à Implémenter**
 
 #### **Gestion des Appels d'Offres**
+
 ```bash
 # Tests à créer
 __tests__/api/tenders/
@@ -246,6 +263,7 @@ e2e/tenders/
 ```
 
 #### **Gestion des Candidats**
+
 ```bash
 # Tests à créer
 __tests__/api/candidates/
@@ -269,17 +287,19 @@ e2e/candidates/
 ## 🚀 **Tests en Production**
 
 ### **CI/CD Pipeline**
+
 ```yaml
 # Exemple GitHub Actions
 - name: Tests Unitaires
   run: pnpm test:unit
-- name: Tests d'Intégration  
+- name: Tests d'Intégration
   run: pnpm test:integration
 - name: Tests E2E
   run: pnpm test:e2e
 ```
 
 ### **Quality Gates**
+
 - 🚫 **Pas de merge** sans tests passants
 - 🚫 **Pas de déploiement** sans couverture minimale
 - 🚫 **Pas de régression** détectée

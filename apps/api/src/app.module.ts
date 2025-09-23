@@ -4,7 +4,12 @@ import { ThrottlerModule } from '@nestjs/throttler'
 import { CacheModule } from '@nestjs/cache-manager'
 import { BullModule } from '@nestjs/bull'
 import { WinstonModule } from 'nest-winston'
-import { KeycloakConnectModule, ResourceGuard, RoleGuard, AuthGuard } from 'nest-keycloak-connect'
+import {
+  KeycloakConnectModule,
+  ResourceGuard,
+  RoleGuard,
+  AuthGuard,
+} from 'nest-keycloak-connect'
 import { APP_GUARD } from '@nestjs/core'
 import * as winston from 'winston'
 
@@ -24,7 +29,7 @@ import { HealthModule } from './health/health.module'
     // Logging
     WinstonModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
+      useFactory: (_config: ConfigService) => ({
         transports: [
           new winston.transports.Console({
             format: winston.format.combine(
@@ -59,16 +64,18 @@ import { HealthModule } from './health/health.module'
     // Rate limiting
     ThrottlerModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ([{
-        ttl: 60000, // 1 minute en millisecondes
-        limit: config.get('RATE_LIMIT_MAX', 100),
-      }]),
+      useFactory: (_config: ConfigService) => [
+        {
+          ttl: 60000, // 1 minute en millisecondes
+          limit: config.get('RATE_LIMIT_MAX', 100),
+        },
+      ],
     }),
 
     // Cache
     CacheModule.registerAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
+      useFactory: (_config: ConfigService) => ({
         store: 'memory', // Utiliser le cache mémoire pour simplifier
         ttl: 300000, // 5 minutes en millisecondes
       }),
@@ -77,7 +84,7 @@ import { HealthModule } from './health/health.module'
     // Bull Queue
     BullModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
+      useFactory: (_config: ConfigService) => ({
         redis: {
           host: config.get('REDIS_HOST', 'localhost'),
           port: config.get('REDIS_PORT', 6379),
@@ -89,7 +96,7 @@ import { HealthModule } from './health/health.module'
     // Keycloak
     KeycloakConnectModule.registerAsync({
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
+      useFactory: (_config: ConfigService) => ({
         authServerUrl: config.get('KEYCLOAK_AUTH_SERVER_URL'),
         realm: config.get('KEYCLOAK_REALM'),
         clientId: config.get('KEYCLOAK_CLIENT_ID'),

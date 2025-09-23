@@ -28,17 +28,17 @@ EMAIL_FROM=noreply@your-domain.com
 
 ```typescript
 // apps/web/src/lib/auth.ts
-import { NextAuthOptions } from "next-auth"
-import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import CredentialsProvider from "next-auth/providers/credentials"
-import GoogleProvider from "next-auth/providers/google"
-import EmailProvider from "next-auth/providers/email"
-import bcrypt from "bcryptjs"
-import { prisma } from "./prisma"
+import { NextAuthOptions } from 'next-auth'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import CredentialsProvider from 'next-auth/providers/credentials'
+import GoogleProvider from 'next-auth/providers/google'
+import EmailProvider from 'next-auth/providers/email'
+import bcrypt from 'bcryptjs'
+import { prisma } from './prisma'
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
-  
+
   // Providers optimisés pour production
   providers: [
     // Email Magic Links (recommandé pour B2B)
@@ -53,29 +53,29 @@ export const authOptions: NextAuthOptions = {
       },
       from: process.env.EMAIL_FROM,
     }),
-    
+
     // Credentials (existant)
     CredentialsProvider({
-      name: "credentials",
+      name: 'credentials',
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
         // Logique existante...
-      }
+      },
     }),
-    
+
     // Google OAuth
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-    })
+    }),
   ],
 
   // Session optimisée
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 jours
     updateAge: 24 * 60 * 60, // 24 heures
   },
@@ -89,7 +89,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user, account, profile }) {
       // Validation supplémentaire
-      if (account?.provider === "google") {
+      if (account?.provider === 'google') {
         // Vérifier domaine email autorisé si nécessaire
         const allowedDomains = process.env.ALLOWED_DOMAINS?.split(',') || []
         if (allowedDomains.length > 0) {
@@ -108,20 +108,21 @@ export const authOptions: NextAuthOptions = {
         token.id = user.id
         token.role = user.role
         token.tenantId = user.tenantId
-        
+
         // Ajouter les permissions
         const userWithMemberships = await prisma.user.findUnique({
           where: { id: user.id },
           include: {
             memberships: {
-              include: { tenant: true }
-            }
-          }
+              include: { tenant: true },
+            },
+          },
         })
-        
-        token.permissions = userWithMemberships?.memberships[0]?.permissions || {}
+
+        token.permissions =
+          userWithMemberships?.memberships[0]?.permissions || {}
       }
-      
+
       return token
     },
 
@@ -134,36 +135,36 @@ export const authOptions: NextAuthOptions = {
         session.user.permissions = token.permissions as Record<string, boolean>
       }
       return session
-    }
+    },
   },
 
   // Pages personnalisées
   pages: {
-    signIn: "/auth/signin",
-    signUp: "/auth/signup",
-    error: "/auth/error",
-    verifyRequest: "/auth/verify-request",
+    signIn: '/auth/signin',
+    signUp: '/auth/signup',
+    error: '/auth/error',
+    verifyRequest: '/auth/verify-request',
   },
 
   // Events pour logging
   events: {
     async signIn({ user, account, profile, isNewUser }) {
       console.log(`User ${user.email} signed in with ${account?.provider}`)
-      
+
       // Tracking analytics si nécessaire
       if (process.env.NODE_ENV === 'production') {
         // Envoyer à votre service d'analytics
       }
     },
-    
+
     async signOut({ token }) {
       console.log(`User ${token?.email} signed out`)
-    }
+    },
   },
 
   // Debug en développement uniquement
   debug: process.env.NODE_ENV === 'development',
-  
+
   // Secret sécurisé
   secret: process.env.NEXTAUTH_SECRET,
 }
@@ -173,8 +174,8 @@ export const authOptions: NextAuthOptions = {
 
 ```typescript
 // apps/web/src/middleware.ts
-import { withAuth } from "next-auth/middleware"
-import { NextResponse } from "next/server"
+import { withAuth } from 'next-auth/middleware'
+import { NextResponse } from 'next/server'
 
 export default withAuth(
   function middleware(req) {
@@ -227,9 +228,7 @@ export default withAuth(
 )
 
 export const config = {
-  matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|public/).*)',
-  ],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|public/).*)'],
 }
 ```
 
@@ -254,22 +253,22 @@ const errorMessages = {
 export default function AuthError() {
   const searchParams = useSearchParams()
   const error = searchParams.get('error') as keyof typeof errorMessages
-  
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50">
       <Card className="p-8 max-w-md w-full text-center">
         <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <AlertTriangle className="h-8 w-8 text-red-600" />
         </div>
-        
+
         <h1 className="text-2xl font-bold text-slate-900 mb-4">
           Erreur d'Authentification
         </h1>
-        
+
         <p className="text-slate-600 mb-6">
           {errorMessages[error] || errorMessages.Default}
         </p>
-        
+
         <div className="space-y-3">
           <Link href="/auth/signin">
             <Button className="w-full">
@@ -277,7 +276,7 @@ export default function AuthError() {
               Retour à la connexion
             </Button>
           </Link>
-          
+
           <Link href="/">
             <Button variant="outline" className="w-full">
               Accueil
@@ -293,18 +292,21 @@ export default function AuthError() {
 ## 🔒 Sécurité Production
 
 ### 1. Secrets et Clés
+
 - ✅ **NEXTAUTH_SECRET** généré avec `openssl rand -hex 32`
 - ✅ **Rotation des secrets** planifiée
 - ✅ **Variables d'environnement** sécurisées
 - ✅ **Pas de secrets** dans le code
 
 ### 2. HTTPS et Domaines
+
 - ✅ **HTTPS obligatoire** en production
 - ✅ **Domaines autorisés** configurés
 - ✅ **CORS** restrictif
 - ✅ **CSP headers** configurés
 
 ### 3. Sessions et Tokens
+
 - ✅ **Expiration appropriée** (30 jours max)
 - ✅ **Refresh automatique** des tokens
 - ✅ **Invalidation** lors de la déconnexion
@@ -313,12 +315,14 @@ export default function AuthError() {
 ## 📊 Monitoring et Logs
 
 ### Events à Tracker
+
 - Connexions réussies/échouées
 - Créations de comptes
 - Tentatives de fraude
 - Erreurs d'authentification
 
 ### Métriques Importantes
+
 - Temps de réponse auth
 - Taux de conversion signup
 - Erreurs par provider

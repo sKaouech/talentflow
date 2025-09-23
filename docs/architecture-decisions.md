@@ -18,13 +18,13 @@ Le choix entre REST et tRPC pour l'architecture API, dans un contexte de monorep
 
 ### Justification
 
-| Critère | tRPC | REST + OpenAPI | Gagnant |
-|---------|------|----------------|---------|
-| **DX (Developer Experience)** | ⭐⭐⭐⭐⭐ Type safety end-to-end | ⭐⭐⭐ Bonne avec codegen | tRPC |
-| **Intégrations tierces** | ⭐⭐ Limité aux clients TypeScript | ⭐⭐⭐⭐⭐ Universel | **REST** |
-| **n8n Compatibility** | ⭐⭐ Nécessite des adaptateurs | ⭐⭐⭐⭐⭐ Support natif | **REST** |
-| **Future-proof** | ⭐⭐⭐ Dépendant de l'adoption | ⭐⭐⭐⭐⭐ Standard universel | **REST** |
-| **Équipes mixtes** | ⭐⭐ Expertise TypeScript requise | ⭐⭐⭐⭐ Plus accessible | **REST** |
+| Critère                       | tRPC                               | REST + OpenAPI                | Gagnant  |
+| ----------------------------- | ---------------------------------- | ----------------------------- | -------- |
+| **DX (Developer Experience)** | ⭐⭐⭐⭐⭐ Type safety end-to-end  | ⭐⭐⭐ Bonne avec codegen     | tRPC     |
+| **Intégrations tierces**      | ⭐⭐ Limité aux clients TypeScript | ⭐⭐⭐⭐⭐ Universel          | **REST** |
+| **n8n Compatibility**         | ⭐⭐ Nécessite des adaptateurs     | ⭐⭐⭐⭐⭐ Support natif      | **REST** |
+| **Future-proof**              | ⭐⭐⭐ Dépendant de l'adoption     | ⭐⭐⭐⭐⭐ Standard universel | **REST** |
+| **Équipes mixtes**            | ⭐⭐ Expertise TypeScript requise  | ⭐⭐⭐⭐ Plus accessible      | **REST** |
 
 ### Conséquences
 
@@ -64,13 +64,13 @@ Choix de la solution d'authentification pour une plateforme SaaS multi-tenant av
 
 ### Justification
 
-| Critère | Keycloak | Auth0 | Gagnant |
-|---------|----------|-------|---------|
-| **Coût** | ⭐⭐⭐⭐⭐ Open source | ⭐⭐ $23/mois + $0.02/MAU | **Keycloak** |
-| **Data sovereignty** | ⭐⭐⭐⭐⭐ Contrôle total | ⭐⭐ Données chez un tiers | **Keycloak** |
-| **Customisation** | ⭐⭐⭐⭐⭐ Flexibilité totale | ⭐⭐⭐ Options limitées | **Keycloak** |
-| **Multi-tenant** | ⭐⭐⭐⭐ Realms + custom claims | ⭐⭐⭐⭐ Organizations + metadata | Égalité |
-| **Simplicité** | ⭐⭐ Configuration complexe | ⭐⭐⭐⭐⭐ Plug & play | Auth0 |
+| Critère              | Keycloak                        | Auth0                             | Gagnant      |
+| -------------------- | ------------------------------- | --------------------------------- | ------------ |
+| **Coût**             | ⭐⭐⭐⭐⭐ Open source          | ⭐⭐ $23/mois + $0.02/MAU         | **Keycloak** |
+| **Data sovereignty** | ⭐⭐⭐⭐⭐ Contrôle total       | ⭐⭐ Données chez un tiers        | **Keycloak** |
+| **Customisation**    | ⭐⭐⭐⭐⭐ Flexibilité totale   | ⭐⭐⭐ Options limitées           | **Keycloak** |
+| **Multi-tenant**     | ⭐⭐⭐⭐ Realms + custom claims | ⭐⭐⭐⭐ Organizations + metadata | Égalité      |
+| **Simplicité**       | ⭐⭐ Configuration complexe     | ⭐⭐⭐⭐⭐ Plug & play            | Auth0        |
 
 ### Conséquences
 
@@ -110,11 +110,11 @@ Stratégie de multi-tenancy pour isoler les données des différents clients tou
 
 ### Justification
 
-| Approche | Avantages | Inconvénients | Score |
-|----------|-----------|---------------|-------|
-| **Database per Tenant** | Isolation totale, backup granulaire | Coût élevé, maintenance complexe | ⭐⭐ |
-| **Schema per Tenant** | Isolation logique, coût modéré | Migrations complexes, limite PostgreSQL | ⭐⭐⭐ |
-| **Shared DB + RLS** | Performance, simplicité, économique | Configuration initiale, risque de fuite | ⭐⭐⭐⭐⭐ |
+| Approche                | Avantages                           | Inconvénients                           | Score      |
+| ----------------------- | ----------------------------------- | --------------------------------------- | ---------- |
+| **Database per Tenant** | Isolation totale, backup granulaire | Coût élevé, maintenance complexe        | ⭐⭐       |
+| **Schema per Tenant**   | Isolation logique, coût modéré      | Migrations complexes, limite PostgreSQL | ⭐⭐⭐     |
+| **Shared DB + RLS**     | Performance, simplicité, économique | Configuration initiale, risque de fuite | ⭐⭐⭐⭐⭐ |
 
 ### Implémentation
 
@@ -190,10 +190,10 @@ export function useTenders(filters: SearchTendersInput) {
 // Mutation avec optimistic updates
 export function useCreateTender() {
   const queryClient = useQueryClient()
-  
+
   return useMutation({
     mutationFn: tendersApi.create,
-    onSuccess: (newTender) => {
+    onSuccess: newTender => {
       queryClient.setQueryData(['tenders', newTender.id], newTender)
       queryClient.invalidateQueries(['tenders'])
     },
@@ -215,11 +215,11 @@ export function useCreateTender() {
 
 ### Justification
 
-| Outil | Performance | DX | Écosystème | Simplicité | Score |
-|-------|-------------|----|-----------|-----------:|-------|
-| **Lerna** | ⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
-| **Nx** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ |
-| **Turborepo** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Outil         | Performance | DX         | Écosystème | Simplicité | Score      |
+| ------------- | ----------- | ---------- | ---------- | ---------: | ---------- |
+| **Lerna**     | ⭐⭐        | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ |     ⭐⭐⭐ | ⭐⭐⭐     |
+| **Nx**        | ⭐⭐⭐⭐⭐  | ⭐⭐⭐⭐   | ⭐⭐⭐⭐   |       ⭐⭐ | ⭐⭐⭐⭐   |
+| **Turborepo** | ⭐⭐⭐⭐⭐  | ⭐⭐⭐⭐⭐ | ⭐⭐⭐     | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
 
 ### Avantages Turborepo
 
@@ -247,31 +247,34 @@ Génération de CV PDF avec des designs complexes et personnalisables.
 
 ### Justification
 
-| Solution | Qualité Rendu | Performance | Flexibilité | Maintenance |
-|----------|---------------|-------------|-------------|-------------|
-| **PDFKit** | ⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
-| **jsPDF** | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐ |
-| **Playwright** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| **Puppeteer** | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
+| Solution       | Qualité Rendu | Performance | Flexibilité | Maintenance |
+| -------------- | ------------- | ----------- | ----------- | ----------- |
+| **PDFKit**     | ⭐⭐          | ⭐⭐⭐⭐⭐  | ⭐⭐        | ⭐⭐⭐      |
+| **jsPDF**      | ⭐⭐          | ⭐⭐⭐⭐    | ⭐⭐        | ⭐⭐⭐      |
+| **Playwright** | ⭐⭐⭐⭐⭐    | ⭐⭐⭐      | ⭐⭐⭐⭐⭐  | ⭐⭐⭐⭐    |
+| **Puppeteer**  | ⭐⭐⭐⭐⭐    | ⭐⭐⭐⭐    | ⭐⭐⭐⭐⭐  | ⭐⭐⭐⭐⭐  |
 
 ### Implémentation
 
 ```typescript
 @Injectable()
 export class PDFGenerationService {
-  async generateCV(candidate: Candidate, template: CVTemplate): Promise<Buffer> {
+  async generateCV(
+    candidate: Candidate,
+    template: CVTemplate
+  ): Promise<Buffer> {
     const browser = await puppeteer.launch({ headless: true })
     const page = await browser.newPage()
-    
+
     const html = await this.renderTemplate(candidate, template)
     await page.setContent(html, { waitUntil: 'networkidle0' })
-    
+
     const pdf = await page.pdf({
       format: 'A4',
       printBackground: true,
-      margin: { top: '0.5in', bottom: '0.5in' }
+      margin: { top: '0.5in', bottom: '0.5in' },
     })
-    
+
     await browser.close()
     return pdf
   }
@@ -293,6 +296,7 @@ export class PDFGenerationService {
 ### Justification
 
 **Production** : Kubernetes
+
 - Scalabilité automatique
 - High availability
 - Service mesh (Istio)
@@ -300,6 +304,7 @@ export class PDFGenerationService {
 - Rolling deployments
 
 **Développement** : Docker Compose
+
 - Simplicité de setup
 - Développement local rapide
 - Coût réduit
@@ -324,30 +329,30 @@ spec:
         app: api
     spec:
       containers:
-      - name: api
-        image: registry.gitlab.com/talentflow/api:latest
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+        - name: api
+          image: registry.gitlab.com/talentflow/api:latest
+          resources:
+            requests:
+              memory: '256Mi'
+              cpu: '250m'
+            limits:
+              memory: '512Mi'
+              cpu: '500m'
 ```
 
 ---
 
 ## Résumé des Décisions
 
-| ADR | Décision | Statut | Impact |
-|-----|----------|--------|--------|
-| ADR-001 | REST + OpenAPI | ✅ | Architecture API |
-| ADR-002 | Keycloak | ✅ | Authentification |
-| ADR-003 | Shared DB + RLS | ✅ | Multi-tenancy |
-| ADR-004 | TanStack Query | ✅ | State Management |
-| ADR-005 | Turborepo | ✅ | Monorepo |
-| ADR-006 | Puppeteer | ✅ | PDF Generation |
-| ADR-007 | K8s + Docker Compose | ✅ | Déploiement |
+| ADR     | Décision             | Statut | Impact           |
+| ------- | -------------------- | ------ | ---------------- |
+| ADR-001 | REST + OpenAPI       | ✅     | Architecture API |
+| ADR-002 | Keycloak             | ✅     | Authentification |
+| ADR-003 | Shared DB + RLS      | ✅     | Multi-tenancy    |
+| ADR-004 | TanStack Query       | ✅     | State Management |
+| ADR-005 | Turborepo            | ✅     | Monorepo         |
+| ADR-006 | Puppeteer            | ✅     | PDF Generation   |
+| ADR-007 | K8s + Docker Compose | ✅     | Déploiement      |
 
 ---
 
@@ -363,21 +368,27 @@ spec:
 **Décideurs** : [Liste]
 
 ### Contexte
+
 [Description du problème]
 
 ### Options Considérées
+
 - Option 1
 - Option 2
 - Option 3
 
 ### Décision
+
 [Choix final avec justification]
 
 ### Conséquences
+
 **Positives** :
+
 - [Liste]
 
 **Négatives** :
+
 - [Liste]
 ```
 

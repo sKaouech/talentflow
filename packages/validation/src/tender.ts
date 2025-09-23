@@ -1,9 +1,20 @@
 import { z } from 'zod'
-import { idSchema, paginationSchema, searchSchema, dateRangeSchema } from './common'
+import {
+  idSchema,
+  paginationSchema,
+  searchSchema,
+  dateRangeSchema,
+} from './common'
 
 // Énumérations
 export const tenderTypeSchema = z.enum(['mission', 'cdi', 'freelance', 'stage'])
-export const tenderStatusSchema = z.enum(['draft', 'active', 'paused', 'closed', 'archived'])
+export const tenderStatusSchema = z.enum([
+  'draft',
+  'active',
+  'paused',
+  'closed',
+  'archived',
+])
 export const prioritySchema = z.enum(['low', 'medium', 'high', 'urgent'])
 export const remoteSchema = z.enum(['onsite', 'remote', 'hybrid'])
 
@@ -15,14 +26,14 @@ export const tenderSchema = z.object({
   content: z.string().min(1),
   source: z.string().min(1),
   sourceUrl: z.string().url().optional(),
-  
+
   // Classification
   type: tenderTypeSchema,
   domain: z.string().optional(),
   skills: z.array(z.string()).default([]),
   location: z.string().optional(),
   remote: remoteSchema.default('hybrid'),
-  
+
   // Détails mission
   startDate: z.string().datetime().optional(),
   endDate: z.string().datetime().optional(),
@@ -31,16 +42,16 @@ export const tenderSchema = z.object({
   currency: z.string().length(3).default('EUR'),
   clientName: z.string().optional(),
   clientIndustry: z.string().optional(),
-  
+
   // Workflow
   status: tenderStatusSchema.default('draft'),
   priority: prioritySchema.default('medium'),
   assignedTo: idSchema.optional(),
-  
+
   // Publication
   publishedAt: z.string().datetime().optional(),
   expiresAt: z.string().datetime().optional(),
-  
+
   // Métadonnées
   tenantId: idSchema,
   createdAt: z.string().datetime(),
@@ -65,22 +76,34 @@ export const updateTenderSchema = createTenderSchema.partial()
 export type UpdateTenderInput = z.infer<typeof updateTenderSchema>
 
 // Recherche de tenders
-export const searchTendersSchema = searchSchema.extend({
-  type: tenderTypeSchema.optional(),
-  status: tenderStatusSchema.optional(),
-  priority: prioritySchema.optional(),
-  remote: remoteSchema.optional(),
-  skills: z.array(z.string()).optional(),
-  location: z.string().optional(),
-  assignedTo: idSchema.optional(),
-  ...dateRangeSchema.shape,
-}).merge(paginationSchema)
+export const searchTendersSchema = searchSchema
+  .extend({
+    type: tenderTypeSchema.optional(),
+    status: tenderStatusSchema.optional(),
+    priority: prioritySchema.optional(),
+    remote: remoteSchema.optional(),
+    skills: z.array(z.string()).optional(),
+    location: z.string().optional(),
+    assignedTo: idSchema.optional(),
+    ...dateRangeSchema.shape,
+  })
+  .merge(paginationSchema)
 
 export type SearchTendersInput = z.infer<typeof searchTendersSchema>
 
 // Publication
-export const publicationStatusSchema = z.enum(['pending', 'published', 'failed', 'deleted'])
-export const platformSchema = z.enum(['linkedin', 'indeed', 'apec', 'leboncoin'])
+export const publicationStatusSchema = z.enum([
+  'pending',
+  'published',
+  'failed',
+  'deleted',
+])
+export const platformSchema = z.enum([
+  'linkedin',
+  'indeed',
+  'apec',
+  'leboncoin',
+])
 
 export const publicationSchema = z.object({
   id: idSchema,
