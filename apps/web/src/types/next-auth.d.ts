@@ -1,4 +1,4 @@
-import _NextAuth from 'next-auth'
+// Types pour NextAuth.js
 
 declare module 'next-auth' {
   interface Session {
