@@ -1,4 +1,4 @@
-// Testing utilities and helpers for TalentFlow
-export * from './src/test-utils'
+// @talentflow/testing - Testing utilities and mocks
 export * from './src/mocks'
+export * from './src/utils'
 export * from './src/factories'

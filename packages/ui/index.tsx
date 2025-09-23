@@ -1,9 +1,2 @@
-export * from './src/button'
-export * from './src/card'
-export * from './src/input'
-export * from './src/badge'
-export * from './src/table'
-export * from './src/dropdown-menu'
-export * from './src/avatar'
-export * from './src/progress'
-export * from './src/utils'
+// @talentflow/ui - Shared UI components
+export * from './src/components'

@@ -1,121 +1,57 @@
-// Factories pour créer des données de test
+/**
+ * Test data factories for generating mock data
+ */
 
-export interface TestUser {
+export interface MockUser {
   id: string
   email: string
-  firstName: string
-  lastName: string
-  passwordHash?: string
-  role: string
+  name: string
+  role: 'ADMIN' | 'MANAGER' | 'USER'
   tenantId: string
-  emailVerified?: Date
-  createdAt: Date
-  updatedAt: Date
+  createdAt: string
+  updatedAt: string
 }
 
-export interface TestTenant {
+export interface MockTenant {
   id: string
   name: string
   slug: string
-  plan: string
-  settings: Record<string, any>
-  branding: Record<string, any>
-  createdAt: Date
-  updatedAt: Date
+  domain?: string
+  createdAt: string
+  updatedAt: string
 }
 
-// Factory pour créer des utilisateurs de test
-export const userFactory = {
-  build: (overrides: Partial<TestUser> = {}): TestUser => ({
+/**
+ * Create a mock user for testing
+ */
+export function createMockUser(overrides: Partial<MockUser> = {}): MockUser {
+  const now = new Date().toISOString()
+  
+  return {
     id: `user-${Math.random().toString(36).substr(2, 9)}`,
-    email: `user-${Math.random().toString(36).substr(2, 5)}@example.com`,
-    firstName: 'Test',
-    lastName: 'User',
-    passwordHash: '$2b$12$hashed.password.example',
-    role: 'tenant_admin',
+    email: `test-${Math.random().toString(36).substr(2, 5)}@example.com`,
+    name: `Test User ${Math.random().toString(36).substr(2, 5)}`,
+    role: 'USER',
     tenantId: `tenant-${Math.random().toString(36).substr(2, 9)}`,
-    emailVerified: new Date(),
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    ...overrides
-  }),
-
-  buildMany: (count: number, overrides: Partial<TestUser> = []): TestUser[] => {
-    return Array.from({ length: count }, (_, index) => 
-      userFactory.build({ 
-        ...overrides, 
-        email: `user-${index}@example.com` 
-      })
-    )
+    createdAt: now,
+    updatedAt: now,
+    ...overrides,
   }
 }
 
-// Factory pour créer des tenants de test
-export const tenantFactory = {
-  build: (overrides: Partial<TestTenant> = {}): TestTenant => ({
-    id: `tenant-${Math.random().toString(36).substr(2, 9)}`,
-    name: `Test Company ${Math.random().toString(36).substr(2, 5)}`,
-    slug: `test-company-${Math.random().toString(36).substr(2, 5)}`,
-    plan: 'trial',
-    settings: {},
-    branding: {
-      primaryColor: '#3b82f6',
-      secondaryColor: '#1e40af'
-    },
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    ...overrides
-  }),
-
-  buildMany: (count: number, overrides: Partial<TestTenant> = {}): TestTenant[] => {
-    return Array.from({ length: count }, (_, index) => 
-      tenantFactory.build({ 
-        ...overrides, 
-        name: `Test Company ${index}`,
-        slug: `test-company-${index}`
-      })
-    )
+/**
+ * Create a mock tenant for testing
+ */
+export function createMockTenant(overrides: Partial<MockTenant> = {}): MockTenant {
+  const now = new Date().toISOString()
+  const randomId = Math.random().toString(36).substr(2, 9)
+  
+  return {
+    id: `tenant-${randomId}`,
+    name: `Test Company ${randomId}`,
+    slug: `test-company-${randomId}`,
+    createdAt: now,
+    updatedAt: now,
+    ...overrides,
   }
-}
-
-// Factory pour créer des données de formulaire
-export const formDataFactory = {
-  register: (overrides: any = {}) => ({
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john.doe@example.com',
-    password: 'password123',
-    tenantName: 'Acme Corporation',
-    ...overrides
-  }),
-
-  signin: (overrides: any = {}) => ({
-    email: 'john.doe@example.com',
-    password: 'password123',
-    ...overrides
-  })
-}
-
-// Factory pour créer des réponses API
-export const apiResponseFactory = {
-  success: (data: any = {}) => ({
-    ok: true,
-    status: 200,
-    json: jest.fn().mockResolvedValue(data)
-  }),
-
-  error: (status: number = 400, message: string = 'Error') => ({
-    ok: false,
-    status,
-    json: jest.fn().mockResolvedValue({ error: message })
-  }),
-
-  validationError: (errors: any[] = []) => ({
-    ok: false,
-    status: 400,
-    json: jest.fn().mockResolvedValue({
-      error: 'Données invalides',
-      details: errors
-    })
-  })
 }
