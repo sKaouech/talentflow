@@ -244,7 +244,7 @@ export default function AnalyticsPage() {
                 <span className="text-sm font-medium">Placements</span>
                 <span className="text-sm text-slate-600">23</span>
               </div>
-              <Progress value={25} variant="success" className="h-2" />
+              <Progress value={25} className="h-2" />
             </div>
           </div>
         </Card>

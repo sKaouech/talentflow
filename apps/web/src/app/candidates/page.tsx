@@ -248,7 +248,7 @@ export default function CandidatesPage() {
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <Avatar size="lg">
+                <Avatar className="h-12 w-12">
                   <AvatarImage src={candidate.avatar || undefined} />
                   <AvatarFallback>
                     {candidate.firstName[0]}

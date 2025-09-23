@@ -33,7 +33,7 @@ export default function TendersPage() {
   const getStatusVariant = (status: string) => {
     switch (status) {
       case 'active':
-        return 'success'
+        return 'default'
       case 'draft':
         return 'secondary'
       case 'closed':

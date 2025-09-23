@@ -49,14 +49,14 @@ function UserProfile() {
   }
 
   const userInitials =
-    session.user.firstName && session.user.lastName
-      ? `${session.user.firstName[0]}${session.user.lastName[0]}`
+    session.user.name
+      ? session.user.name.split(' ').map(n => n[0]).join('').toUpperCase()
       : session.user.email?.[0]?.toUpperCase() || 'U'
 
   return (
     <div className="border-t border-slate-200 p-4">
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
+        <DropdownMenuTrigger>
           <button className="flex items-center space-x-3 w-full text-left hover:bg-slate-50 rounded-lg p-2 transition-colors">
             <div className="w-10 h-10 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center">
               <span className="text-white font-medium text-sm">
@@ -65,7 +65,7 @@ function UserProfile() {
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-slate-900 truncate">
-                {session.user.firstName} {session.user.lastName}
+                  {session.user.name || session.user.email}
               </p>
               <p className="text-xs text-slate-500 truncate">
                 {session.user.email}
@@ -74,7 +74,7 @@ function UserProfile() {
             <ChevronDown className="h-4 w-4 text-slate-400" />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
+        <DropdownMenuContent className="w-56">
           <DropdownMenuItem>
             <Settings className="h-4 w-4 mr-2" />
             Paramètres

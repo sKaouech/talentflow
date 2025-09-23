@@ -6,9 +6,9 @@ export default withAuth(
   },
   {
     callbacks: {
-      authorized: ({ token, _req }) => {
+      authorized: ({ token, req }) => {
         // Vérifier si l'utilisateur est authentifié
-        if (_req.nextUrl.pathname.startsWith('/auth/')) {
+        if (req.nextUrl.pathname.startsWith('/auth/')) {
           // Les pages d'auth sont accessibles sans connexion
           return true
         }

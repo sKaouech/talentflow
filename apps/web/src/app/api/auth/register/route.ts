@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { registerSchema } from '@talentflow/validation'
+import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 
 export async function POST(request: Request) {
@@ -83,8 +84,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error: 'Erreur lors de la création du compte',
-        details: error.message || error.toString(),
-        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+        details: error instanceof Error ? error.message : String(error),
+        stack: process.env.NODE_ENV === 'development' && error instanceof Error ? error.stack : undefined,
       },
       { status: 500 }
     )
