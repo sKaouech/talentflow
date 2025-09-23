@@ -1,154 +1,44 @@
-// Types utilitaires génériques
+/**
+ * Common types shared across the application
+ */
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean
   data?: T
-  error?: {
-    code: string
-    message: string
-    details?: any
-  }
-  meta?: {
-    pagination?: {
-      page: number
-      limit: number
-      total: number
-      pages: number
-    }
-    timestamp: string
-    version: string
-  }
+  error?: string
+  message?: string
 }
 
-export interface PaginatedResponse<T> {
-  items: T[]
+export interface PaginatedResponse<T> extends ApiResponse<T[]> {
   pagination: {
     page: number
     limit: number
     total: number
-    pages: number
+    totalPages: number
   }
 }
 
-export interface SearchFilters {
-  [key: string]: any
-}
-
-export interface SortOptions {
-  field: string
-  order: 'asc' | 'desc'
-}
-
-export interface FileUploadResult {
+export interface User {
   id: string
-  filename: string
-  originalName: string
-  mimeType: string
-  size: number
-  url: string
+  email: string
+  name?: string
+  role: UserRole
+  tenantId: string
+  createdAt: string
+  updatedAt: string
 }
 
-export interface NotificationData {
+export enum UserRole {
+  ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+  USER = 'USER',
+}
+
+export interface Tenant {
   id: string
-  type: 'info' | 'success' | 'warning' | 'error'
-  title: string
-  message: string
-  timestamp: string
-  read: boolean
-  actions?: Array<{
-    label: string
-    action: string
-    data?: any
-  }>
-}
-
-export interface AuditLogData {
-  id: string
-  action: string
-  resource: string
-  resourceId?: string
-  oldValues?: Record<string, any>
-  newValues?: Record<string, any>
-  metadata: Record<string, any>
-  ipAddress?: string
-  userAgent?: string
-  userId?: string
-  tenantId?: string
-  occurredAt: string
-}
-
-export interface WebhookPayload {
-  event: string
-  data: any
-  timestamp: string
-  signature: string
-}
-
-export interface IntegrationConfig {
-  enabled: boolean
-  settings: Record<string, any>
-  webhookUrl?: string
-  apiKey?: string
-}
-
-export interface CVGenerationOptions {
-  templateId: string
-  customization?: {
-    colors?: {
-      primary?: string
-      secondary?: string
-    }
-    fonts?: {
-      heading?: string
-      body?: string
-    }
-    sections?: {
-      [key: string]: boolean
-    }
-  }
-  format: 'pdf' | 'docx'
-}
-
-export interface PublicationOptions {
-  platform: 'linkedin' | 'indeed' | 'apec' | 'leboncoin'
-  scheduledAt?: string
-  customContent?: {
-    title?: string
-    description?: string
-    hashtags?: string[]
-  }
-}
-
-export interface AnalyticsData {
-  period: {
-    start: string
-    end: string
-  }
-  metrics: {
-    [key: string]: {
-      value: number
-      change?: number
-      changePercent?: number
-    }
-  }
-  charts: {
-    [key: string]: Array<{
-      date: string
-      value: number
-    }>
-  }
-}
-
-export interface SystemHealth {
-  status: 'healthy' | 'degraded' | 'down'
-  services: {
-    [serviceName: string]: {
-      status: 'healthy' | 'degraded' | 'down'
-      responseTime?: number
-      lastCheck: string
-      error?: string
-    }
-  }
-  uptime: number
-  version: string
+  name: string
+  slug: string
+  domain?: string
+  createdAt: string
+  updatedAt: string
 }

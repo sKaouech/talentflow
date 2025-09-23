@@ -1,6 +1,3 @@
-export * from './src/tenant'
-export * from './src/user'
-export * from './src/tender'
-export * from './src/candidate'
-export * from './src/auth'
-export * from './src/common'
+// @talentflow/validation - Zod schemas and validation
+export * from './src/schemas'
+export * from './src/types'
