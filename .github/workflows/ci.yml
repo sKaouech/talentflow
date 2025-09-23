@@ -1,0 +1,439 @@
+name: 🚀 CI/CD Pipeline - TalentFlow
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+  PNPM_VERSION: '8.15.6'
+
+jobs:
+  # ===================================
+  # Tests et Qualité de Code
+  # ===================================
+  test:
+    name: 🧪 Tests & Quality
+    runs-on: ubuntu-latest
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_USER: test_user
+          POSTGRES_DB: talentflow_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: 📦 Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: 📦 Setup pnpm cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: 📦 Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🔍 Lint Code
+        run: pnpm lint
+
+      - name: 🔧 Type Check
+        run: pnpm type-check
+
+      - name: 🏗️ Build Packages
+        run: pnpm build
+
+      - name: 🗄️ Setup Test Database
+        env:
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/talentflow_test
+        run: |
+          pnpm db:push
+
+      - name: 🧪 Run Unit Tests
+        env:
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/talentflow_test
+        run: pnpm test:unit
+
+      - name: 🔗 Run Integration Tests
+        env:
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/talentflow_test
+        run: pnpm test:integration
+
+      - name: 📊 Generate Coverage Report
+        env:
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/talentflow_test
+        run: pnpm test:coverage
+
+      - name: 📈 Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: talentflow-coverage
+
+  # ===================================
+  # Tests End-to-End
+  # ===================================
+  e2e:
+    name: 🎭 E2E Tests
+    runs-on: ubuntu-latest
+    needs: test
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_USER: test_user
+          POSTGRES_DB: talentflow_e2e
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - name: 📦 Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🗄️ Setup E2E Database
+        env:
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/talentflow_e2e
+        run: |
+          pnpm db:push
+
+      - name: 🎭 Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: 🏗️ Build Application
+        env:
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/talentflow_e2e
+        run: pnpm build
+
+      - name: 🎭 Run E2E Tests
+        env:
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/talentflow_e2e
+        run: pnpm test:e2e
+
+      - name: 📸 Upload E2E Artifacts
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report/
+          retention-days: 7
+
+  # ===================================
+  # Build et Push Docker Images
+  # ===================================
+  build:
+    name: 🐳 Build Docker Images
+    runs-on: ubuntu-latest
+    needs: [test, e2e]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🔐 Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🏷️ Extract Metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: 🔧 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🐳 Build and Push Docker Image
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./docker/Dockerfile.prod
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ===================================
+  # Scan de Sécurité
+  # ===================================
+  security:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Run Trivy Vulnerability Scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ghcr.io/${{ github.repository }}:${{ github.sha }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: 📊 Upload Trivy Scan Results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # ===================================
+  # Déploiement Développement
+  # ===================================
+  deploy-dev:
+    name: 🚀 Deploy to Development
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: github.ref == 'refs/heads/develop'
+    environment: development
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🔐 Setup SSH Key
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: 🚀 Deploy to Development Server
+        env:
+          SERVER_HOST: ${{ secrets.DEV_SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          IMAGE_TAG: ${{ needs.build.outputs.image-tag }}
+        run: |
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
+            # Créer le répertoire de déploiement
+            mkdir -p /opt/talentflow/dev
+            cd /opt/talentflow/dev
+            
+            # Télécharger la configuration Docker
+            curl -o docker-compose.dev.yml https://raw.githubusercontent.com/${{ github.repository }}/develop/docker/docker-compose.dev.yml
+            
+            # Login au registry GitHub
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            
+            # Déployer la nouvelle version
+            export IMAGE_TAG=${{ needs.build.outputs.image-tag }}
+            docker-compose -f docker-compose.dev.yml pull
+            docker-compose -f docker-compose.dev.yml up -d --remove-orphans
+            
+            # Vérifier le déploiement
+            sleep 30
+            curl -f http://localhost:3001/api/health || exit 1
+            
+            # Nettoyer les anciennes images
+            docker image prune -f
+          EOF
+
+      - name: 🔔 Notify Deployment Success
+        if: success()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          text: '🚀 TalentFlow DEV déployé avec succès!'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+  # ===================================
+  # Déploiement Production
+  # ===================================
+  deploy-prod:
+    name: 🏭 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build, security]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 🔐 Setup SSH Key
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: 🏭 Deploy to Production Server
+        env:
+          SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          IMAGE_TAG: ${{ needs.build.outputs.image-tag }}
+        run: |
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
+            # Créer le répertoire de déploiement
+            mkdir -p /opt/talentflow/prod
+            cd /opt/talentflow/prod
+            
+            # Backup de la version actuelle
+            if [ -f docker-compose.prod.yml ]; then
+              docker-compose -f docker-compose.prod.yml logs --tail=1000 > backup-$(date +%Y%m%d-%H%M%S).log
+            fi
+            
+            # Télécharger la configuration Docker
+            curl -o docker-compose.prod.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker/docker-compose.prod.yml
+            
+            # Login au registry GitHub
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            
+            # Déploiement Blue-Green
+            export IMAGE_TAG=${{ needs.build.outputs.image-tag }}
+            docker-compose -f docker-compose.prod.yml pull
+            
+            # Démarrer les nouveaux conteneurs
+            docker-compose -f docker-compose.prod.yml up -d --remove-orphans
+            
+            # Health check
+            sleep 60
+            for i in {1..10}; do
+              if curl -f http://localhost:3000/api/health; then
+                echo "✅ Health check passed"
+                break
+              fi
+              echo "⏳ Waiting for application... ($i/10)"
+              sleep 10
+            done
+            
+            # Nettoyer les anciennes images
+            docker image prune -f
+          EOF
+
+      - name: 🔔 Notify Production Deployment
+        if: success()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          text: '🏭 TalentFlow PROD déployé avec succès!'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: 🚨 Rollback on Failure
+        if: failure()
+        env:
+          SERVER_HOST: ${{ secrets.PROD_SERVER_HOST }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+        run: |
+          ssh -o StrictHostKeyChecking=no $SERVER_USER@$SERVER_HOST << 'EOF'
+            cd /opt/talentflow/prod
+            # Rollback à la version précédente si disponible
+            if [ -f docker-compose.prod.yml.backup ]; then
+              mv docker-compose.prod.yml.backup docker-compose.prod.yml
+              docker-compose -f docker-compose.prod.yml up -d --remove-orphans
+            fi
+          EOF
+
+  # ===================================
+  # Tests Post-Déploiement
+  # ===================================
+  smoke-tests:
+    name: 💨 Smoke Tests
+    runs-on: ubuntu-latest
+    needs: [deploy-dev, deploy-prod]
+    if: always() && (needs.deploy-dev.result == 'success' || needs.deploy-prod.result == 'success')
+
+    strategy:
+      matrix:
+        environment: 
+          - ${{ github.ref == 'refs/heads/develop' && 'dev' || 'prod' }}
+
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 💨 Run Smoke Tests
+        env:
+          TEST_URL: ${{ matrix.environment == 'dev' && secrets.DEV_URL || secrets.PROD_URL }}
+        run: |
+          # Tests de santé de base
+          echo "🔍 Testing $TEST_URL"
+          
+          # Health check
+          curl -f $TEST_URL/api/health
+          
+          # Page d'accueil
+          curl -f $TEST_URL/
+          
+          # API status
+          curl -f $TEST_URL/api/status
+          
+          echo "✅ Smoke tests passed!"
+
+      - name: 📊 Performance Test
+        env:
+          TEST_URL: ${{ matrix.environment == 'dev' && secrets.DEV_URL || secrets.PROD_URL }}
+        run: |
+          # Test de performance simple avec curl
+          echo "⚡ Performance test for $TEST_URL"
+          time curl -w "@curl-format.txt" -o /dev/null -s $TEST_URL/
+        continue-on-error: true

@@ -1,0 +1,415 @@
+# ===================================
+# Docker Compose - Environnement Production
+# TalentFlow - Configuration pour 148.230.114.13
+# ===================================
+
+version: '3.8'
+
+services:
+  # ===================================
+  # Base de Données PostgreSQL Production
+  # ===================================
+  postgres-prod:
+    image: postgres:15-alpine
+    container_name: talentflow-postgres-prod
+    restart: always
+    environment:
+      POSTGRES_DB: talentflow_prod
+      POSTGRES_USER: talentflow_prod
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+      - ./backups:/backups
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "127.0.0.1:5432:5432"  # Bind seulement sur localhost pour sécurité
+    networks:
+      - talentflow-prod
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U talentflow_prod -d talentflow_prod"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ===================================
+  # Redis Production
+  # ===================================
+  redis-prod:
+    image: redis:7-alpine
+    container_name: talentflow-redis-prod
+    restart: always
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD} --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_prod_data:/data
+    ports:
+      - "127.0.0.1:6379:6379"  # Bind seulement sur localhost
+    networks:
+      - talentflow-prod
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ===================================
+  # API Backend Production
+  # ===================================
+  api-prod:
+    image: ${IMAGE_TAG:-ghcr.io/your-org/talentflow:latest}
+    container_name: talentflow-api-prod
+    restart: always
+    target: api-runtime
+    environment:
+      # Base de données
+      DATABASE_URL: postgresql://talentflow_prod:${POSTGRES_PASSWORD}@postgres-prod:5432/talentflow_prod
+      
+      # Redis
+      REDIS_URL: redis://:${REDIS_PASSWORD}@redis-prod:6379
+      
+      # Application
+      NODE_ENV: production
+      PORT: 3001
+      API_VERSION: v1
+      
+      # Sécurité
+      JWT_SECRET: ${JWT_SECRET}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY}
+      
+      # CORS
+      CORS_ORIGINS: https://talentflow.seyka.fr,https://www.talentflow.seyka.fr,http://148.230.114.13
+      
+      # Logs
+      LOG_LEVEL: info
+      
+      # Rate Limiting (Production - Plus restrictif)
+      RATE_LIMIT_TTL: 60
+      RATE_LIMIT_MAX: 60
+      
+      # File Upload
+      MAX_FILE_SIZE: 10485760
+      UPLOAD_PATH: /app/uploads
+      
+      # Email Production
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      SMTP_SECURE: ${SMTP_SECURE:-true}
+      EMAIL_FROM: ${EMAIL_FROM:-noreply@talentflow.com}
+      
+      # Monitoring
+      ENABLE_METRICS: true
+      METRICS_PORT: 9464
+      
+      # Keycloak (Future)
+      KEYCLOAK_URL: ${KEYCLOAK_URL}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM:-talentflow}
+      KEYCLOAK_CLIENT_ID: ${KEYCLOAK_CLIENT_ID}
+      KEYCLOAK_CLIENT_SECRET: ${KEYCLOAK_CLIENT_SECRET}
+
+    volumes:
+      - api_prod_uploads:/app/uploads
+      - api_prod_logs:/app/logs
+    ports:
+      - "127.0.0.1:3001:3001"  # Bind seulement sur localhost (via reverse proxy)
+    networks:
+      - talentflow-prod
+    depends_on:
+      postgres-prod:
+        condition: service_healthy
+      redis-prod:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3001/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+
+  # ===================================
+  # Application Web Production
+  # ===================================
+  web-prod:
+    image: ${IMAGE_TAG:-ghcr.io/your-org/talentflow:latest}
+    container_name: talentflow-web-prod
+    restart: always
+    target: web-runtime
+    environment:
+      # Next.js
+      NODE_ENV: production
+      PORT: 3000
+      
+      # API
+      NEXT_PUBLIC_API_URL: https://talentflow.seyka.fr/api
+      API_URL: http://api-prod:3001/api
+      
+      # Auth
+      NEXTAUTH_URL: https://talentflow.seyka.fr
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      
+      # Database (pour NextAuth)
+      DATABASE_URL: postgresql://talentflow_prod:${POSTGRES_PASSWORD}@postgres-prod:5432/talentflow_prod
+      
+      # OAuth Providers Production
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      
+      # Features Flags Production
+      FEATURE_ANALYTICS: true
+      FEATURE_NOTIFICATIONS: true
+      FEATURE_BETA: false
+      
+      # Sentry (Error Tracking)
+      SENTRY_DSN: ${SENTRY_DSN}
+      SENTRY_ENVIRONMENT: production
+      
+      # Analytics
+      GOOGLE_ANALYTICS_ID: ${GOOGLE_ANALYTICS_ID}
+      
+      # CDN
+      NEXT_PUBLIC_CDN_URL: ${CDN_URL}
+
+    ports:
+      - "127.0.0.1:3000:3000"  # Bind seulement sur localhost (via reverse proxy)
+    networks:
+      - talentflow-prod
+    depends_on:
+      api-prod:
+        condition: service_healthy
+      postgres-prod:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/api/auth/session || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+
+  # ===================================
+  # Reverse Proxy Nginx
+  # ===================================
+  nginx-prod:
+    image: nginx:alpine
+    container_name: talentflow-nginx-prod
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/sites-enabled:/etc/nginx/sites-enabled:ro
+      - ./ssl:/etc/nginx/ssl:ro
+      - nginx_logs:/var/log/nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - talentflow-prod
+    depends_on:
+      - web-prod
+      - api-prod
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+  # ===================================
+  # MinIO Production (Stockage Fichiers)
+  # ===================================
+  minio-prod:
+    image: minio/minio:latest
+    container_name: talentflow-minio-prod
+    restart: always
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+      MINIO_SERVER_URL: https://files.talentflow.com
+      MINIO_BROWSER_REDIRECT_URL: https://console.files.talentflow.com
+    volumes:
+      - minio_prod_data:/data
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    networks:
+      - talentflow-prod
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ===================================
+  # Backup Service
+  # ===================================
+  backup-prod:
+    image: postgres:15-alpine
+    container_name: talentflow-backup-prod
+    restart: "no"
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./backups:/backups
+      - ./scripts:/scripts
+    networks:
+      - talentflow-prod
+    depends_on:
+      - postgres-prod
+    command: /scripts/backup.sh
+    profiles:
+      - backup
+
+  # ===================================
+  # Monitoring Production
+  # ===================================
+  prometheus-prod:
+    image: prom/prometheus:latest
+    container_name: talentflow-prometheus-prod
+    restart: always
+    ports:
+      - "127.0.0.1:9090:9090"
+    volumes:
+      - ./monitoring/prometheus.prod.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_prod_data:/prometheus
+    networks:
+      - talentflow-prod
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    profiles:
+      - monitoring
+
+  grafana-prod:
+    image: grafana/grafana:latest
+    container_name: talentflow-grafana-prod
+    restart: always
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
+      GF_SERVER_DOMAIN: monitoring.talentflow.com
+      GF_SERVER_ROOT_URL: https://monitoring.talentflow.com
+    ports:
+      - "127.0.0.1:3002:3000"
+    volumes:
+      - grafana_prod_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    networks:
+      - talentflow-prod
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    profiles:
+      - monitoring
+
+# ===================================
+# Volumes Persistants Production
+# ===================================
+volumes:
+  postgres_prod_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/talentflow/data/postgres
+      o: bind
+  redis_prod_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/talentflow/data/redis
+      o: bind
+  api_prod_uploads:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/talentflow/data/uploads
+      o: bind
+  api_prod_logs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/talentflow/logs/api
+      o: bind
+  minio_prod_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/talentflow/data/minio
+      o: bind
+  nginx_logs:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/talentflow/logs/nginx
+      o: bind
+  prometheus_prod_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/talentflow/data/prometheus
+      o: bind
+  grafana_prod_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /opt/talentflow/data/grafana
+      o: bind
+
+# ===================================
+# Réseau Production
+# ===================================
+networks:
+  talentflow-prod:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.21.0.0/16

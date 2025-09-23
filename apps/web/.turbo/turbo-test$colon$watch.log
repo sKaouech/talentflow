@@ -1,0 +1,4 @@
+
+> @talentflow/web@0.0.0 test:watch /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web
+> jest --watch
+

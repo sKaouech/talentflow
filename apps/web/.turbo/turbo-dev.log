@@ -1,0 +1,135 @@
+
+> @talentflow/web@0.0.0 dev /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web
+> next dev
+
+  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+  - Local:        http://localhost:3000
+  - Environments: .env.local
+
+ [32m[1m✓[22m[39m Starting...
+ [32m[1m✓[22m[39m Ready in 1164ms
+ [32m[1m✓[22m[39m Compiled /src/middleware in 102ms (174 modules)
+ [37m[1m○[22m[39m Compiling /auth/signup ...
+ [32m[1m✓[22m[39m Compiled /auth/signup in 1272ms (792 modules)
+ GET /auth/signup [32m200[39m in 1469ms
+ [32m[1m✓[22m[39m Compiled in 167ms (400 modules)
+ [32m[1m✓[22m[39m Compiled /api/auth/[...nextauth] in 221ms (635 modules)
+ GET /api/auth/session [32m200[39m in 485ms
+ GET /api/auth/session [32m200[39m in 5ms
+ GET /api/auth/session [32m200[39m in 2ms
+ GET /api/auth/signin?callbackUrl=%2F.well-known%2Fappspecific%2Fcom.chrome.devtools.json [34m302[39m in 5ms
+ [32m[1m✓[22m[39m Compiled /auth/signin in 173ms (1029 modules)
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F.well-known%2Fappspecific%2Fcom.chrome.devtools.json [32m200[39m in 228ms
+ [32m[1m✓[22m[39m Compiled /api/auth/register in 135ms (676 modules)
+Registration error: PrismaClientKnownRequestError: 
+Invalid `prisma.tenant.create()` invocation:
+
+
+Unique constraint failed on the fields: (`slug`)
+    at $n.handleRequestError (webpack-internal:///(rsc)/../../node_modules/[4m.pnpm[24m/@prisma+client@5.22.0_prisma@5.22.0/node_modules/[4m@prisma/client[24m/runtime/library.js:121:7315)
+    at $n.handleAndLogRequestError (webpack-internal:///(rsc)/../../node_modules/[4m.pnpm[24m/@prisma+client@5.22.0_prisma@5.22.0/node_modules/[4m@prisma/client[24m/runtime/library.js:121:6623)
+    at $n.request (webpack-internal:///(rsc)/../../node_modules/[4m.pnpm[24m/@prisma+client@5.22.0_prisma@5.22.0/node_modules/[4m@prisma/client[24m/runtime/library.js:121:6307)
+    at async l (webpack-internal:///(rsc)/../../node_modules/[4m.pnpm[24m/@prisma+client@5.22.0_prisma@5.22.0/node_modules/[4m@prisma/client[24m/runtime/library.js:130:9578)
+    at async POST (webpack-internal:///(rsc)/./src/app/api/auth/register/route.ts:41:24)
+    at async /Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/compiled/next-server/app-route.runtime.dev.js:6:57228
+    at async eT.execute (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/compiled/next-server/app-route.runtime.dev.js:6:46851)
+    at async eT.handle (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/compiled/next-server/app-route.runtime.dev.js:6:58760)
+    at async doRender (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/base-server.js:1366:42)
+    at async cacheEntry.responseCache.get.routeKind (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/base-server.js:1588:28)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/base-server.js:1496:28)
+    at async DevServer.renderPageComponent (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/base-server.js:1924:24)
+    at async DevServer.renderToResponseImpl (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/base-server.js:1962:32)
+    at async DevServer.pipeImpl (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/base-server.js:922:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/next-server.js:272:17)
+    at async DevServer.handleRequestImpl (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/base-server.js:818:17)
+    at async /Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/dev/next-dev-server.js:339:20
+    at async Span.traceAsyncFn (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/trace/trace.js:154:20)
+    at async DevServer.handleRequest (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/dev/next-dev-server.js:336:24)
+    at async invokeRender (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/lib/router-server.js:179:21)
+    at async handleRequest (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/lib/router-server.js:359:24)
+    at async requestHandlerImpl (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/lib/router-server.js:383:13)
+    at async Server.requestListener (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/[4m.pnpm[24m/next@14.2.32_react-dom@18.3.1_react@18.3.1/node_modules/[4mnext[24m/dist/server/lib/start-server.js:141:13) {
+  code: [32m'P2002'[39m,
+  clientVersion: [32m'5.22.0'[39m,
+  meta: { modelName: [32m'Tenant'[39m, target: [ [32m'slug'[39m ] }
+}
+ POST /api/auth/register [31m500[39m in 429ms
+ POST /api/auth/register [32m200[39m in 252ms
+ GET /api/auth/providers [32m200[39m in 50ms
+ GET /api/auth/csrf [32m200[39m in 3ms
+ POST /api/auth/callback/credentials [32m200[39m in 226ms
+ GET /api/auth/session [32m200[39m in 5ms
+ [32m[1m✓[22m[39m Compiled / in 229ms (1084 modules)
+ GET /api/auth/session [32m200[39m in 137ms
+ GET /api/auth/session [32m200[39m in 6ms
+ GET /api/auth/session [32m200[39m in 4ms
+ [32m[1m✓[22m[39m Compiled in 91ms (396 modules)
+ [32m[1m✓[22m[39m Compiled /api/auth/[...nextauth] in 55ms (648 modules)
+ GET /api/auth/session [32m200[39m in 108ms
+ [32m[1m✓[22m[39m Compiled in 101ms (396 modules)
+ [32m[1m✓[22m[39m Compiled /api/auth/[...nextauth] in 89ms (648 modules)
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 154ms
+ [32m[1m✓[22m[39m Compiled /auth/signin in 123ms (653 modules)
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 174ms
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 24ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 9ms
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 33ms
+ GET /auth/signup [32m200[39m in 70ms
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 49ms
+ GET /auth/signin [32m200[39m in 103ms
+ GET /auth/signup [32m200[39m in 117ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 156ms
+ GET /auth/signin [32m200[39m in 198ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 350ms
+ GET /api/auth/session [32m200[39m in 232ms
+ GET /api/auth/session [32m200[39m in 63ms
+ GET /api/auth/session [32m200[39m in 62ms
+ GET /api/auth/session [32m200[39m in 62ms
+ GET /api/auth/session [32m200[39m in 274ms
+ GET /api/auth/session [32m200[39m in 122ms
+ GET /api/auth/session [32m200[39m in 243ms
+ GET /api/auth/session [32m200[39m in 233ms
+ GET /api/auth/session [32m200[39m in 209ms
+ GET /api/auth/session [32m200[39m in 61ms
+ GET /api/auth/session [32m200[39m in 176ms
+ GET /api/auth/session [32m200[39m in 149ms
+ GET /api/auth/session [32m200[39m in 13ms
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 4ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 14ms
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 2ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 11ms
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 6ms
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 6ms
+ GET /auth/signup [32m200[39m in 53ms
+ GET /auth/signup [32m200[39m in 53ms
+ GET /auth/signin [32m200[39m in 53ms
+ GET /auth/signin [32m200[39m in 62ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 103ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 115ms
+ GET /api/auth/session [32m200[39m in 24ms
+ GET /api/auth/session [32m200[39m in 23ms
+ GET /api/auth/session [32m200[39m in 23ms
+ GET /api/auth/session [32m200[39m in 23ms
+ GET /api/auth/session [32m200[39m in 17ms
+ GET /api/auth/session [32m200[39m in 17ms
+ GET /api/auth/session [32m200[39m in 17ms
+ GET /api/auth/session [32m200[39m in 17ms
+ GET /api/auth/session [32m200[39m in 19ms
+ GET /api/auth/session [32m200[39m in 11ms
+ GET /api/auth/session [32m200[39m in 10ms
+ GET /api/auth/session [32m200[39m in 9ms
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 2ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 11ms
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 2ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 10ms
+ GET /api/auth/signin?callbackUrl=%2F [34m302[39m in 7ms
+ GET /auth/signup [32m200[39m in 19ms
+ GET /auth/signin [32m200[39m in 20ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F [32m200[39m in 40ms
+ GET /api/auth/session [32m200[39m in 7ms
+ GET /api/auth/session [32m200[39m in 5ms
+ GET /api/auth/session [32m200[39m in 10ms
+ GET /api/auth/session [32m200[39m in 9ms
+ GET /api/auth/session [32m200[39m in 8ms
+ GET /api/auth/session [32m200[39m in 8ms
+[?25h

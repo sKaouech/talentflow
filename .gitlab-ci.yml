@@ -1,0 +1,246 @@
+# Pipeline CI/CD GitLab pour TalentFlow
+image: node:18-alpine
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+  # Variables à définir dans GitLab CI/CD
+  # DOCKER_REGISTRY: registry.gitlab.com/your-project
+  # DATABASE_URL: postgresql://...
+  # KEYCLOAK_AUTH_SERVER_URL: https://...
+
+# Cache pour accélérer les builds
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - .pnpm-store/
+
+# Étapes du pipeline
+stages:
+  - install
+  - lint
+  - test
+  - build
+  - deploy
+
+# Installation des dépendances
+install:
+  stage: install
+  before_script:
+    - npm install -g pnpm
+    - pnpm config set store-dir .pnpm-store
+  script:
+    - pnpm install --frozen-lockfile
+  artifacts:
+    paths:
+      - node_modules/
+      - .pnpm-store/
+    expire_in: 1 hour
+
+# Linting et vérification du code
+lint:
+  stage: lint
+  dependencies:
+    - install
+  before_script:
+    - npm install -g pnpm
+  script:
+    - pnpm turbo lint
+    - pnpm turbo type-check
+  allow_failure: false
+
+# Tests unitaires
+test:
+  stage: test
+  dependencies:
+    - install
+  before_script:
+    - npm install -g pnpm
+  script:
+    - pnpm turbo test
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    paths:
+      - coverage/
+    expire_in: 1 week
+
+# Build des applications
+build:
+  stage: build
+  dependencies:
+    - install
+  before_script:
+    - npm install -g pnpm
+  script:
+    # Générer le client Prisma
+    - pnpm turbo db:generate
+    # Build de toutes les applications
+    - pnpm turbo build
+  artifacts:
+    paths:
+      - apps/*/dist/
+      - apps/*/.next/
+    expire_in: 1 hour
+
+# Build des images Docker (uniquement sur main)
+build-docker:
+  stage: build
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  dependencies:
+    - install
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+  script:
+    # Build de l'image API
+    - |
+      docker build \
+        -t $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA \
+        -t $CI_REGISTRY_IMAGE/api:latest \
+        -f apps/api/Dockerfile .
+    
+    # Build de l'image Web
+    - |
+      docker build \
+        --build-arg NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL \
+        -t $CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHA \
+        -t $CI_REGISTRY_IMAGE/web:latest \
+        -f apps/web/Dockerfile .
+    
+    # Push des images
+    - docker push $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/api:latest
+    - docker push $CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE/web:latest
+  only:
+    - main
+    - develop
+
+# Tests de sécurité avec Trivy
+security-scan:
+  stage: build
+  image: aquasec/trivy:latest
+  dependencies: []
+  script:
+    # Scanner les vulnérabilités dans les dépendances
+    - trivy fs --exit-code 1 --severity HIGH,CRITICAL .
+    # Scanner les images Docker si elles existent
+    - |
+      if docker image ls | grep -q "$CI_REGISTRY_IMAGE/api"; then
+        trivy image --exit-code 1 --severity HIGH,CRITICAL $CI_REGISTRY_IMAGE/api:latest
+      fi
+  allow_failure: true
+  only:
+    - main
+    - develop
+
+# Déploiement en staging
+deploy-staging:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  environment:
+    name: staging
+    url: https://staging.talentflow.com
+  before_script:
+    - kubectl config use-context $KUBE_CONTEXT_STAGING
+  script:
+    # Appliquer les manifests Kubernetes
+    - kubectl apply -f k8s/staging/
+    
+    # Mettre à jour les images
+    - kubectl set image deployment/api-deployment api=$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
+    - kubectl set image deployment/web-deployment web=$CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHA
+    
+    # Attendre le rollout
+    - kubectl rollout status deployment/api-deployment --timeout=300s
+    - kubectl rollout status deployment/web-deployment --timeout=300s
+    
+    # Exécuter les migrations de base de données
+    - kubectl run migration-$CI_COMMIT_SHA --image=$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA --restart=Never --command -- pnpm db:migrate
+    - kubectl wait --for=condition=complete --timeout=300s job/migration-$CI_COMMIT_SHA
+    - kubectl delete job migration-$CI_COMMIT_SHA
+  only:
+    - develop
+
+# Déploiement en production
+deploy-production:
+  stage: deploy
+  image: bitnami/kubectl:latest
+  environment:
+    name: production
+    url: https://talentflow.com
+  before_script:
+    - kubectl config use-context $KUBE_CONTEXT_PRODUCTION
+  script:
+    # Appliquer les manifests Kubernetes
+    - kubectl apply -f k8s/production/
+    
+    # Mettre à jour les images
+    - kubectl set image deployment/api-deployment api=$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA
+    - kubectl set image deployment/web-deployment web=$CI_REGISTRY_IMAGE/web:$CI_COMMIT_SHA
+    
+    # Attendre le rollout
+    - kubectl rollout status deployment/api-deployment --timeout=600s
+    - kubectl rollout status deployment/web-deployment --timeout=600s
+    
+    # Exécuter les migrations de base de données
+    - kubectl run migration-$CI_COMMIT_SHA --image=$CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHA --restart=Never --command -- pnpm db:migrate
+    - kubectl wait --for=condition=complete --timeout=600s job/migration-$CI_COMMIT_SHA
+    - kubectl delete job migration-$CI_COMMIT_SHA
+  when: manual
+  only:
+    - main
+
+# Nettoyage des anciennes images Docker
+cleanup:
+  stage: deploy
+  image: docker:20.10.16
+  services:
+    - docker:20.10.16-dind
+  before_script:
+    - echo $CI_REGISTRY_PASSWORD | docker login -u $CI_REGISTRY_USER --password-stdin $CI_REGISTRY
+  script:
+    # Conserver seulement les 10 dernières images
+    - |
+      for repo in api web; do
+        IMAGES=$(docker run --rm -e REGISTRY_TOKEN="$CI_REGISTRY_PASSWORD" \
+          registry.gitlab.com/gitlab-org/docker-distribution-pruner:latest \
+          -registry $CI_REGISTRY \
+          -user $CI_REGISTRY_USER \
+          -password $CI_REGISTRY_PASSWORD \
+          -repository $CI_PROJECT_PATH/$repo \
+          -keep 10 \
+          -dry-run=false)
+      done
+  when: manual
+  only:
+    - main
+
+# Job pour les notifications Slack/Teams (optionnel)
+notify:
+  stage: deploy
+  image: alpine:latest
+  dependencies: []
+  before_script:
+    - apk add --no-cache curl
+  script:
+    - |
+      if [ "$CI_JOB_STATUS" = "success" ]; then
+        MESSAGE="✅ Déploiement réussi de TalentFlow ($CI_COMMIT_REF_NAME) - $CI_COMMIT_MESSAGE"
+      else
+        MESSAGE="❌ Échec du déploiement de TalentFlow ($CI_COMMIT_REF_NAME) - $CI_COMMIT_MESSAGE"
+      fi
+      
+      curl -X POST -H 'Content-type: application/json' \
+        --data "{\"text\":\"$MESSAGE\"}" \
+        $SLACK_WEBHOOK_URL
+  when: always
+  only:
+    - main
+    - develop

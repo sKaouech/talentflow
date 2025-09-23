@@ -1,0 +1,14 @@
+
+
+> @talentflow/testing@0.0.0 test /Users/seyfkaoueche/Documents/work/project/talentflow/packages/testing
+> jest "--testPathPattern=integration"
+
+[1m[2mDetermining test suites to run...[22m[22m[999D[K[1mNo tests found, exiting with code 1[22m
+Run with `--passWithNoTests` to exit with code 0
+In [1m/Users/seyfkaoueche/Documents/work/project/talentflow/packages/testing[22m
+  7 files checked.
+  testMatch: [33m/Users/seyfkaoueche/Documents/work/project/talentflow/packages/testing/**/__tests__/**/*.(ts|tsx|js), /Users/seyfkaoueche/Documents/work/project/talentflow/packages/testing/**/*.(test|spec).(ts|tsx|js)[39m - 0 matches
+  testPathIgnorePatterns: [33m/node_modules/[39m - 7 matches
+  testRegex:  - 0 matches
+Pattern: [33mintegration[39m - 0 matches
+[41m[30m ELIFECYCLE [39m[49m [31mTest failed. See above for more details.[39m

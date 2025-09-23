@@ -1,0 +1,15 @@
+
+> @talentflow/database@0.0.0 db:push /Users/seyfkaoueche/Documents/work/project/talentflow/packages/database
+> prisma db push
+
+Environment variables loaded from .env
+Prisma schema loaded from prisma/schema.prisma
+Datasource "db": PostgreSQL database "talentflow", schema "public" at "localhost:5433"
+
+🚀  Your database is now in sync with your Prisma schema. Done in 64ms
+
+Running generate... (Use --skip-generate to skip the generators)
+[2K[1A[2K[GRunning generate... - Prisma Client
+[2K[1A[2K[G✔ Generated Prisma Client (v5.22.0) to ./../../node_modules/.pnpm/@prisma+client
+@5.22.0_prisma@5.22.0/node_modules/@prisma/client in 87ms
+

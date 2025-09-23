@@ -1,0 +1,738 @@
+// Schéma Prisma pour TalentFlow - Plateforme SaaS Multi-tenant
+// Architecture: PostgreSQL avec Row Level Security (RLS)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// CORE: Tenancy & Users
+// ============================================================================
+
+/// Tenant représente une organisation (ESN, cabinet de conseil, etc.)
+model Tenant {
+  id        String   @id @default(cuid())
+  name      String   // Nom de l'organisation
+  slug      String   @unique // URL-friendly identifier
+  logo      String?  // URL du logo
+  website   String?  // Site web de l'organisation
+  industry  String?  // Secteur d'activité
+  size      String?  // Taille de l'entreprise
+  
+  // Configuration
+  settings  Json     @default("{}")
+  branding  Json     @default("{}") // Couleurs, fonts pour les CV
+  
+  // Abonnement et facturation
+  plan             String    @default("free") // free, pro, enterprise
+  stripeCustomerId String?   @unique
+  subscriptionId   String?   @unique
+  trialEndsAt      DateTime?
+  
+  // Métadonnées
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  
+  // Relations
+  users            User[]           // Utilisateurs appartenant à ce tenant
+  memberships      Membership[]
+  tenders          Tender[]
+  candidates       Candidate[]
+  cvTemplates      CVTemplate[]
+  cvExports        CVExport[]
+  linkedinAccounts LinkedInAccount[]
+  subscriptions    Subscription[]
+  auditLogs        AuditLog[]
+  fileObjects      FileObject[]
+  workflows        Workflow[]
+  
+  @@map("tenants")
+  @@index([slug])
+  @@index([plan])
+  @@index([deletedAt])
+}
+
+/// Utilisateur du système (peut appartenir à plusieurs tenants)
+model User {
+  id            String   @id @default(cuid())
+  keycloakId    String?  @unique // ID depuis Keycloak (optionnel pour NextAuth.js)
+  email         String   @unique
+  firstName     String
+  lastName      String
+  avatar        String?
+  phone         String?
+  locale        String   @default("fr")
+  timezone      String   @default("Europe/Paris")
+  
+  // Champs NextAuth.js
+  emailVerified DateTime?
+  passwordHash  String?   // Hash du mot de passe pour NextAuth.js
+  role          String    @default("viewer") // Rôle par défaut
+  
+  // Préférences
+  preferences   Json     @default("{}")
+  
+  // Métadonnées
+  lastLoginAt   DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  deletedAt     DateTime?
+  
+  // Relations
+  tenant        Tenant?      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId      String?
+  memberships   Membership[]
+  auditLogs     AuditLog[]
+  
+  // Relations NextAuth.js
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+  @@index([keycloakId])
+  @@index([email])
+  @@index([deletedAt])
+}
+
+/// Appartenance d'un utilisateur à un tenant avec un rôle
+model Membership {
+  id        String   @id @default(cuid())
+  role      String   // tenant_admin, manager, recruiter, viewer
+  status    String   @default("active") // active, suspended, pending
+  
+  // Relations
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId  String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  
+  // Métadonnées
+  joinedAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@unique([tenantId, userId])
+  @@map("memberships")
+  @@index([tenantId])
+  @@index([userId])
+  @@index([role])
+}
+
+// ============================================================================
+// RBAC: Permissions
+// ============================================================================
+
+/// Permissions disponibles dans le système
+model Permission {
+  id          String @id @default(cuid())
+  name        String @unique // ex: "tenders.create", "candidates.read"
+  description String
+  module      String // tenders, candidates, users, billing, etc.
+  
+  // Relations
+  rolePermissions RolePermission[]
+  
+  @@map("permissions")
+  @@index([module])
+}
+
+/// Association rôle-permission
+model RolePermission {
+  id           String     @id @default(cuid())
+  role         String     // tenant_admin, manager, recruiter, viewer
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  permissionId String
+  
+  @@unique([role, permissionId])
+  @@map("role_permissions")
+  @@index([role])
+}
+
+// ============================================================================
+// BUSINESS: Appels d'Offres
+// ============================================================================
+
+/// Appel d'offres
+model Tender {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  content     String   // Contenu complet de l'AO
+  source      String   // manual, email, scraping, api
+  sourceUrl   String?  // URL d'origine si applicable
+  
+  // Classification
+  type        String   // mission, cdi, freelance, stage
+  domain      String?  // tech, finance, marketing, etc.
+  skills      String[] // Technologies/compétences requises
+  location    String?  // Lieu de la mission
+  remote      String   @default("hybrid") // onsite, remote, hybrid
+  
+  // Détails mission
+  startDate      DateTime?
+  endDate        DateTime?
+  duration       String?    // "6 mois", "CDI", etc.
+  dailyRate      Decimal?   @db.Decimal(10,2)
+  currency       String     @default("EUR")
+  clientName     String?
+  clientIndustry String?
+  
+  // Workflow
+  status         String     @default("draft") // draft, active, paused, closed, archived
+  priority       String     @default("medium") // low, medium, high, urgent
+  assignedTo     String?    // ID du responsable
+  
+  // Publication
+  publishedAt    DateTime?
+  expiresAt      DateTime?
+  
+  // Relations
+  tenant         Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId       String
+  publications   Publication[]
+  applications   Application[]
+  
+  // Métadonnées
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  deletedAt      DateTime?
+  
+  @@map("tenders")
+  @@index([tenantId])
+  @@index([status])
+  @@index([type])
+  @@index([publishedAt])
+  @@index([expiresAt])
+  @@index([deletedAt])
+}
+
+/// Publication d'un AO sur une plateforme (LinkedIn, etc.)
+model Publication {
+  id          String   @id @default(cuid())
+  platform    String   // linkedin, indeed, apec, etc.
+  platformId  String?  // ID du post sur la plateforme
+  status      String   @default("pending") // pending, published, failed, deleted
+  
+  // Contenu adapté à la plateforme
+  title       String
+  content     String
+  hashtags    String[]
+  
+  // Métadonnées de publication
+  publishedAt DateTime?
+  scheduledAt DateTime?
+  errorMessage String?
+  engagement  Json      @default("{}") // likes, shares, comments
+  
+  // Relations
+  tender      Tender    @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+  tenderId    String
+  
+  // Métadonnées
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@map("publications")
+  @@index([tenderId])
+  @@index([platform])
+  @@index([status])
+  @@index([publishedAt])
+}
+
+// ============================================================================
+// BUSINESS: Candidats & CV
+// ============================================================================
+
+/// Candidat (interne ou externe)
+model Candidate {
+  id            String   @id @default(cuid())
+  type          String   // internal, external, freelance
+  
+  // Informations personnelles
+  firstName     String
+  lastName      String
+  email         String
+  phone         String?
+  linkedinUrl   String?
+  githubUrl     String?
+  portfolioUrl  String?
+  
+  // Localisation
+  location      String?
+  remote        String   @default("hybrid") // onsite, remote, hybrid
+  mobility      String[] // Villes où le candidat peut travailler
+  
+  // Profil professionnel
+  title         String?  // "Développeur Full-Stack", "Chef de projet"
+  summary       String?  // Résumé professionnel
+  availability  String?  // "Immédiate", "1 mois", etc.
+  desiredSalary Decimal? @db.Decimal(10,2)
+  currency      String   @default("EUR")
+  
+  // Métadonnées
+  status        String   @default("active") // active, inactive, archived
+  source        String   @default("manual") // manual, linkedin, referral, etc.
+  tags          String[] // Tags personnalisés
+  notes         String?  // Notes internes
+  
+  // Relations
+  tenant        Tenant        @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId      String
+  experiences   Experience[]
+  educations    Education[]
+  skills        CandidateSkill[]
+  applications  Application[]
+  cvExports     CVExport[]
+  
+  // Métadonnées
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  deletedAt     DateTime?
+  
+  @@map("candidates")
+  @@index([tenantId])
+  @@index([type])
+  @@index([status])
+  @@index([email])
+  @@index([deletedAt])
+}
+
+/// Expérience professionnelle d'un candidat
+model Experience {
+  id           String    @id @default(cuid())
+  company      String
+  position     String
+  description  String?
+  location     String?
+  startDate    DateTime
+  endDate      DateTime?
+  isCurrent    Boolean   @default(false)
+  
+  // Technologies/compétences utilisées
+  technologies String[]
+  achievements String[] // Réalisations marquantes
+  
+  // Relations
+  candidate    Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  candidateId  String
+  
+  // Métadonnées
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  
+  @@map("experiences")
+  @@index([candidateId])
+  @@index([startDate])
+}
+
+/// Formation d'un candidat
+model Education {
+  id          String    @id @default(cuid())
+  institution String
+  degree      String    // "Master", "Licence", "Certification"
+  field       String?   // Domaine d'étude
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  isCurrent   Boolean   @default(false)
+  
+  // Relations
+  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  candidateId String
+  
+  // Métadonnées
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@map("educations")
+  @@index([candidateId])
+}
+
+/// Compétences d'un candidat avec niveau
+model CandidateSkill {
+  id          String    @id @default(cuid())
+  name        String
+  category    String?   // "Frontend", "Backend", "Database", etc.
+  level       String    @default("intermediate") // beginner, intermediate, advanced, expert
+  yearsExp    Int?      // Années d'expérience
+  
+  // Relations
+  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  candidateId String
+  
+  @@unique([candidateId, name])
+  @@map("candidate_skills")
+  @@index([candidateId])
+  @@index([category])
+}
+
+/// Candidature à un appel d'offres
+model Application {
+  id          String    @id @default(cuid())
+  status      String    @default("applied") // applied, shortlisted, interviewed, rejected, hired
+  
+  // Contenu de la candidature
+  coverLetter String?
+  proposal    String?   // Proposition commerciale pour les freelances
+  rate        Decimal?  @db.Decimal(10,2) // Taux journalier proposé
+  
+  // Suivi
+  appliedAt   DateTime  @default(now())
+  respondedAt DateTime?
+  notes       String?   // Notes du recruteur
+  
+  // Relations
+  tender      Tender    @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+  tenderId    String
+  candidate   Candidate @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  candidateId String
+  
+  // Métadonnées
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  @@unique([tenderId, candidateId])
+  @@map("applications")
+  @@index([tenderId])
+  @@index([candidateId])
+  @@index([status])
+}
+
+// ============================================================================
+// CV GENERATION
+// ============================================================================
+
+/// Template de CV personnalisable
+model CVTemplate {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  
+  // Design
+  layout      String   @default("modern") // modern, classic, creative
+  colors      Json     // Palette de couleurs
+  fonts       Json     // Configuration des polices
+  sections    Json     // Configuration des sections
+  
+  // Métadonnées
+  isDefault   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  
+  // Relations
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId    String
+  cvExports   CVExport[]
+  
+  // Métadonnées
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@map("cv_templates")
+  @@index([tenantId])
+  @@index([isDefault])
+}
+
+/// Export de CV généré
+model CVExport {
+  id           String     @id @default(cuid())
+  filename     String
+  format       String     @default("pdf") // pdf, docx
+  
+  // Métadonnées du fichier
+  fileSize     Int?       // Taille en bytes
+  fileUrl      String?    // URL du fichier généré
+  
+  // Configuration utilisée
+  template     CVTemplate @relation(fields: [templateId], references: [id])
+  templateId   String
+  customization Json      @default("{}") // Personnalisations spécifiques
+  
+  // Relations
+  candidate    Candidate  @relation(fields: [candidateId], references: [id], onDelete: Cascade)
+  candidateId  String
+  tenant       Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId     String
+  
+  // Métadonnées
+  generatedAt  DateTime   @default(now())
+  expiresAt    DateTime?  // Date d'expiration du lien
+  downloadCount Int       @default(0)
+  
+  @@map("cv_exports")
+  @@index([candidateId])
+  @@index([templateId])
+  @@index([tenantId])
+  @@index([generatedAt])
+}
+
+// ============================================================================
+// INTEGRATIONS
+// ============================================================================
+
+/// Compte LinkedIn connecté pour publication automatique
+model LinkedInAccount {
+  id           String   @id @default(cuid())
+  linkedinId   String   @unique
+  name         String
+  email        String
+  profileUrl   String?
+  
+  // Tokens OAuth
+  accessToken  String
+  refreshToken String?
+  expiresAt    DateTime
+  
+  // Permissions
+  scopes       String[] // w_member_social, etc.
+  
+  // Relations
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId     String
+  
+  // Métadonnées
+  connectedAt  DateTime @default(now())
+  lastUsedAt   DateTime?
+  isActive     Boolean  @default(true)
+  
+  @@map("linkedin_accounts")
+  @@index([tenantId])
+  @@index([linkedinId])
+}
+
+/// Workflows n8n configurés
+model Workflow {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  type         String   // publication, scraping, notification
+  
+  // Configuration n8n
+  n8nWorkflowId String?
+  webhookUrl    String?
+  isActive      Boolean  @default(true)
+  
+  // Configuration
+  config       Json     @default("{}")
+  
+  // Relations
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId     String
+  events       IntegrationEvent[]
+  
+  // Métadonnées
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  @@map("workflows")
+  @@index([tenantId])
+  @@index([type])
+}
+
+/// Événements d'intégration (logs des appels n8n, etc.)
+model IntegrationEvent {
+  id         String   @id @default(cuid())
+  type       String   // webhook, api_call, error
+  status     String   // success, error, pending
+  
+  // Données
+  payload    Json?
+  response   Json?
+  error      String?
+  
+  // Relations
+  workflow   Workflow? @relation(fields: [workflowId], references: [id], onDelete: SetNull)
+  workflowId String?
+  
+  // Métadonnées
+  occurredAt DateTime @default(now())
+  
+  @@map("integration_events")
+  @@index([workflowId])
+  @@index([type])
+  @@index([status])
+  @@index([occurredAt])
+}
+
+// ============================================================================
+// BILLING & SUBSCRIPTIONS
+// ============================================================================
+
+/// Plans d'abonnement disponibles
+model Plan {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  description  String?
+  
+  // Tarification
+  price        Decimal  @db.Decimal(10,2)
+  currency     String   @default("EUR")
+  interval     String   // month, year
+  
+  // Limites
+  limits       Json     // { "tenders": 100, "candidates": 1000, "users": 10 }
+  features     String[] // Liste des fonctionnalités
+  
+  // Stripe
+  stripePriceId String  @unique
+  
+  // Métadonnées
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  // Relations
+  subscriptions Subscription[]
+  
+  @@map("plans")
+}
+
+/// Abonnement d'un tenant
+model Subscription {
+  id                String   @id @default(cuid())
+  status            String   // active, canceled, past_due, incomplete
+  
+  // Stripe
+  stripeSubscriptionId String @unique
+  stripePriceId        String
+  stripeCustomerId     String
+  
+  // Période
+  currentPeriodStart   DateTime
+  currentPeriodEnd     DateTime
+  cancelAtPeriodEnd    Boolean @default(false)
+  canceledAt           DateTime?
+  
+  // Relations
+  tenant    Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId  String
+  plan      Plan   @relation(fields: [planId], references: [id])
+  planId    String
+  
+  // Métadonnées
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  @@map("subscriptions")
+  @@index([tenantId])
+  @@index([status])
+}
+
+// ============================================================================
+// FILE STORAGE
+// ============================================================================
+
+/// Fichiers stockés (CV, logos, etc.)
+model FileObject {
+  id          String   @id @default(cuid())
+  filename    String
+  originalName String
+  mimeType    String
+  size        Int      // Taille en bytes
+  
+  // Stockage
+  storageProvider String // s3, minio, local
+  bucketName      String
+  objectKey       String
+  url             String?
+  
+  // Métadonnées
+  metadata    Json     @default("{}")
+  
+  // Relations
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantId    String
+  
+  // Métadonnées
+  uploadedAt  DateTime @default(now())
+  expiresAt   DateTime?
+  
+  @@map("file_objects")
+  @@index([tenantId])
+  @@index([storageProvider])
+  @@index([uploadedAt])
+}
+
+// ============================================================================
+// AUDIT & LOGS
+// ============================================================================
+
+/// Logs d'audit pour traçabilité
+model AuditLog {
+  id         String   @id @default(cuid())
+  action     String   // create, update, delete, login, etc.
+  resource   String   // tender, candidate, user, etc.
+  resourceId String?
+  
+  // Détails
+  oldValues  Json?
+  newValues  Json?
+  metadata   Json     @default("{}")
+  
+  // Contexte
+  ipAddress  String?
+  userAgent  String?
+  
+  // Relations
+  tenant     Tenant?  @relation(fields: [tenantId], references: [id], onDelete: SetNull)
+  tenantId   String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId     String?
+  
+  // Métadonnées
+  occurredAt DateTime @default(now())
+  
+  @@map("audit_logs")
+  @@index([tenantId])
+  @@index([userId])
+  @@index([resource])
+  @@index([action])
+  @@index([occurredAt])
+}
+
+// ===================================
+// Modèles NextAuth.js
+// ===================================
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}

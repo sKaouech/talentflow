@@ -1,0 +1,5 @@
+
+
+> @talentflow/web@0.0.0 test:e2e /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web
+> playwright test
+

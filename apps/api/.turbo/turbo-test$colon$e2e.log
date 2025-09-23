@@ -1,0 +1,15 @@
+
+
+> @talentflow/api@0.0.0 test:e2e /Users/seyfkaoueche/Documents/work/project/talentflow/apps/api
+> jest --config ./test/jest-e2e.json
+
+[999D[K[999D[K[31mError: Can't find a root directory while resolving a config file path.[39m
+[31mProvided path to resolve: ./test/jest-e2e.json[39m
+[31mcwd: /Users/seyfkaoueche/Documents/work/project/talentflow/apps/api[39m
+[31m    at resolveConfigPath (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/.pnpm/jest-config@29.7.0_@types+node@20.19.17_ts-node@10.9.2/node_modules/jest-config/build/resolveConfigPath.js:123:11)[39m
+[31m    at readInitialOptions (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/.pnpm/jest-config@29.7.0_@types+node@20.19.17_ts-node@10.9.2/node_modules/jest-config/build/index.js:386:55)[39m
+[31m    at readConfig (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/.pnpm/jest-config@29.7.0_@types+node@20.19.17_ts-node@10.9.2/node_modules/jest-config/build/index.js:147:54)[39m
+[31m    at readConfigs (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/.pnpm/jest-config@29.7.0_@types+node@20.19.17_ts-node@10.9.2/node_modules/jest-config/build/index.js:424:32)[39m
+[31m    at runCLI (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/.pnpm/@jest+core@29.7.0_ts-node@10.9.2/node_modules/@jest/core/build/cli/index.js:152:29)[39m
+[31m    at Object.run (/Users/seyfkaoueche/Documents/work/project/talentflow/node_modules/.pnpm/jest-cli@29.7.0_@types+node@20.19.17_ts-node@10.9.2/node_modules/jest-cli/build/run.js:130:62)[39m
+[41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 1.[39m

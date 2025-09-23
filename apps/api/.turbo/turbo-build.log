@@ -1,0 +1,73 @@
+
+> @talentflow/api@0.0.0 build /Users/seyfkaoueche/Documents/work/project/talentflow/apps/api
+> nest build
+
+[96msrc/tenders/tenders.service.ts[0m:[93m31[0m:[93m9[0m - [91merror[0m[90m TS2322: [0mType '{ tenantId: string; startDate: Date; endDate: Date; publishedAt: Date; type?: "mission" | "cdi" | "freelance" | "stage"; status?: "active" | "draft" | "paused" | "closed" | "archived"; ... 16 more ...; expiresAt?: string; }' is not assignable to type '(Without<TenderCreateInput, TenderUncheckedCreateInput> & TenderUncheckedCreateInput) | (Without<...> & TenderCreateInput)'.
+  Type '{ tenantId: string; startDate: Date; endDate: Date; publishedAt: Date; type?: "mission" | "cdi" | "freelance" | "stage"; status?: "active" | "draft" | "paused" | "closed" | "archived"; ... 16 more ...; expiresAt?: string; }' is not assignable to type 'Without<TenderUncheckedCreateInput, TenderCreateInput> & TenderCreateInput'.
+    Type '{ tenantId: string; startDate: Date; endDate: Date; publishedAt: Date; type?: "mission" | "cdi" | "freelance" | "stage"; status?: "active" | "draft" | "paused" | "closed" | "archived"; ... 16 more ...; expiresAt?: string; }' is not assignable to type 'Without<TenderUncheckedCreateInput, TenderCreateInput>'.
+      Types of property 'tenantId' are incompatible.
+        Type 'string' is not assignable to type 'never'.
+
+[7m31[0m         data: {
+[7m  [0m [91m        ~~~~[0m
+
+  [96m../../node_modules/.pnpm/@prisma+client@5.22.0_prisma@5.22.0/node_modules/.prisma/client/index.d.ts[0m:[93m9219[0m:[93m5[0m
+    [7m9219[0m     data: XOR<TenderCreateInput, TenderUncheckedCreateInput>
+    [7m    [0m [96m    ~~~~[0m
+    The expected type comes from property 'data' which is declared here on type '{ select?: TenderSelect<DefaultArgs>; include?: TenderInclude<DefaultArgs>; data: (Without<TenderCreateInput, TenderUncheckedCreateInput> & TenderUncheckedCreateInput) | (Without<...> & TenderCreateInput); }'
+[96m../../packages/shared/src/errors.ts[0m:[93m50[0m:[93m10[0m - [91merror[0m[90m TS2540: [0mCannot assign to 'code' because it is a read-only property.
+
+[7m50[0m     this.code = 'SCHEMA_VALIDATION_FAILED'
+[7m  [0m [91m         ~~~~[0m
+[96m../../packages/shared/src/errors.ts[0m:[93m74[0m:[93m10[0m - [91merror[0m[90m TS2540: [0mCannot assign to 'code' because it is a read-only property.
+
+[7m74[0m     this.code = 'DUPLICATE_RESOURCE'
+[7m  [0m [91m         ~~~~[0m
+[96m../../packages/shared/src/errors.ts[0m:[93m83[0m:[93m10[0m - [91merror[0m[90m TS2540: [0mCannot assign to 'code' because it is a read-only property.
+
+[7m83[0m     this.code = 'TENANT_NOT_FOUND'
+[7m  [0m [91m         ~~~~[0m
+[96m../../packages/shared/src/errors.ts[0m:[93m91[0m:[93m10[0m - [91merror[0m[90m TS2540: [0mCannot assign to 'code' because it is a read-only property.
+
+[7m91[0m     this.code = 'TENANT_ACCESS_DENIED'
+[7m  [0m [91m         ~~~~[0m
+[96m../../packages/shared/src/errors.ts[0m:[93m114[0m:[93m10[0m - [91merror[0m[90m TS2540: [0mCannot assign to 'code' because it is a read-only property.
+
+[7m114[0m     this.code = 'FILE_SIZE_LIMIT_EXCEEDED'
+[7m   [0m [91m         ~~~~[0m
+[96m../../packages/shared/src/errors.ts[0m:[93m122[0m:[93m10[0m - [91merror[0m[90m TS2540: [0mCannot assign to 'code' because it is a read-only property.
+
+[7m122[0m     this.code = 'FILE_TYPE_NOT_ALLOWED'
+[7m   [0m [91m         ~~~~[0m
+[96m../../packages/shared/src/errors.ts[0m:[93m138[0m:[93m10[0m - [91merror[0m[90m TS2540: [0mCannot assign to 'code' because it is a read-only property.
+
+[7m138[0m     this.code = 'LINKEDIN_INTEGRATION_FAILED'
+[7m   [0m [91m         ~~~~[0m
+[96m../../packages/shared/src/errors.ts[0m:[93m146[0m:[93m10[0m - [91merror[0m[90m TS2540: [0mCannot assign to 'code' because it is a read-only property.
+
+[7m146[0m     this.code = 'N8N_INTEGRATION_FAILED'
+[7m   [0m [91m         ~~~~[0m
+[96m../../packages/shared/src/errors.ts[0m:[93m162[0m:[93m10[0m - [91merror[0m[90m TS2540: [0mCannot assign to 'code' because it is a read-only property.
+
+[7m162[0m     this.code = 'SUBSCRIPTION_ERROR'
+[7m   [0m [91m         ~~~~[0m
+[96m../../packages/shared/src/errors.ts[0m:[93m186[0m:[93m10[0m - [91merror[0m[90m TS2540: [0mCannot assign to 'code' because it is a read-only property.
+
+[7m186[0m     this.code = 'DATABASE_CONNECTION_FAILED'
+[7m   [0m [91m         ~~~~[0m
+[96msrc/tenders/tenders.controller.ts[0m:[93m148[0m:[93m9[0m - [91merror[0m[90m TS2742: [0mThe inferred type of 'getPublications' cannot be named without a reference to '../../../../packages/database/node_modules/@prisma/client/runtime/library'. This is likely not portable. A type annotation is necessary.
+
+[7m148[0m   async getPublications(
+[7m   [0m [91m        ~~~~~~~~~~~~~~~[0m
+[96msrc/tenders/tenders.controller.ts[0m:[93m162[0m:[93m9[0m - [91merror[0m[90m TS2742: [0mThe inferred type of 'createPublication' cannot be named without a reference to '../../../../packages/database/node_modules/@prisma/client/runtime/library'. This is likely not portable. A type annotation is necessary.
+
+[7m162[0m   async createPublication(
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~~[0m
+[96msrc/tenders/tenders.controller.ts[0m:[93m177[0m:[93m9[0m - [91merror[0m[90m TS2742: [0mThe inferred type of 'publishPublication' cannot be named without a reference to '../../../../packages/database/node_modules/@prisma/client/runtime/library'. This is likely not portable. A type annotation is necessary.
+
+[7m177[0m   async publishPublication(
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~~~[0m
+
+Found 14 error(s).
+
+ ELIFECYCLE  Command failed with exit code 1.

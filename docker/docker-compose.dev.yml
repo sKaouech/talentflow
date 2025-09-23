@@ -1,0 +1,256 @@
+# ===================================
+# Docker Compose - Environnement Développement
+# TalentFlow - Configuration pour 148.230.114.13
+# ===================================
+
+version: '3.8'
+
+services:
+  # ===================================
+  # Base de Données PostgreSQL
+  # ===================================
+  postgres-dev:
+    image: postgres:15-alpine
+    container_name: talentflow-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: talentflow_dev
+      POSTGRES_USER: talentflow_dev
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dev_secure_password_123}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "5433:5432"
+    networks:
+      - talentflow-dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U talentflow_dev -d talentflow_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ===================================
+  # Redis pour Cache et Queues
+  # ===================================
+  redis-dev:
+    image: redis:7-alpine
+    container_name: talentflow-redis-dev
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-dev_redis_password}
+    volumes:
+      - redis_dev_data:/data
+    ports:
+      - "6380:6379"
+    networks:
+      - talentflow-dev
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # ===================================
+  # API Backend NestJS
+  # ===================================
+  api-dev:
+    image: ${IMAGE_TAG:-ghcr.io/your-org/talentflow:develop}
+    container_name: talentflow-api-dev
+    restart: unless-stopped
+    target: api-runtime
+    environment:
+      # Base de données
+      DATABASE_URL: postgresql://talentflow_dev:${POSTGRES_PASSWORD:-dev_secure_password_123}@postgres-dev:5432/talentflow_dev
+      
+      # Redis
+      REDIS_URL: redis://:${REDIS_PASSWORD:-dev_redis_password}@redis-dev:6379
+      
+      # Application
+      NODE_ENV: development
+      PORT: 3001
+      API_VERSION: v1
+      
+      # Sécurité
+      JWT_SECRET: ${JWT_SECRET:-dev_jwt_secret_key_very_long_and_secure}
+      ENCRYPTION_KEY: ${ENCRYPTION_KEY:-dev_encryption_key_32_chars_long}
+      
+      # CORS
+      CORS_ORIGINS: http://localhost:3001,http://148.230.114.13:3001,https://talentflow-dev.seyka.fr
+      
+      # Logs
+      LOG_LEVEL: debug
+      
+      # Rate Limiting
+      RATE_LIMIT_TTL: 60
+      RATE_LIMIT_MAX: 100
+      
+      # File Upload
+      MAX_FILE_SIZE: 10485760
+      UPLOAD_PATH: /app/uploads
+      
+      # Email (Développement - utiliser Mailtrap)
+      SMTP_HOST: ${SMTP_HOST:-smtp.mailtrap.io}
+      SMTP_PORT: ${SMTP_PORT:-2525}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      EMAIL_FROM: ${EMAIL_FROM:-dev@talentflow.com}
+
+    volumes:
+      - api_dev_uploads:/app/uploads
+      - api_dev_logs:/app/logs
+    ports:
+      - "3001:3001"
+    networks:
+      - talentflow-dev
+    depends_on:
+      postgres-dev:
+        condition: service_healthy
+      redis-dev:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3001/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ===================================
+  # Application Web Next.js
+  # ===================================
+  web-dev:
+    image: ${IMAGE_TAG:-ghcr.io/your-org/talentflow:develop}
+    container_name: talentflow-web-dev
+    restart: unless-stopped
+    target: web-runtime
+    environment:
+      # Next.js
+      NODE_ENV: development
+      PORT: 3000
+      
+      # API
+      NEXT_PUBLIC_API_URL: https://talentflow-dev.seyka.fr/api
+      API_URL: http://api-dev:3001/api
+      
+      # Auth
+      NEXTAUTH_URL: https://talentflow-dev.seyka.fr
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-dev_nextauth_secret_very_long_key}
+      
+      # Database (pour NextAuth)
+      DATABASE_URL: postgresql://talentflow_dev:${POSTGRES_PASSWORD:-dev_secure_password_123}@postgres-dev:5432/talentflow_dev
+      
+      # OAuth Providers (Développement)
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      
+      # Features Flags
+      FEATURE_ANALYTICS: true
+      FEATURE_NOTIFICATIONS: true
+      
+      # Debug
+      DEBUG: ${DEBUG:-false}
+
+    ports:
+      - "3000:3000"
+    networks:
+      - talentflow-dev
+    depends_on:
+      api-dev:
+        condition: service_healthy
+      postgres-dev:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/api/auth/session || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # ===================================
+  # MinIO pour Stockage Fichiers (Dev)
+  # ===================================
+  minio-dev:
+    image: minio/minio:latest
+    container_name: talentflow-minio-dev
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-talentflow_dev}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-dev_minio_password_123}
+    volumes:
+      - minio_dev_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    networks:
+      - talentflow-dev
+    command: server /data --console-address ":9001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # ===================================
+  # Monitoring - Prometheus (Optionnel)
+  # ===================================
+  prometheus-dev:
+    image: prom/prometheus:latest
+    container_name: talentflow-prometheus-dev
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_dev_data:/prometheus
+    networks:
+      - talentflow-dev
+    profiles:
+      - monitoring
+
+  # ===================================
+  # Monitoring - Grafana (Optionnel)
+  # ===================================
+  grafana-dev:
+    image: grafana/grafana:latest
+    container_name: talentflow-grafana-dev
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-dev_admin_123}
+    ports:
+      - "3002:3000"
+    volumes:
+      - grafana_dev_data:/var/lib/grafana
+    networks:
+      - talentflow-dev
+    profiles:
+      - monitoring
+
+# ===================================
+# Volumes Persistants
+# ===================================
+volumes:
+  postgres_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+  api_dev_uploads:
+    driver: local
+  api_dev_logs:
+    driver: local
+  minio_dev_data:
+    driver: local
+  prometheus_dev_data:
+    driver: local
+  grafana_dev_data:
+    driver: local
+
+# ===================================
+# Réseau
+# ===================================
+networks:
+  talentflow-dev:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16

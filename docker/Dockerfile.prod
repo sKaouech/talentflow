@@ -1,0 +1,180 @@
+# ===================================
+# Dockerfile Multi-Stage pour Production
+# TalentFlow - Optimisé pour performance et sécurité
+# ===================================
+
+# ===================================
+# Stage 1: Base avec pnpm
+# ===================================
+FROM node:18-alpine AS base
+
+# Installer pnpm globalement
+RUN npm install -g pnpm@8.15.6
+
+# Créer utilisateur non-root pour sécurité
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+WORKDIR /app
+
+# ===================================
+# Stage 2: Installation des dépendances
+# ===================================
+FROM base AS deps
+
+# Copier les fichiers de configuration pnpm
+COPY pnpm-lock.yaml ./
+COPY package.json ./
+COPY pnpm-workspace.yaml ./
+
+# Copier les package.json de tous les packages
+COPY packages/database/package.json ./packages/database/
+COPY packages/shared/package.json ./packages/shared/
+COPY packages/validation/package.json ./packages/validation/
+COPY packages/ui/package.json ./packages/ui/
+COPY packages/testing/package.json ./packages/testing/
+COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
+
+# Installer uniquement les dépendances de production
+RUN pnpm install --frozen-lockfile --prod
+
+# ===================================
+# Stage 3: Build des packages partagés
+# ===================================
+FROM base AS packages-builder
+
+WORKDIR /app
+
+# Copier les dépendances depuis le stage deps
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/pnpm-lock.yaml ./pnpm-lock.yaml
+
+# Copier le code source des packages
+COPY packages/ ./packages/
+COPY package.json pnpm-workspace.yaml turbo.json ./
+
+# Installer toutes les dépendances (dev incluses pour le build)
+RUN pnpm install --frozen-lockfile
+
+# Générer Prisma Client
+RUN pnpm turbo db:generate
+
+# Build des packages partagés
+RUN pnpm turbo build --filter="@talentflow/database" --filter="@talentflow/shared" --filter="@talentflow/validation" --filter="@talentflow/ui"
+
+# ===================================
+# Stage 4: Build de l'API
+# ===================================
+FROM base AS api-builder
+
+WORKDIR /app
+
+# Copier les dépendances et packages buildés
+COPY --from=packages-builder /app/node_modules ./node_modules
+COPY --from=packages-builder /app/packages ./packages
+
+# Copier le code source de l'API
+COPY apps/api ./apps/api
+COPY package.json pnpm-workspace.yaml turbo.json ./
+
+# Build de l'API
+RUN pnpm turbo build --filter="@talentflow/api"
+
+# ===================================
+# Stage 5: Build de l'application Web
+# ===================================
+FROM base AS web-builder
+
+WORKDIR /app
+
+# Copier les dépendances et packages buildés
+COPY --from=packages-builder /app/node_modules ./node_modules
+COPY --from=packages-builder /app/packages ./packages
+
+# Copier le code source de l'app web
+COPY apps/web ./apps/web
+COPY package.json pnpm-workspace.yaml turbo.json ./
+
+# Variables d'environnement pour le build
+ARG NEXT_PUBLIC_API_URL
+ARG NEXTAUTH_URL
+ARG NEXTAUTH_SECRET
+
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXTAUTH_URL=$NEXTAUTH_URL
+ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
+ENV NODE_ENV=production
+
+# Build de l'application Next.js
+RUN pnpm turbo build --filter="@talentflow/web"
+
+# ===================================
+# Stage 6: Runtime API
+# ===================================
+FROM base AS api-runtime
+
+WORKDIR /app
+
+# Copier les dépendances de production
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=packages-builder /app/packages ./packages
+
+# Copier l'API buildée
+COPY --from=api-builder /app/apps/api/dist ./apps/api/dist
+COPY --from=api-builder /app/apps/api/package.json ./apps/api/
+
+# Changer vers l'utilisateur non-root
+USER nextjs
+
+# Exposer le port
+EXPOSE 3001
+
+# Variables d'environnement
+ENV NODE_ENV=production
+ENV PORT=3001
+
+# Commande de démarrage
+CMD ["node", "apps/api/dist/main.js"]
+
+# ===================================
+# Stage 7: Runtime Web (Final)
+# ===================================
+FROM base AS web-runtime
+
+WORKDIR /app
+
+# Copier les dépendances de production nécessaires pour Next.js
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=packages-builder /app/packages ./packages
+
+# Copier l'application Next.js buildée
+COPY --from=web-builder /app/apps/web/.next ./apps/web/.next
+COPY --from=web-builder /app/apps/web/public ./apps/web/public
+COPY --from=web-builder /app/apps/web/package.json ./apps/web/
+COPY --from=web-builder /app/apps/web/next.config.js ./apps/web/
+
+# Copier les fichiers de configuration
+COPY package.json pnpm-workspace.yaml ./
+
+# Changer vers l'utilisateur non-root
+USER nextjs
+
+# Exposer le port
+EXPOSE 3000
+
+# Variables d'environnement
+ENV NODE_ENV=production
+ENV PORT=3000
+
+# Commande de démarrage
+CMD ["pnpm", "--filter=@talentflow/web", "start"]
+
+# ===================================
+# Métadonnées et Labels
+# ===================================
+LABEL org.opencontainers.image.title="TalentFlow"
+LABEL org.opencontainers.image.description="Plateforme B2B SaaS pour la gestion des appels d'offres et candidats"
+LABEL org.opencontainers.image.vendor="TalentFlow"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.source="https://github.com/your-org/talentflow"

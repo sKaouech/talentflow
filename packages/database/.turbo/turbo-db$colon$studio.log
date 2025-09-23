@@ -1,0 +1,7 @@
+
+> @talentflow/database@0.0.0 db:studio /Users/seyfkaoueche/Documents/work/project/talentflow/packages/database
+> prisma studio
+
+[2mEnvironment variables loaded from .env[22m
+[2mPrisma schema loaded from prisma/schema.prisma[22m
+Prisma Studio is up on http://localhost:5555

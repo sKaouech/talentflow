@@ -1,0 +1,211 @@
+# Docker Compose pour le développement local
+version: '3.8'
+
+services:
+  # Base de données PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: talentflow-postgres
+    environment:
+      POSTGRES_DB: talentflow
+      POSTGRES_USER: talentflow
+      POSTGRES_PASSWORD: talentflow_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    networks:
+      - talentflow-network
+
+  # Redis pour le cache et les queues
+  redis:
+    image: redis:7-alpine
+    container_name: talentflow-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - talentflow-network
+
+  # Keycloak pour l'authentification
+  keycloak:
+    image: quay.io/keycloak/keycloak:22.0
+    container_name: talentflow-keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak_dev
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HTTP_ENABLED: true
+      KC_HEALTH_ENABLED: true
+      KC_METRICS_ENABLED: true
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    command: start-dev
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+    networks:
+      - talentflow-network
+
+  # MinIO pour le stockage de fichiers (compatible S3)
+  minio:
+    image: minio/minio:latest
+    container_name: talentflow-minio
+    environment:
+      MINIO_ROOT_USER: talentflow
+      MINIO_ROOT_PASSWORD: talentflow_dev
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - talentflow-network
+
+  # n8n pour les workflows d'automatisation
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: talentflow-n8n
+    environment:
+      N8N_BASIC_AUTH_ACTIVE: true
+      N8N_BASIC_AUTH_USER: admin
+      N8N_BASIC_AUTH_PASSWORD: admin
+      N8N_HOST: localhost
+      N8N_PORT: 5678
+      N8N_PROTOCOL: http
+      WEBHOOK_URL: http://localhost:5678/
+      GENERIC_TIMEZONE: Europe/Paris
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: n8n
+      DB_POSTGRESDB_USER: n8n
+      DB_POSTGRESDB_PASSWORD: n8n_dev
+    ports:
+      - "5678:5678"
+    depends_on:
+      - postgres
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - talentflow-network
+
+  # API NestJS (en développement)
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: talentflow-api
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      DATABASE_URL: postgresql://talentflow:talentflow_dev@postgres:5432/talentflow
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      KEYCLOAK_AUTH_SERVER_URL: http://keycloak:8080
+      KEYCLOAK_REALM: talentflow
+      KEYCLOAK_CLIENT_ID: talentflow-api
+      KEYCLOAK_CLIENT_SECRET: your-client-secret
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_ACCESS_KEY: talentflow
+      MINIO_SECRET_KEY: talentflow_dev
+      N8N_WEBHOOK_URL: http://n8n:5678/webhook
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+      - redis
+      - keycloak
+      - minio
+    volumes:
+      - ./apps/api:/app
+      - /app/node_modules
+    networks:
+      - talentflow-network
+    profiles:
+      - full
+
+  # Application Web Next.js (en développement)
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:3001/api/v1
+    container_name: talentflow-web
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:3001/api/v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+    networks:
+      - talentflow-network
+    profiles:
+      - full
+
+  # Prometheus pour les métriques
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: talentflow-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - talentflow-network
+    profiles:
+      - monitoring
+
+  # Grafana pour les dashboards
+  grafana:
+    image: grafana/grafana:latest
+    container_name: talentflow-grafana
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources
+    networks:
+      - talentflow-network
+    profiles:
+      - monitoring
+
+volumes:
+  postgres_data:
+  redis_data:
+  keycloak_data:
+  minio_data:
+  n8n_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  talentflow-network:
+    driver: bridge

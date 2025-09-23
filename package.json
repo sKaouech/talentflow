@@ -1,0 +1,34 @@
+{
+  "name": "talentflow",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "test": "turbo test",
+    "test:unit": "turbo test --filter='@talentflow/web' -- --testPathIgnorePatterns='integration|e2e'",
+    "test:integration": "turbo test --filter='*' -- --testPathPattern='integration'",
+    "test:e2e": "turbo test:e2e",
+    "test:coverage": "turbo test:coverage",
+    "test:watch": "turbo test:watch",
+    "test:all": "pnpm test:unit && pnpm test:integration && pnpm test:e2e",
+    "type-check": "turbo type-check",
+    "clean": "turbo clean",
+    "db:generate": "turbo db:generate",
+    "db:push": "turbo db:push",
+    "db:migrate": "turbo db:migrate",
+    "db:studio": "turbo db:studio"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.10.12",
+    "eslint": "^8.48.0",
+    "prettier": "^3.0.3",
+    "turbo": "latest",
+    "typescript": "^5.2.2"
+  },
+  "packageManager": "pnpm@8.15.6",
+  "engines": {
+    "node": ">=18"
+  }
+}
