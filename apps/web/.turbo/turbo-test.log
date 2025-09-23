@@ -1,5 +1,13 @@
 
-
 > @talentflow/web@0.0.0 test /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web
-> jest "--testPathPattern=integration"
+> jest "--testPathIgnorePatterns=integration|e2e"
 
+PASS @talentflow/web __tests__/components/simple-component.test.tsx
+PASS @talentflow/web __tests__/factories-simple.test.ts
+PASS @talentflow/web __tests__/simple.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        0.514 s, estimated 1 s
+Ran all test suites.

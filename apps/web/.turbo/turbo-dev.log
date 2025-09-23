@@ -2,21 +2,197 @@
 > @talentflow/web@0.0.0 dev /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web
 > next dev
 
-  [1m[38;2;173;127;168m▲ Next.js 14.2.32[39m[22m
+  ▲ Next.js 14.2.32
   - Local:        http://localhost:3000
   - Environments: .env.local
 
- [32m[1m✓[22m[39m Starting...
- [32m[1m✓[22m[39m Ready in 1085ms
- [32m[1m✓[22m[39m Compiled /src/middleware in 342ms (174 modules)
- [37m[1m○[22m[39m Compiling / ...
- [32m[1m✓[22m[39m Compiled / in 1547ms (790 modules)
- GET / [32m200[39m in 1685ms
- [32m[1m✓[22m[39m Compiled in 110ms (399 modules)
- [37m[1m○[22m[39m Compiling /api/auth/[...nextauth] ...
- [32m[1m✓[22m[39m Compiled /api/auth/[...nextauth] in 1780ms (634 modules)
- GET /api/auth/session [32m200[39m in 2044ms
- GET /api/auth/session [32m200[39m in 4ms
- GET /api/auth/session [32m200[39m in 2ms
- [32m[1m✓[22m[39m Compiled in 189ms (941 modules)
-[?25h
+ ✓ Starting...
+ ✓ Ready in 1541ms
+ ✓ Compiled /src/middleware in 224ms (174 modules)
+ ✓ Compiled /api/auth/[...nextauth] in 340ms (281 modules)
+ GET /api/auth/signin?callbackUrl=%2F 302 in 636ms
+ ○ Compiling /auth/signin ...
+ ✓ Compiled /auth/signin in 1650ms (1040 modules)
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F 200 in 1745ms
+ ✓ Compiled in 95ms (398 modules)
+ GET /auth/signin 200 in 47ms
+ GET /auth/signin 200 in 48ms
+ GET /auth/signin 200 in 48ms
+ GET /auth/signin 200 in 49ms
+ GET /auth/signin 200 in 49ms
+ GET /auth/signin 200 in 49ms
+ GET /auth/signin 200 in 139ms
+ GET /api/auth/session 200 in 66ms
+ GET /api/auth/session 200 in 66ms
+ GET /api/auth/session 200 in 64ms
+ GET /api/auth/session 200 in 63ms
+ GET /api/auth/session 200 in 63ms
+ GET /api/auth/session 200 in 63ms
+ GET /api/auth/session 200 in 63ms
+ GET /api/auth/session 200 in 52ms
+ GET /api/auth/session 200 in 51ms
+ GET /api/auth/session 200 in 51ms
+ GET /api/auth/session 200 in 51ms
+ GET /api/auth/session 200 in 51ms
+ GET /api/auth/session 200 in 51ms
+ GET /api/auth/session 200 in 51ms
+ GET /api/auth/providers 200 in 14ms
+ GET /api/auth/providers 200 in 13ms
+ GET /api/auth/providers 200 in 13ms
+ GET /api/auth/csrf 200 in 10ms
+ GET /api/auth/csrf 200 in 10ms
+ GET /api/auth/csrf 200 in 10ms
+ POST /api/auth/callback/credentials 401 in 137ms
+ POST /api/auth/callback/credentials 401 in 137ms
+ POST /api/auth/callback/credentials 200 in 265ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 3ms
+ ○ Compiling / ...
+ ✓ Compiled / in 544ms (1039 modules)
+ GET /auth/signin 200 in 48ms
+ GET /api/auth/signin?callbackUrl=%2F 302 in 19ms
+ GET /api/auth/session 200 in 19ms
+ GET /api/auth/session 200 in 3ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F 200 in 10ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 2ms
+ GET /auth/signin 200 in 15ms
+ GET /auth/signin 200 in 25ms
+ GET /auth/signin 200 in 11ms
+ ✓ Compiled /auth/signup in 207ms (1053 modules)
+ GET /api/auth/session 200 in 132ms
+ GET /api/auth/session 200 in 138ms
+ GET /api/auth/session 200 in 62ms
+ GET /api/auth/session 200 in 12ms
+ GET /auth/signin 200 in 333ms
+ GET /auth/signup 200 in 337ms
+ GET /api/auth/session 200 in 22ms
+ GET /api/auth/session 200 in 22ms
+ GET /api/auth/session 200 in 6ms
+ GET /api/auth/session 200 in 6ms
+ GET /api/auth/session 200 in 15ms
+ GET /api/auth/session 200 in 13ms
+ GET /auth/signup 200 in 30ms
+ GET /auth/signup 200 in 16ms
+ GET /auth/signup 200 in 10ms
+ GET /api/auth/session 200 in 7ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 7ms
+ GET /api/auth/session 200 in 3ms
+ GET /auth/signup 200 in 10ms
+ GET /api/auth/session 200 in 4ms
+ GET /api/auth/session 200 in 2ms
+ GET /auth/signup 200 in 9ms
+ GET /api/auth/session 200 in 6ms
+ GET /api/auth/session 200 in 3ms
+ GET /auth/signup 200 in 10ms
+ GET /api/auth/session 200 in 7ms
+ GET /api/auth/session 200 in 2ms
+ GET /auth/signup 200 in 10ms
+ GET /api/auth/session 200 in 4ms
+ GET /api/auth/session 200 in 2ms
+ GET /auth/signup 200 in 11ms
+ GET /api/auth/session 200 in 6ms
+ GET /api/auth/session 200 in 4ms
+ GET /auth/signup 200 in 11ms
+ GET /api/auth/session 200 in 23ms
+ GET /api/auth/session 200 in 20ms
+ GET /auth/signin 200 in 13ms
+ GET /auth/signup 200 in 13ms
+ GET /api/auth/signin?callbackUrl=%2F 302 in 3ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F 200 in 8ms
+ GET /api/auth/session 200 in 8ms
+ GET /api/auth/session 200 in 7ms
+ GET /api/auth/session 200 in 4ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 4ms
+ GET /api/auth/session 200 in 4ms
+ GET /auth/signin 200 in 13ms
+ GET /auth/signin 200 in 12ms
+ GET /auth/signin 200 in 7ms
+ GET /auth/signin 200 in 12ms
+ GET /api/auth/session 200 in 6ms
+ GET /api/auth/session 200 in 9ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 10ms
+ GET /auth/signin 200 in 17ms
+ GET /api/auth/session 200 in 6ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/providers 200 in 3ms
+ GET /api/auth/session 200 in 2ms
+ GET /api/auth/session 200 in 2ms
+ GET /api/auth/csrf 200 in 2ms
+ POST /api/auth/callback/credentials 200 in 235ms
+ GET /api/auth/providers 200 in 4ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/csrf 200 in 3ms
+ POST /api/auth/callback/credentials 401 in 4ms
+ GET /auth/signin 200 in 11ms
+ GET /api/auth/session 200 in 6ms
+ GET /api/auth/session 200 in 2ms
+ GET /api/auth/providers 200 in 4ms
+ GET /api/auth/csrf 200 in 3ms
+ POST /api/auth/callback/credentials 401 in 4ms
+ GET /auth/signin 200 in 11ms
+ GET /auth/signin 200 in 15ms
+ GET /auth/signin 200 in 25ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 8ms
+ GET /api/auth/session 200 in 9ms
+ GET /api/auth/signin?callbackUrl=%2F 302 in 10ms
+ GET /api/auth/session 200 in 11ms
+ GET /api/auth/session 200 in 11ms
+ GET /auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F 200 in 17ms
+ GET /auth/signin 200 in 20ms
+ GET /auth/signin 200 in 9ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 2ms
+ GET /api/auth/session 200 in 4ms
+ GET /api/auth/session 200 in 2ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 3ms
+ GET /auth/signin 200 in 10ms
+ GET /api/auth/session 200 in 4ms
+ GET /api/auth/session 200 in 4ms
+ GET /auth/signup 200 in 10ms
+ GET /auth/signup 200 in 8ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 4ms
+ GET /api/auth/session 200 in 4ms
+ GET /api/auth/session 200 in 4ms
+ GET /auth/signup 200 in 10ms
+ GET /auth/signup 200 in 12ms
+ GET /auth/signup 200 in 13ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 2ms
+ GET /api/auth/session 200 in 7ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 3ms
+ GET /auth/signup 200 in 9ms
+ GET /auth/signup 200 in 13ms
+ GET /auth/signup 200 in 9ms
+ GET /api/auth/session 200 in 11ms
+ GET /api/auth/session 200 in 11ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 6ms
+ GET /api/auth/session 200 in 5ms
+ GET /auth/signup 200 in 13ms
+ GET /auth/signup 200 in 13ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 7ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 3ms
+ GET /auth/signup 200 in 9ms
+ GET /auth/signin 200 in 9ms
+ GET /api/auth/session 200 in 3ms
+ GET /api/auth/session 200 in 5ms
+ GET /api/auth/session 200 in 7ms
+ GET /api/auth/session 200 in 3ms

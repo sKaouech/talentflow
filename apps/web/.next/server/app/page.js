@@ -12,7 +12,7 @@ exports.id = "app/page";
 exports.ids = ["app/page"];
 exports.modules = {
 
-/***/ "../../client/components/action-async-storage.external":
+/***/ "./action-async-storage.external":
 /*!*******************************************************************************!*\
   !*** external "next/dist/client/components/action-async-storage.external.js" ***!
   \*******************************************************************************/
@@ -23,7 +23,7 @@ module.exports = require("next/dist/client/components/action-async-storage.exter
 
 /***/ }),
 
-/***/ "../../client/components/request-async-storage.external":
+/***/ "./request-async-storage.external":
 /*!********************************************************************************!*\
   !*** external "next/dist/client/components/request-async-storage.external.js" ***!
   \********************************************************************************/
@@ -34,7 +34,7 @@ module.exports = require("next/dist/client/components/request-async-storage.exte
 
 /***/ }),
 
-/***/ "../../client/components/static-generation-async-storage.external":
+/***/ "./static-generation-async-storage.external":
 /*!******************************************************************************************!*\
   !*** external "next/dist/client/components/static-generation-async-storage.external.js" ***!
   \******************************************************************************************/
@@ -372,7 +372,7 @@ const e0 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__W
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/@tanstack+query-devtools@5.90.1","vendor-chunks/next@14.2.32_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1","vendor-chunks/@babel+runtime@7.28.4","vendor-chunks/lucide-react@0.294.0_react@18.3.1","vendor-chunks/@tanstack+query-core@5.90.2","vendor-chunks/@swc+helpers@0.5.5","vendor-chunks/next-auth@4.24.11_next@14.2.32_react-dom@18.3.1_react@18.3.1","vendor-chunks/@tanstack+react-query-devtools@5.90.2_@tanstack+react-query@5.90.2_react@18.3.1","vendor-chunks/tailwind-merge@2.6.0","vendor-chunks/clsx@2.1.1","vendor-chunks/class-variance-authority@0.7.1","vendor-chunks/@tanstack+react-query@5.90.2_react@18.3.1"], () => (__webpack_exec__("(rsc)/../../node_modules/.pnpm/next@14.2.32_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-app-loader.js?name=app%2Fpage&page=%2Fpage&appPaths=%2Fpage&pagePath=private-next-app-dir%2Fpage.tsx&appDir=%2FUsers%2Fseyfkaoueche%2FDocuments%2Fwork%2Fproject%2Ftalentflow%2Fapps%2Fweb%2Fsrc%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2FUsers%2Fseyfkaoueche%2FDocuments%2Fwork%2Fproject%2Ftalentflow%2Fapps%2Fweb&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D!")));
+var __webpack_exports__ = __webpack_require__.X(0, ["vendor-chunks/@tanstack+query-devtools@5.90.1","vendor-chunks/next@14.2.32_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1","vendor-chunks/next-auth@4.24.11_next@14.2.32_react-dom@18.3.1_react@18.3.1","vendor-chunks/@babel+runtime@7.28.4","vendor-chunks/tailwind-merge@2.6.0","vendor-chunks/@tanstack+query-core@5.90.2","vendor-chunks/lucide-react@0.294.0_react@18.3.1","vendor-chunks/@tanstack+react-query-devtools@5.90.2_@tanstack+react-query@5.90.2_react@18.3.1","vendor-chunks/class-variance-authority@0.7.1","vendor-chunks/@swc+helpers@0.5.5","vendor-chunks/@tanstack+react-query@5.90.2_react@18.3.1","vendor-chunks/clsx@2.1.1"], () => (__webpack_exec__("(rsc)/../../node_modules/.pnpm/next@14.2.32_@babel+core@7.28.4_@playwright+test@1.55.1_react-dom@18.3.1_react@18.3.1/node_modules/next/dist/build/webpack/loaders/next-app-loader.js?name=app%2Fpage&page=%2Fpage&appPaths=%2Fpage&pagePath=private-next-app-dir%2Fpage.tsx&appDir=%2FUsers%2Fseyfkaoueche%2FDocuments%2Fwork%2Fproject%2Ftalentflow%2Fapps%2Fweb%2Fsrc%2Fapp&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js&rootDir=%2FUsers%2Fseyfkaoueche%2FDocuments%2Fwork%2Fproject%2Ftalentflow%2Fapps%2Fweb&isDev=true&tsconfigPath=tsconfig.json&basePath=&assetPrefix=&nextConfigOutput=&preferredRegion=&middlewareConfig=e30%3D!")));
 module.exports = __webpack_exports__;
 
 })();

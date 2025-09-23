@@ -84,10 +84,9 @@ jobs:
         run: pnpm db:generate
 
       - name: 🗄️ Setup Test Database
-        env:
-          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/talentflow_test
         run: |
-          pnpm db:push
+          echo 'DATABASE_URL="postgresql://test_user:test_password@localhost:5432/talentflow_test"' > packages/database/.env
+          cd packages/database && pnpm db:push
 
       - name: 🧪 Run Unit Tests
         env:
@@ -158,10 +157,9 @@ jobs:
         run: pnpm db:generate
 
       - name: 🗄️ Setup E2E Database
-        env:
-          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/talentflow_e2e
         run: |
-          pnpm db:push
+          echo 'DATABASE_URL="postgresql://test_user:test_password@localhost:5432/talentflow_e2e"' > packages/database/.env
+          cd packages/database && pnpm db:push
 
       - name: 🎭 Install Playwright Browsers
         run: pnpm exec playwright install --with-deps chromium

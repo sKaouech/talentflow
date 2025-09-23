@@ -1,2 +1,3052 @@
-<testsuites id="" name="" tests="0" failures="0" skipped="0" errors="0" time="0.011962000000000046">
+<testsuites id="" name="" tests="125" failures="115" skipped="0" errors="0" time="69.067508">
+<testsuite name="auth/signin.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="chromium" tests="12" failures="9" skipped="0" time="78.78" errors="0">
+<testcase name="Connexion utilisateur › devrait afficher la page de connexion correctement" classname="auth/signin.spec.ts" time="6.163">
+<failure message="signin.spec.ts:14:7 devrait afficher la page de connexion correctement" type="FAILURE">
+<![CDATA[  [chromium] › auth/signin.spec.ts:14:7 › Connexion utilisateur › devrait afficher la page de connexion correctement 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/connectez-vous à votre compte talentflow/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/connectez-vous à votre compte talentflow/i)
+
+
+      21 |     await expect(
+      22 |       page.getByText(/connectez-vous à votre compte talentflow/i)
+    > 23 |     ).toBeVisible()
+         |       ^
+      24 |     await expect(page.getByText('TF')).toBeVisible()
+      25 |
+      26 |     // Vérifier les champs du formulaire
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:23:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-a2101-e-de-connexion-correctement-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-a2101-e-de-connexion-correctement-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-a2101-e-de-connexion-correctement-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-a2101-e-de-connexion-correctement-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-a2101-e-de-connexion-correctement-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-a2101-e-de-connexion-correctement-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait valider les champs requis" classname="auth/signin.spec.ts" time="6.172">
+<failure message="signin.spec.ts:40:7 devrait valider les champs requis" type="FAILURE">
+<![CDATA[  [chromium] › auth/signin.spec.ts:40:7 › Connexion utilisateur › devrait valider les champs requis 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/email invalide/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/email invalide/i)
+
+
+      43 |
+      44 |     // Vérifier les messages d'erreur
+    > 45 |     await expect(page.getByText(/email invalide/i)).toBeVisible()
+         |                                                     ^
+      46 |     await expect(page.getByText(/le mot de passe est requis/i)).toBeVisible()
+      47 |   })
+      48 |
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:45:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait valider le format de l&apos;email" classname="auth/signin.spec.ts" time="6.23">
+<failure message="signin.spec.ts:49:7 devrait valider le format de l&apos;email" type="FAILURE">
+<![CDATA[  [chromium] › auth/signin.spec.ts:49:7 › Connexion utilisateur › devrait valider le format de l'email 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/email invalide/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/email invalide/i)
+
+
+      53 |
+      54 |     // Vérifier le message d'erreur
+    > 55 |     await expect(page.getByText(/email invalide/i)).toBeVisible()
+         |                                                     ^
+      56 |   })
+      57 |
+      58 |   test('devrait se connecter avec des identifiants valides', async ({
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:55:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait se connecter avec des identifiants valides" classname="auth/signin.spec.ts" time="3.113">
+<failure message="signin.spec.ts:58:7 devrait se connecter avec des identifiants valides" type="FAILURE">
+<![CDATA[  [chromium] › auth/signin.spec.ts:58:7 › Connexion utilisateur › devrait se connecter avec des identifiants valides 
+
+    Error: expect.toBeVisible: Error: strict mode violation: getByText(/tableau de bord/i) resolved to 2 elements:
+        1) <a href="/" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors bg-blue-50 text-blue-700 border-r-2 border-blue-600">…</a> aka getByRole('link', { name: 'Tableau de bord' })
+        2) <h1 class="text-3xl font-bold text-slate-900">Tableau de bord</h1> aka getByRole('heading', { name: 'Tableau de bord' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/tableau de bord/i)
+
+
+      75 |
+      76 |     // Vérifier que l'utilisateur est connecté
+    > 77 |     await expect(page.getByText(/tableau de bord/i)).toBeVisible()
+         |                                                      ^
+      78 |
+      79 |     // Vérifier la présence du profil utilisateur
+      80 |     await expect(page.getByText('DP')).toBeVisible() // Initiales Diana Prince
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:77:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait afficher une erreur avec des identifiants invalides" classname="auth/signin.spec.ts" time="6.379">
+<failure message="signin.spec.ts:83:7 devrait afficher une erreur avec des identifiants invalides" type="FAILURE">
+<![CDATA[  [chromium] › auth/signin.spec.ts:83:7 › Connexion utilisateur › devrait afficher une erreur avec des identifiants invalides 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/identifiants invalides/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/identifiants invalides/i)
+
+
+      92 |
+      93 |     // Vérifier le message d'erreur
+    > 94 |     await expect(page.getByText(/identifiants invalides/i)).toBeVisible()
+         |                                                             ^
+      95 |   })
+      96 |
+      97 |   test('devrait afficher un indicateur de chargement', async ({ page }) => {
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:94:61
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-e5105--des-identifiants-invalides-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-e5105--des-identifiants-invalides-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-e5105--des-identifiants-invalides-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-e5105--des-identifiants-invalides-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-e5105--des-identifiants-invalides-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-e5105--des-identifiants-invalides-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait afficher un indicateur de chargement" classname="auth/signin.spec.ts" time="6.391">
+<failure message="signin.spec.ts:97:7 devrait afficher un indicateur de chargement" type="FAILURE">
+<![CDATA[  [chromium] › auth/signin.spec.ts:97:7 › Connexion utilisateur › devrait afficher un indicateur de chargement 
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator:  getByRole('button', { name: /se connecter/i })
+    Expected: disabled
+    Received: enabled
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeDisabled" with timeout 5000ms
+      - waiting for getByRole('button', { name: /se connecter/i })
+        6 × locator resolved to <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background h-10 py-2 px-4 w-full bg-blue-600 hover:bg-blue-700 text-white">…</button>
+          - unexpected value "enabled"
+
+
+      111 |
+      112 |     // Vérifier l'état de chargement
+    > 113 |     await expect(submitButton).toBeDisabled()
+          |                                ^
+      114 |     await expect(page.getByTestId('loading-spinner')).toBeVisible()
+      115 |   })
+      116 |
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:113:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait permettre la navigation vers la page d&apos;inscription" classname="auth/signin.spec.ts" time="30.579">
+<failure message="signin.spec.ts:117:7 devrait permettre la navigation vers la page d&apos;inscription" type="FAILURE">
+<![CDATA[  [chromium] › auth/signin.spec.ts:117:7 › Connexion utilisateur › devrait permettre la navigation vers la page d'inscription 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: /inscrivez-vous/i })
+
+
+      119 |   }) => {
+      120 |     // Cliquer sur le lien d'inscription
+    > 121 |     await page.getByRole('link', { name: /inscrivez-vous/i }).click()
+          |                                                               ^
+      122 |
+      123 |     // Vérifier la redirection
+      124 |     await expect(page).toHaveURL('/auth/signup')
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:121:63
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait rediriger les utilisateurs non authentifiés" classname="auth/signin.spec.ts" time="5.706">
+<failure message="signin.spec.ts:130:7 devrait rediriger les utilisateurs non authentifiés" type="FAILURE">
+<![CDATA[  [chromium] › auth/signin.spec.ts:130:7 › Connexion utilisateur › devrait rediriger les utilisateurs non authentifiés 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected string: "http://localhost:3000/auth/signin"
+    Received string: "http://localhost:3000/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 5000ms
+        9 × unexpected value "http://localhost:3000/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F"
+
+
+      135 |
+      136 |     // Vérifier la redirection vers la page de connexion
+    > 137 |     await expect(page).toHaveURL('/auth/signin')
+          |                        ^
+      138 |   })
+      139 |
+      140 |   test('devrait gérer la connexion Google', async ({ page }) => {
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:137:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait gérer la connexion Google" classname="auth/signin.spec.ts" time="0.823">
+</testcase>
+<testcase name="Connexion utilisateur › devrait être responsive sur mobile" classname="auth/signin.spec.ts" time="0.848">
+</testcase>
+<testcase name="Connexion utilisateur › devrait supporter la navigation au clavier" classname="auth/signin.spec.ts" time="5.58">
+<failure message="signin.spec.ts:167:7 devrait supporter la navigation au clavier" type="FAILURE">
+<![CDATA[  [chromium] › auth/signin.spec.ts:167:7 › Connexion utilisateur › devrait supporter la navigation au clavier 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByLabel(/email/i)
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByLabel(/email/i)
+        7 × locator resolved to <input value="" id="email" required="" type="email" placeholder="votre@email.com" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/>
+          - unexpected value "inactive"
+
+
+      168 |     // Navigation avec Tab
+      169 |     await page.keyboard.press('Tab')
+    > 170 |     await expect(page.getByLabel(/email/i)).toBeFocused()
+          |                                             ^
+      171 |
+      172 |     await page.keyboard.press('Tab')
+      173 |     await expect(page.getByLabel(/mot de passe/i)).toBeFocused()
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:170:45
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait permettre de basculer la visibilité du mot de passe" classname="auth/signin.spec.ts" time="0.796">
+</testcase>
+</testsuite>
+<testsuite name="auth/signup.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="chromium" tests="10" failures="10" skipped="0" time="65.137" errors="0">
+<testcase name="Inscription utilisateur › devrait afficher la page d&apos;inscription correctement" classname="auth/signup.spec.ts" time="5.807">
+<failure message="signup.spec.ts:14:7 devrait afficher la page d&apos;inscription correctement" type="FAILURE">
+<![CDATA[  [chromium] › auth/signup.spec.ts:14:7 › Inscription utilisateur › devrait afficher la page d'inscription correctement 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByRole('heading', { name: /inscription/i })
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('heading', { name: /inscription/i })
+
+
+      18 |     await expect(
+      19 |       page.getByRole('heading', { name: /inscription/i })
+    > 20 |     ).toBeVisible()
+         |       ^
+      21 |     await expect(page.getByText(/créez votre compte talentflow/i)).toBeVisible()
+      22 |     await expect(page.getByText('TF')).toBeVisible()
+      23 |
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:20:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-1b42f--d-inscription-correctement-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-1b42f--d-inscription-correctement-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-1b42f--d-inscription-correctement-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-1b42f--d-inscription-correctement-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-1b42f--d-inscription-correctement-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-1b42f--d-inscription-correctement-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider les champs requis" classname="auth/signup.spec.ts" time="5.536">
+<failure message="signup.spec.ts:40:7 devrait valider les champs requis" type="FAILURE">
+<![CDATA[  [chromium] › auth/signup.spec.ts:40:7 › Inscription utilisateur › devrait valider les champs requis 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/le prénom doit contenir au moins 2 caractères/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/le prénom doit contenir au moins 2 caractères/i)
+
+
+      45 |     await expect(
+      46 |       page.getByText(/le prénom doit contenir au moins 2 caractères/i)
+    > 47 |     ).toBeVisible()
+         |       ^
+      48 |     await expect(
+      49 |       page.getByText(/le nom doit contenir au moins 2 caractères/i)
+      50 |     ).toBeVisible()
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:47:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider le format de l&apos;email" classname="auth/signup.spec.ts" time="5.525">
+<failure message="signup.spec.ts:62:7 devrait valider le format de l&apos;email" type="FAILURE">
+<![CDATA[  [chromium] › auth/signup.spec.ts:62:7 › Inscription utilisateur › devrait valider le format de l'email 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/email invalide/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/email invalide/i)
+
+
+      66 |
+      67 |     // Vérifier le message d'erreur
+    > 68 |     await expect(page.getByText(/email invalide/i)).toBeVisible()
+         |                                                     ^
+      69 |   })
+      70 |
+      71 |   test('devrait valider la longueur du mot de passe', async ({ page }) => {
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:68:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider la longueur du mot de passe" classname="auth/signup.spec.ts" time="5.512">
+<failure message="signup.spec.ts:71:7 devrait valider la longueur du mot de passe" type="FAILURE">
+<![CDATA[  [chromium] › auth/signup.spec.ts:71:7 › Inscription utilisateur › devrait valider la longueur du mot de passe 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/le mot de passe doit contenir au moins 8 caractères/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/le mot de passe doit contenir au moins 8 caractères/i)
+
+
+      77 |     await expect(
+      78 |       page.getByText(/le mot de passe doit contenir au moins 8 caractères/i)
+    > 79 |     ).toBeVisible()
+         |       ^
+      80 |   })
+      81 |
+      82 |   test('devrait créer un compte avec succès', async ({ page }) => {
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:79:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait créer un compte avec succès" classname="auth/signup.spec.ts" time="0.39">
+<failure message="signup.spec.ts:82:7 devrait créer un compte avec succès" type="FAILURE">
+<![CDATA[  [chromium] › auth/signup.spec.ts:82:7 › Inscription utilisateur › devrait créer un compte avec succès 
+
+    Error: locator.fill: Error: strict mode violation: getByLabel(/nom/i) resolved to 3 elements:
+        1) <input required="" type="text" value="John" id="firstName" placeholder="John" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Prénom' })
+        2) <input value="" required="" type="text" id="lastName" placeholder="Doe" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/> aka getByRole('textbox', { name: 'Nom', exact: true })
+        3) <input value="" required="" type="text" id="tenantName" placeholder="Mon Entreprise" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Nom de l\'entreprise' })
+
+    Call log:
+      - waiting for getByLabel(/nom/i)
+
+
+      88 |     // Remplir le formulaire
+      89 |     await page.getByLabel(/prénom/i).fill('John')
+    > 90 |     await page.getByLabel(/nom/i).fill('Doe')
+         |                                   ^
+      91 |     await page.getByLabel(/email/i).fill(email)
+      92 |     await page.getByLabel(/mot de passe/i).fill('password123')
+      93 |     await page.getByLabel(/nom de.*entreprise/i).fill(companyName)
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:90:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait afficher une erreur si l&apos;email existe déjà" classname="auth/signup.spec.ts" time="0.409">
+<failure message="signup.spec.ts:108:7 devrait afficher une erreur si l&apos;email existe déjà" type="FAILURE">
+<![CDATA[  [chromium] › auth/signup.spec.ts:108:7 › Inscription utilisateur › devrait afficher une erreur si l'email existe déjà 
+
+    Error: locator.fill: Error: strict mode violation: getByLabel(/nom/i) resolved to 3 elements:
+        1) <input required="" type="text" value="Jane" id="firstName" placeholder="John" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Prénom' })
+        2) <input value="" required="" type="text" id="lastName" placeholder="Doe" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/> aka getByRole('textbox', { name: 'Nom', exact: true })
+        3) <input value="" required="" type="text" id="tenantName" placeholder="Mon Entreprise" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Nom de l\'entreprise' })
+
+    Call log:
+      - waiting for getByLabel(/nom/i)
+
+
+      111 |     // Utiliser un email qui existe déjà (créé dans un test précédent)
+      112 |     await page.getByLabel(/prénom/i).fill('Jane')
+    > 113 |     await page.getByLabel(/nom/i).fill('Smith')
+          |                                   ^
+      114 |     await page.getByLabel(/email/i).fill('existing@example.com')
+      115 |     await page.getByLabel(/mot de passe/i).fill('password123')
+      116 |     await page.getByLabel(/nom de.*entreprise/i).fill('Jane Corp')
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:113:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait afficher un indicateur de chargement" classname="auth/signup.spec.ts" time="0.398">
+<failure message="signup.spec.ts:126:7 devrait afficher un indicateur de chargement" type="FAILURE">
+<![CDATA[  [chromium] › auth/signup.spec.ts:126:7 › Inscription utilisateur › devrait afficher un indicateur de chargement 
+
+    Error: locator.fill: Error: strict mode violation: getByLabel(/nom/i) resolved to 3 elements:
+        1) <input required="" type="text" id="firstName" value="Loading" placeholder="John" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Prénom' })
+        2) <input value="" required="" type="text" id="lastName" placeholder="Doe" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/> aka getByRole('textbox', { name: 'Nom', exact: true })
+        3) <input value="" required="" type="text" id="tenantName" placeholder="Mon Entreprise" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Nom de l\'entreprise' })
+
+    Call log:
+      - waiting for getByLabel(/nom/i)
+
+
+      128 |     const timestamp = Date.now()
+      129 |     await page.getByLabel(/prénom/i).fill('Loading')
+    > 130 |     await page.getByLabel(/nom/i).fill('Test')
+          |                                   ^
+      131 |     await page.getByLabel(/email/i).fill(`loading-${timestamp}@example.com`)
+      132 |     await page.getByLabel(/mot de passe/i).fill('password123')
+      133 |     await page.getByLabel(/nom de.*entreprise/i).fill('Loading Corp')
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:130:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait permettre la navigation vers la page de connexion" classname="auth/signup.spec.ts" time="30.639">
+<failure message="signup.spec.ts:150:7 devrait permettre la navigation vers la page de connexion" type="FAILURE">
+<![CDATA[  [chromium] › auth/signup.spec.ts:150:7 › Inscription utilisateur › devrait permettre la navigation vers la page de connexion 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: /connectez-vous/i })
+
+
+      152 |   }) => {
+      153 |     // Cliquer sur le lien de connexion
+    > 154 |     await page.getByRole('link', { name: /connectez-vous/i }).click()
+          |                                                               ^
+      155 |
+      156 |     // Vérifier la redirection
+      157 |     await expect(page).toHaveURL('/auth/signin')
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:154:63
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait être responsive sur mobile" classname="auth/signup.spec.ts" time="5.45">
+<failure message="signup.spec.ts:163:7 devrait être responsive sur mobile" type="FAILURE">
+<![CDATA[  [chromium] › auth/signup.spec.ts:163:7 › Inscription utilisateur › devrait être responsive sur mobile 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByRole('heading', { name: /inscription/i })
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('heading', { name: /inscription/i })
+
+
+      168 |     await expect(
+      169 |       page.getByRole('heading', { name: /inscription/i })
+    > 170 |     ).toBeVisible()
+          |       ^
+      171 |     await expect(page.getByLabel(/prénom/i)).toBeVisible()
+      172 |     await expect(
+      173 |       page.getByRole('button', { name: /créer mon compte/i })
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:170:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait supporter la navigation au clavier" classname="auth/signup.spec.ts" time="5.471">
+<failure message="signup.spec.ts:181:7 devrait supporter la navigation au clavier" type="FAILURE">
+<![CDATA[  [chromium] › auth/signup.spec.ts:181:7 › Inscription utilisateur › devrait supporter la navigation au clavier 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByLabel(/prénom/i)
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByLabel(/prénom/i)
+        9 × locator resolved to <input value="" required="" type="text" id="firstName" placeholder="John" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/>
+          - unexpected value "inactive"
+
+
+      182 |     // Navigation avec Tab
+      183 |     await page.keyboard.press('Tab')
+    > 184 |     await expect(page.getByLabel(/prénom/i)).toBeFocused()
+          |                                              ^
+      185 |
+      186 |     await page.keyboard.press('Tab')
+      187 |     await expect(page.getByLabel(/nom/i)).toBeFocused()
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:184:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-chromium/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="simple.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="chromium" tests="3" failures="1" skipped="0" time="1.276" errors="0">
+<testcase name="Configuration Playwright › devrait pouvoir accéder à la page d&apos;inscription" classname="simple.spec.ts" time="0.432">
+<failure message="simple.spec.ts:9:7 devrait pouvoir accéder à la page d&apos;inscription" type="FAILURE">
+<![CDATA[  [chromium] › simple.spec.ts:9:7 › Configuration Playwright › devrait pouvoir accéder à la page d'inscription 
+
+    Error: expect.toBeVisible: Error: strict mode violation: getByText('TF') resolved to 2 elements:
+        1) <span class="text-white font-bold text-xl">TF</span> aka getByText('TF', { exact: true })
+        2) <h2 class="text-3xl font-bold text-slate-900">Créer votre compte TalentFlow</h2> aka getByRole('heading', { name: 'Créer votre compte TalentFlow' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('TF')
+
+
+      15 |
+      16 |     // Vérifier la présence du logo
+    > 17 |     await expect(page.getByText('TF')).toBeVisible()
+         |                                        ^
+      18 |
+      19 |     // Vérifier la présence du titre
+      20 |     await expect(
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/simple.spec.ts:17:40
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-chromium/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-chromium/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-chromium/test-failed-1.png]]
+
+[[ATTACHMENT|simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-chromium/video.webm]]
+
+[[ATTACHMENT|simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-chromium/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Configuration Playwright › devrait pouvoir accéder à la page de connexion" classname="simple.spec.ts" time="0.43">
+</testcase>
+<testcase name="Configuration Playwright › devrait rediriger vers signin quand on accède au dashboard sans être connecté" classname="simple.spec.ts" time="0.414">
+</testcase>
+</testsuite>
+<testsuite name="auth/signin.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="firefox" tests="12" failures="12" skipped="0" time="0.012" errors="0">
+<testcase name="Connexion utilisateur › devrait afficher la page de connexion correctement" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:14:7 devrait afficher la page de connexion correctement" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:14:7 › Connexion utilisateur › devrait afficher la page de connexion correctement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait valider les champs requis" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:40:7 devrait valider les champs requis" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:40:7 › Connexion utilisateur › devrait valider les champs requis ─
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait valider le format de l&apos;email" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:49:7 devrait valider le format de l&apos;email" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:49:7 › Connexion utilisateur › devrait valider le format de l'email 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait se connecter avec des identifiants valides" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:58:7 devrait se connecter avec des identifiants valides" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:58:7 › Connexion utilisateur › devrait se connecter avec des identifiants valides 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait afficher une erreur avec des identifiants invalides" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:83:7 devrait afficher une erreur avec des identifiants invalides" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:83:7 › Connexion utilisateur › devrait afficher une erreur avec des identifiants invalides 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait afficher un indicateur de chargement" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:97:7 devrait afficher un indicateur de chargement" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:97:7 › Connexion utilisateur › devrait afficher un indicateur de chargement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait permettre la navigation vers la page d&apos;inscription" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:117:7 devrait permettre la navigation vers la page d&apos;inscription" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:117:7 › Connexion utilisateur › devrait permettre la navigation vers la page d'inscription 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait rediriger les utilisateurs non authentifiés" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:130:7 devrait rediriger les utilisateurs non authentifiés" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:130:7 › Connexion utilisateur › devrait rediriger les utilisateurs non authentifiés 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait gérer la connexion Google" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:140:7 devrait gérer la connexion Google" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:140:7 › Connexion utilisateur › devrait gérer la connexion Google 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait être responsive sur mobile" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:149:7 devrait être responsive sur mobile" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:149:7 › Connexion utilisateur › devrait être responsive sur mobile 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait supporter la navigation au clavier" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:167:7 devrait supporter la navigation au clavier" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:167:7 › Connexion utilisateur › devrait supporter la navigation au clavier 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait permettre de basculer la visibilité du mot de passe" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:191:7 devrait permettre de basculer la visibilité du mot de passe" type="FAILURE">
+<![CDATA[  [firefox] › auth/signin.spec.ts:191:7 › Connexion utilisateur › devrait permettre de basculer la visibilité du mot de passe 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="auth/signup.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="firefox" tests="10" failures="10" skipped="0" time="0.01" errors="0">
+<testcase name="Inscription utilisateur › devrait afficher la page d&apos;inscription correctement" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:14:7 devrait afficher la page d&apos;inscription correctement" type="FAILURE">
+<![CDATA[  [firefox] › auth/signup.spec.ts:14:7 › Inscription utilisateur › devrait afficher la page d'inscription correctement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider les champs requis" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:40:7 devrait valider les champs requis" type="FAILURE">
+<![CDATA[  [firefox] › auth/signup.spec.ts:40:7 › Inscription utilisateur › devrait valider les champs requis 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider le format de l&apos;email" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:62:7 devrait valider le format de l&apos;email" type="FAILURE">
+<![CDATA[  [firefox] › auth/signup.spec.ts:62:7 › Inscription utilisateur › devrait valider le format de l'email 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider la longueur du mot de passe" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:71:7 devrait valider la longueur du mot de passe" type="FAILURE">
+<![CDATA[  [firefox] › auth/signup.spec.ts:71:7 › Inscription utilisateur › devrait valider la longueur du mot de passe 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait créer un compte avec succès" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:82:7 devrait créer un compte avec succès" type="FAILURE">
+<![CDATA[  [firefox] › auth/signup.spec.ts:82:7 › Inscription utilisateur › devrait créer un compte avec succès 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait afficher une erreur si l&apos;email existe déjà" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:108:7 devrait afficher une erreur si l&apos;email existe déjà" type="FAILURE">
+<![CDATA[  [firefox] › auth/signup.spec.ts:108:7 › Inscription utilisateur › devrait afficher une erreur si l'email existe déjà 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait afficher un indicateur de chargement" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:126:7 devrait afficher un indicateur de chargement" type="FAILURE">
+<![CDATA[  [firefox] › auth/signup.spec.ts:126:7 › Inscription utilisateur › devrait afficher un indicateur de chargement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait permettre la navigation vers la page de connexion" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:150:7 devrait permettre la navigation vers la page de connexion" type="FAILURE">
+<![CDATA[  [firefox] › auth/signup.spec.ts:150:7 › Inscription utilisateur › devrait permettre la navigation vers la page de connexion 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait être responsive sur mobile" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:163:7 devrait être responsive sur mobile" type="FAILURE">
+<![CDATA[  [firefox] › auth/signup.spec.ts:163:7 › Inscription utilisateur › devrait être responsive sur mobile 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait supporter la navigation au clavier" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:181:7 devrait supporter la navigation au clavier" type="FAILURE">
+<![CDATA[  [firefox] › auth/signup.spec.ts:181:7 › Inscription utilisateur › devrait supporter la navigation au clavier 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="simple.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="firefox" tests="3" failures="3" skipped="0" time="0.003" errors="0">
+<testcase name="Configuration Playwright › devrait pouvoir accéder à la page d&apos;inscription" classname="simple.spec.ts" time="0.001">
+<failure message="simple.spec.ts:9:7 devrait pouvoir accéder à la page d&apos;inscription" type="FAILURE">
+<![CDATA[  [firefox] › simple.spec.ts:9:7 › Configuration Playwright › devrait pouvoir accéder à la page d'inscription 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Configuration Playwright › devrait pouvoir accéder à la page de connexion" classname="simple.spec.ts" time="0.001">
+<failure message="simple.spec.ts:37:7 devrait pouvoir accéder à la page de connexion" type="FAILURE">
+<![CDATA[  [firefox] › simple.spec.ts:37:7 › Configuration Playwright › devrait pouvoir accéder à la page de connexion 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Configuration Playwright › devrait rediriger vers signin quand on accède au dashboard sans être connecté" classname="simple.spec.ts" time="0.001">
+<failure message="simple.spec.ts:59:7 devrait rediriger vers signin quand on accède au dashboard sans être connecté" type="FAILURE">
+<![CDATA[  [firefox] › simple.spec.ts:59:7 › Configuration Playwright › devrait rediriger vers signin quand on accède au dashboard sans être connecté 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="auth/signin.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="webkit" tests="12" failures="12" skipped="0" time="0.012" errors="0">
+<testcase name="Connexion utilisateur › devrait afficher la page de connexion correctement" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:14:7 devrait afficher la page de connexion correctement" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:14:7 › Connexion utilisateur › devrait afficher la page de connexion correctement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait valider les champs requis" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:40:7 devrait valider les champs requis" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:40:7 › Connexion utilisateur › devrait valider les champs requis ──
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait valider le format de l&apos;email" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:49:7 devrait valider le format de l&apos;email" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:49:7 › Connexion utilisateur › devrait valider le format de l'email 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait se connecter avec des identifiants valides" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:58:7 devrait se connecter avec des identifiants valides" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:58:7 › Connexion utilisateur › devrait se connecter avec des identifiants valides 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait afficher une erreur avec des identifiants invalides" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:83:7 devrait afficher une erreur avec des identifiants invalides" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:83:7 › Connexion utilisateur › devrait afficher une erreur avec des identifiants invalides 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait afficher un indicateur de chargement" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:97:7 devrait afficher un indicateur de chargement" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:97:7 › Connexion utilisateur › devrait afficher un indicateur de chargement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait permettre la navigation vers la page d&apos;inscription" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:117:7 devrait permettre la navigation vers la page d&apos;inscription" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:117:7 › Connexion utilisateur › devrait permettre la navigation vers la page d'inscription 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait rediriger les utilisateurs non authentifiés" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:130:7 devrait rediriger les utilisateurs non authentifiés" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:130:7 › Connexion utilisateur › devrait rediriger les utilisateurs non authentifiés 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait gérer la connexion Google" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:140:7 devrait gérer la connexion Google" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:140:7 › Connexion utilisateur › devrait gérer la connexion Google ─
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait être responsive sur mobile" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:149:7 devrait être responsive sur mobile" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:149:7 › Connexion utilisateur › devrait être responsive sur mobile 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait supporter la navigation au clavier" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:167:7 devrait supporter la navigation au clavier" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:167:7 › Connexion utilisateur › devrait supporter la navigation au clavier 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait permettre de basculer la visibilité du mot de passe" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:191:7 devrait permettre de basculer la visibilité du mot de passe" type="FAILURE">
+<![CDATA[  [webkit] › auth/signin.spec.ts:191:7 › Connexion utilisateur › devrait permettre de basculer la visibilité du mot de passe 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="auth/signup.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="webkit" tests="10" failures="10" skipped="0" time="0.01" errors="0">
+<testcase name="Inscription utilisateur › devrait afficher la page d&apos;inscription correctement" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:14:7 devrait afficher la page d&apos;inscription correctement" type="FAILURE">
+<![CDATA[  [webkit] › auth/signup.spec.ts:14:7 › Inscription utilisateur › devrait afficher la page d'inscription correctement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider les champs requis" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:40:7 devrait valider les champs requis" type="FAILURE">
+<![CDATA[  [webkit] › auth/signup.spec.ts:40:7 › Inscription utilisateur › devrait valider les champs requis 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider le format de l&apos;email" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:62:7 devrait valider le format de l&apos;email" type="FAILURE">
+<![CDATA[  [webkit] › auth/signup.spec.ts:62:7 › Inscription utilisateur › devrait valider le format de l'email 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider la longueur du mot de passe" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:71:7 devrait valider la longueur du mot de passe" type="FAILURE">
+<![CDATA[  [webkit] › auth/signup.spec.ts:71:7 › Inscription utilisateur › devrait valider la longueur du mot de passe 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait créer un compte avec succès" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:82:7 devrait créer un compte avec succès" type="FAILURE">
+<![CDATA[  [webkit] › auth/signup.spec.ts:82:7 › Inscription utilisateur › devrait créer un compte avec succès 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait afficher une erreur si l&apos;email existe déjà" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:108:7 devrait afficher une erreur si l&apos;email existe déjà" type="FAILURE">
+<![CDATA[  [webkit] › auth/signup.spec.ts:108:7 › Inscription utilisateur › devrait afficher une erreur si l'email existe déjà 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait afficher un indicateur de chargement" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:126:7 devrait afficher un indicateur de chargement" type="FAILURE">
+<![CDATA[  [webkit] › auth/signup.spec.ts:126:7 › Inscription utilisateur › devrait afficher un indicateur de chargement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait permettre la navigation vers la page de connexion" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:150:7 devrait permettre la navigation vers la page de connexion" type="FAILURE">
+<![CDATA[  [webkit] › auth/signup.spec.ts:150:7 › Inscription utilisateur › devrait permettre la navigation vers la page de connexion 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait être responsive sur mobile" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:163:7 devrait être responsive sur mobile" type="FAILURE">
+<![CDATA[  [webkit] › auth/signup.spec.ts:163:7 › Inscription utilisateur › devrait être responsive sur mobile 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait supporter la navigation au clavier" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:181:7 devrait supporter la navigation au clavier" type="FAILURE">
+<![CDATA[  [webkit] › auth/signup.spec.ts:181:7 › Inscription utilisateur › devrait supporter la navigation au clavier 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="simple.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="webkit" tests="3" failures="3" skipped="0" time="0.003" errors="0">
+<testcase name="Configuration Playwright › devrait pouvoir accéder à la page d&apos;inscription" classname="simple.spec.ts" time="0.001">
+<failure message="simple.spec.ts:9:7 devrait pouvoir accéder à la page d&apos;inscription" type="FAILURE">
+<![CDATA[  [webkit] › simple.spec.ts:9:7 › Configuration Playwright › devrait pouvoir accéder à la page d'inscription 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Configuration Playwright › devrait pouvoir accéder à la page de connexion" classname="simple.spec.ts" time="0.001">
+<failure message="simple.spec.ts:37:7 devrait pouvoir accéder à la page de connexion" type="FAILURE">
+<![CDATA[  [webkit] › simple.spec.ts:37:7 › Configuration Playwright › devrait pouvoir accéder à la page de connexion 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Configuration Playwright › devrait rediriger vers signin quand on accède au dashboard sans être connecté" classname="simple.spec.ts" time="0.001">
+<failure message="simple.spec.ts:59:7 devrait rediriger vers signin quand on accède au dashboard sans être connecté" type="FAILURE">
+<![CDATA[  [webkit] › simple.spec.ts:59:7 › Configuration Playwright › devrait rediriger vers signin quand on accède au dashboard sans être connecté 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="auth/signin.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="Mobile Chrome" tests="12" failures="9" skipped="0" time="71.9" errors="0">
+<testcase name="Connexion utilisateur › devrait afficher la page de connexion correctement" classname="auth/signin.spec.ts" time="5.57">
+<failure message="signin.spec.ts:14:7 devrait afficher la page de connexion correctement" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signin.spec.ts:14:7 › Connexion utilisateur › devrait afficher la page de connexion correctement 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/connectez-vous à votre compte talentflow/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/connectez-vous à votre compte talentflow/i)
+
+
+      21 |     await expect(
+      22 |       page.getByText(/connectez-vous à votre compte talentflow/i)
+    > 23 |     ).toBeVisible()
+         |       ^
+      24 |     await expect(page.getByText('TF')).toBeVisible()
+      25 |
+      26 |     // Vérifier les champs du formulaire
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:23:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-a2101-e-de-connexion-correctement-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-a2101-e-de-connexion-correctement-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-a2101-e-de-connexion-correctement-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-a2101-e-de-connexion-correctement-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-a2101-e-de-connexion-correctement-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-a2101-e-de-connexion-correctement-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait valider les champs requis" classname="auth/signin.spec.ts" time="5.587">
+<failure message="signin.spec.ts:40:7 devrait valider les champs requis" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signin.spec.ts:40:7 › Connexion utilisateur › devrait valider les champs requis 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/email invalide/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/email invalide/i)
+
+
+      43 |
+      44 |     // Vérifier les messages d'erreur
+    > 45 |     await expect(page.getByText(/email invalide/i)).toBeVisible()
+         |                                                     ^
+      46 |     await expect(page.getByText(/le mot de passe est requis/i)).toBeVisible()
+      47 |   })
+      48 |
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:45:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-6a6ab-t-valider-les-champs-requis-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait valider le format de l&apos;email" classname="auth/signin.spec.ts" time="5.553">
+<failure message="signin.spec.ts:49:7 devrait valider le format de l&apos;email" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signin.spec.ts:49:7 › Connexion utilisateur › devrait valider le format de l'email 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/email invalide/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/email invalide/i)
+
+
+      53 |
+      54 |     // Vérifier le message d'erreur
+    > 55 |     await expect(page.getByText(/email invalide/i)).toBeVisible()
+         |                                                     ^
+      56 |   })
+      57 |
+      58 |   test('devrait se connecter avec des identifiants valides', async ({
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:55:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-ea544-alider-le-format-de-l-email-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait se connecter avec des identifiants valides" classname="auth/signin.spec.ts" time="0.933">
+<failure message="signin.spec.ts:58:7 devrait se connecter avec des identifiants valides" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signin.spec.ts:58:7 › Connexion utilisateur › devrait se connecter avec des identifiants valides 
+
+    Error: expect.toBeVisible: Error: strict mode violation: getByText(/tableau de bord/i) resolved to 2 elements:
+        1) <a href="/" class="flex items-center px-3 py-2 text-sm font-medium rounded-lg transition-colors bg-blue-50 text-blue-700 border-r-2 border-blue-600">…</a> aka getByRole('link', { name: 'Tableau de bord' })
+        2) <h1 class="text-3xl font-bold text-slate-900">Tableau de bord</h1> aka getByRole('heading', { name: 'Tableau de bord' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/tableau de bord/i)
+
+
+      75 |
+      76 |     // Vérifier que l'utilisateur est connecté
+    > 77 |     await expect(page.getByText(/tableau de bord/i)).toBeVisible()
+         |                                                      ^
+      78 |
+      79 |     // Vérifier la présence du profil utilisateur
+      80 |     await expect(page.getByText('DP')).toBeVisible() // Initiales Diana Prince
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:77:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-e34e9-ec-des-identifiants-valides-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait afficher une erreur avec des identifiants invalides" classname="auth/signin.spec.ts" time="5.557">
+<failure message="signin.spec.ts:83:7 devrait afficher une erreur avec des identifiants invalides" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signin.spec.ts:83:7 › Connexion utilisateur › devrait afficher une erreur avec des identifiants invalides 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/identifiants invalides/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/identifiants invalides/i)
+
+
+      92 |
+      93 |     // Vérifier le message d'erreur
+    > 94 |     await expect(page.getByText(/identifiants invalides/i)).toBeVisible()
+         |                                                             ^
+      95 |   })
+      96 |
+      97 |   test('devrait afficher un indicateur de chargement', async ({ page }) => {
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:94:61
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-e5105--des-identifiants-invalides-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-e5105--des-identifiants-invalides-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-e5105--des-identifiants-invalides-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-e5105--des-identifiants-invalides-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-e5105--des-identifiants-invalides-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-e5105--des-identifiants-invalides-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait afficher un indicateur de chargement" classname="auth/signin.spec.ts" time="5.59">
+<failure message="signin.spec.ts:97:7 devrait afficher un indicateur de chargement" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signin.spec.ts:97:7 › Connexion utilisateur › devrait afficher un indicateur de chargement 
+
+    Error: expect(locator).toBeDisabled() failed
+
+    Locator:  getByRole('button', { name: /se connecter/i })
+    Expected: disabled
+    Received: enabled
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeDisabled" with timeout 5000ms
+      - waiting for getByRole('button', { name: /se connecter/i })
+        7 × locator resolved to <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background h-10 py-2 px-4 w-full bg-blue-600 hover:bg-blue-700 text-white">…</button>
+          - unexpected value "enabled"
+
+
+      111 |
+      112 |     // Vérifier l'état de chargement
+    > 113 |     await expect(submitButton).toBeDisabled()
+          |                                ^
+      114 |     await expect(page.getByTestId('loading-spinner')).toBeVisible()
+      115 |   })
+      116 |
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:113:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-a5a42-un-indicateur-de-chargement-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait permettre la navigation vers la page d&apos;inscription" classname="auth/signin.spec.ts" time="30.489">
+<failure message="signin.spec.ts:117:7 devrait permettre la navigation vers la page d&apos;inscription" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signin.spec.ts:117:7 › Connexion utilisateur › devrait permettre la navigation vers la page d'inscription 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: /inscrivez-vous/i })
+
+
+      119 |   }) => {
+      120 |     // Cliquer sur le lien d'inscription
+    > 121 |     await page.getByRole('link', { name: /inscrivez-vous/i }).click()
+          |                                                               ^
+      122 |
+      123 |     // Vérifier la redirection
+      124 |     await expect(page).toHaveURL('/auth/signup')
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:121:63
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-f7c2b--vers-la-page-d-inscription-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait rediriger les utilisateurs non authentifiés" classname="auth/signin.spec.ts" time="5.815">
+<failure message="signin.spec.ts:130:7 devrait rediriger les utilisateurs non authentifiés" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signin.spec.ts:130:7 › Connexion utilisateur › devrait rediriger les utilisateurs non authentifiés 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected string: "http://localhost:3000/auth/signin"
+    Received string: "http://localhost:3000/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toHaveURL" with timeout 5000ms
+        9 × unexpected value "http://localhost:3000/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F"
+
+
+      135 |
+      136 |     // Vérifier la redirection vers la page de connexion
+    > 137 |     await expect(page).toHaveURL('/auth/signin')
+          |                        ^
+      138 |   })
+      139 |
+      140 |   test('devrait gérer la connexion Google', async ({ page }) => {
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:137:24
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-06e0c-ilisateurs-non-authentifiés-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait gérer la connexion Google" classname="auth/signin.spec.ts" time="0.458">
+</testcase>
+<testcase name="Connexion utilisateur › devrait être responsive sur mobile" classname="auth/signin.spec.ts" time="0.519">
+</testcase>
+<testcase name="Connexion utilisateur › devrait supporter la navigation au clavier" classname="auth/signin.spec.ts" time="5.411">
+<failure message="signin.spec.ts:167:7 devrait supporter la navigation au clavier" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signin.spec.ts:167:7 › Connexion utilisateur › devrait supporter la navigation au clavier 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByLabel(/email/i)
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByLabel(/email/i)
+        7 × locator resolved to <input value="" id="email" required="" type="email" placeholder="votre@email.com" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/>
+          - unexpected value "inactive"
+
+
+      168 |     // Navigation avec Tab
+      169 |     await page.keyboard.press('Tab')
+    > 170 |     await expect(page.getByLabel(/email/i)).toBeFocused()
+          |                                             ^
+      171 |
+      172 |     await page.keyboard.press('Tab')
+      173 |     await expect(page.getByLabel(/mot de passe/i)).toBeFocused()
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signin.spec.ts:170:45
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signin-Connexion-util-4c05c-er-la-navigation-au-clavier-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Connexion utilisateur › devrait permettre de basculer la visibilité du mot de passe" classname="auth/signin.spec.ts" time="0.418">
+</testcase>
+</testsuite>
+<testsuite name="auth/signup.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="Mobile Chrome" tests="10" failures="10" skipped="0" time="65.086" errors="0">
+<testcase name="Inscription utilisateur › devrait afficher la page d&apos;inscription correctement" classname="auth/signup.spec.ts" time="5.449">
+<failure message="signup.spec.ts:14:7 devrait afficher la page d&apos;inscription correctement" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signup.spec.ts:14:7 › Inscription utilisateur › devrait afficher la page d'inscription correctement 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByRole('heading', { name: /inscription/i })
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('heading', { name: /inscription/i })
+
+
+      18 |     await expect(
+      19 |       page.getByRole('heading', { name: /inscription/i })
+    > 20 |     ).toBeVisible()
+         |       ^
+      21 |     await expect(page.getByText(/créez votre compte talentflow/i)).toBeVisible()
+      22 |     await expect(page.getByText('TF')).toBeVisible()
+      23 |
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:20:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-1b42f--d-inscription-correctement-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-1b42f--d-inscription-correctement-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-1b42f--d-inscription-correctement-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-1b42f--d-inscription-correctement-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-1b42f--d-inscription-correctement-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-1b42f--d-inscription-correctement-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider les champs requis" classname="auth/signup.spec.ts" time="5.479">
+<failure message="signup.spec.ts:40:7 devrait valider les champs requis" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signup.spec.ts:40:7 › Inscription utilisateur › devrait valider les champs requis 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/le prénom doit contenir au moins 2 caractères/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/le prénom doit contenir au moins 2 caractères/i)
+
+
+      45 |     await expect(
+      46 |       page.getByText(/le prénom doit contenir au moins 2 caractères/i)
+    > 47 |     ).toBeVisible()
+         |       ^
+      48 |     await expect(
+      49 |       page.getByText(/le nom doit contenir au moins 2 caractères/i)
+      50 |     ).toBeVisible()
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:47:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-81ac7-t-valider-les-champs-requis-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider le format de l&apos;email" classname="auth/signup.spec.ts" time="5.559">
+<failure message="signup.spec.ts:62:7 devrait valider le format de l&apos;email" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signup.spec.ts:62:7 › Inscription utilisateur › devrait valider le format de l'email 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/email invalide/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/email invalide/i)
+
+
+      66 |
+      67 |     // Vérifier le message d'erreur
+    > 68 |     await expect(page.getByText(/email invalide/i)).toBeVisible()
+         |                                                     ^
+      69 |   })
+      70 |
+      71 |   test('devrait valider la longueur du mot de passe', async ({ page }) => {
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:68:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-08b1e-alider-le-format-de-l-email-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider la longueur du mot de passe" classname="auth/signup.spec.ts" time="5.564">
+<failure message="signup.spec.ts:71:7 devrait valider la longueur du mot de passe" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signup.spec.ts:71:7 › Inscription utilisateur › devrait valider la longueur du mot de passe 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByText(/le mot de passe doit contenir au moins 8 caractères/i)
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText(/le mot de passe doit contenir au moins 8 caractères/i)
+
+
+      77 |     await expect(
+      78 |       page.getByText(/le mot de passe doit contenir au moins 8 caractères/i)
+    > 79 |     ).toBeVisible()
+         |       ^
+      80 |   })
+      81 |
+      82 |   test('devrait créer un compte avec succès', async ({ page }) => {
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:79:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-34238-la-longueur-du-mot-de-passe-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait créer un compte avec succès" classname="auth/signup.spec.ts" time="0.486">
+<failure message="signup.spec.ts:82:7 devrait créer un compte avec succès" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signup.spec.ts:82:7 › Inscription utilisateur › devrait créer un compte avec succès 
+
+    Error: locator.fill: Error: strict mode violation: getByLabel(/nom/i) resolved to 3 elements:
+        1) <input required="" type="text" value="John" id="firstName" placeholder="John" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Prénom' })
+        2) <input value="" required="" type="text" id="lastName" placeholder="Doe" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/> aka getByRole('textbox', { name: 'Nom', exact: true })
+        3) <input value="" required="" type="text" id="tenantName" placeholder="Mon Entreprise" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Nom de l\'entreprise' })
+
+    Call log:
+      - waiting for getByLabel(/nom/i)
+
+
+      88 |     // Remplir le formulaire
+      89 |     await page.getByLabel(/prénom/i).fill('John')
+    > 90 |     await page.getByLabel(/nom/i).fill('Doe')
+         |                                   ^
+      91 |     await page.getByLabel(/email/i).fill(email)
+      92 |     await page.getByLabel(/mot de passe/i).fill('password123')
+      93 |     await page.getByLabel(/nom de.*entreprise/i).fill(companyName)
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:90:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-09444-créer-un-compte-avec-succès-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait afficher une erreur si l&apos;email existe déjà" classname="auth/signup.spec.ts" time="0.529">
+<failure message="signup.spec.ts:108:7 devrait afficher une erreur si l&apos;email existe déjà" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signup.spec.ts:108:7 › Inscription utilisateur › devrait afficher une erreur si l'email existe déjà 
+
+    Error: locator.fill: Error: strict mode violation: getByLabel(/nom/i) resolved to 3 elements:
+        1) <input required="" type="text" value="Jane" id="firstName" placeholder="John" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Prénom' })
+        2) <input value="" required="" type="text" id="lastName" placeholder="Doe" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/> aka getByRole('textbox', { name: 'Nom', exact: true })
+        3) <input value="" required="" type="text" id="tenantName" placeholder="Mon Entreprise" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Nom de l\'entreprise' })
+
+    Call log:
+      - waiting for getByLabel(/nom/i)
+
+
+      111 |     // Utiliser un email qui existe déjà (créé dans un test précédent)
+      112 |     await page.getByLabel(/prénom/i).fill('Jane')
+    > 113 |     await page.getByLabel(/nom/i).fill('Smith')
+          |                                   ^
+      114 |     await page.getByLabel(/email/i).fill('existing@example.com')
+      115 |     await page.getByLabel(/mot de passe/i).fill('password123')
+      116 |     await page.getByLabel(/nom de.*entreprise/i).fill('Jane Corp')
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:113:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-a9a1a-reur-si-l-email-existe-déjà-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait afficher un indicateur de chargement" classname="auth/signup.spec.ts" time="0.528">
+<failure message="signup.spec.ts:126:7 devrait afficher un indicateur de chargement" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signup.spec.ts:126:7 › Inscription utilisateur › devrait afficher un indicateur de chargement 
+
+    Error: locator.fill: Error: strict mode violation: getByLabel(/nom/i) resolved to 3 elements:
+        1) <input required="" type="text" id="firstName" value="Loading" placeholder="John" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Prénom' })
+        2) <input value="" required="" type="text" id="lastName" placeholder="Doe" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/> aka getByRole('textbox', { name: 'Nom', exact: true })
+        3) <input value="" required="" type="text" id="tenantName" placeholder="Mon Entreprise" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/> aka getByRole('textbox', { name: 'Nom de l\'entreprise' })
+
+    Call log:
+      - waiting for getByLabel(/nom/i)
+
+
+      128 |     const timestamp = Date.now()
+      129 |     await page.getByLabel(/prénom/i).fill('Loading')
+    > 130 |     await page.getByLabel(/nom/i).fill('Test')
+          |                                   ^
+      131 |     await page.getByLabel(/email/i).fill(`loading-${timestamp}@example.com`)
+      132 |     await page.getByLabel(/mot de passe/i).fill('password123')
+      133 |     await page.getByLabel(/nom de.*entreprise/i).fill('Loading Corp')
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:130:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-5ceec-un-indicateur-de-chargement-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait permettre la navigation vers la page de connexion" classname="auth/signup.spec.ts" time="30.495">
+<failure message="signup.spec.ts:150:7 devrait permettre la navigation vers la page de connexion" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signup.spec.ts:150:7 › Inscription utilisateur › devrait permettre la navigation vers la page de connexion 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('link', { name: /connectez-vous/i })
+
+
+      152 |   }) => {
+      153 |     // Cliquer sur le lien de connexion
+    > 154 |     await page.getByRole('link', { name: /connectez-vous/i }).click()
+          |                                                               ^
+      155 |
+      156 |     // Vérifier la redirection
+      157 |     await expect(page).toHaveURL('/auth/signin')
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:154:63
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-e9194-n-vers-la-page-de-connexion-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait être responsive sur mobile" classname="auth/signup.spec.ts" time="5.504">
+<failure message="signup.spec.ts:163:7 devrait être responsive sur mobile" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signup.spec.ts:163:7 › Inscription utilisateur › devrait être responsive sur mobile 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  getByRole('heading', { name: /inscription/i })
+    Expected: visible
+    Received: <element(s) not found>
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByRole('heading', { name: /inscription/i })
+
+
+      168 |     await expect(
+      169 |       page.getByRole('heading', { name: /inscription/i })
+    > 170 |     ).toBeVisible()
+          |       ^
+      171 |     await expect(page.getByLabel(/prénom/i)).toBeVisible()
+      172 |     await expect(
+      173 |       page.getByRole('button', { name: /créer mon compte/i })
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:170:7
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-c4cd8--être-responsive-sur-mobile-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Inscription utilisateur › devrait supporter la navigation au clavier" classname="auth/signup.spec.ts" time="5.493">
+<failure message="signup.spec.ts:181:7 devrait supporter la navigation au clavier" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › auth/signup.spec.ts:181:7 › Inscription utilisateur › devrait supporter la navigation au clavier 
+
+    Error: expect(locator).toBeFocused() failed
+
+    Locator:  getByLabel(/prénom/i)
+    Expected: focused
+    Received: inactive
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeFocused" with timeout 5000ms
+      - waiting for getByLabel(/prénom/i)
+        9 × locator resolved to <input value="" required="" type="text" id="firstName" placeholder="John" class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 pl-10"/>
+          - unexpected value "inactive"
+
+
+      182 |     // Navigation avec Tab
+      183 |     await page.keyboard.press('Tab')
+    > 184 |     await expect(page.getByLabel(/prénom/i)).toBeFocused()
+          |                                              ^
+      185 |
+      186 |     await page.keyboard.press('Tab')
+      187 |     await expect(page.getByLabel(/nom/i)).toBeFocused()
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/auth/signup.spec.ts:184:46
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|auth-signup-Inscription-ut-31b0d-er-la-navigation-au-clavier-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="simple.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="Mobile Chrome" tests="3" failures="1" skipped="0" time="1.289" errors="0">
+<testcase name="Configuration Playwright › devrait pouvoir accéder à la page d&apos;inscription" classname="simple.spec.ts" time="0.441">
+<failure message="simple.spec.ts:9:7 devrait pouvoir accéder à la page d&apos;inscription" type="FAILURE">
+<![CDATA[  [Mobile Chrome] › simple.spec.ts:9:7 › Configuration Playwright › devrait pouvoir accéder à la page d'inscription 
+
+    Error: expect.toBeVisible: Error: strict mode violation: getByText('TF') resolved to 2 elements:
+        1) <span class="text-white font-bold text-xl">TF</span> aka getByText('TF', { exact: true })
+        2) <h2 class="text-3xl font-bold text-slate-900">Créer votre compte TalentFlow</h2> aka getByRole('heading', { name: 'Créer votre compte TalentFlow' })
+
+    Call log:
+      - Expect "toBeVisible" with timeout 5000ms
+      - waiting for getByText('TF')
+
+
+      15 |
+      16 |     // Vérifier la présence du logo
+    > 17 |     await expect(page.getByText('TF')).toBeVisible()
+         |                                        ^
+      18 |
+      19 |     // Vérifier la présence du titre
+      20 |     await expect(
+        at /Users/seyfkaoueche/Documents/work/project/talentflow/apps/web/e2e/simple.spec.ts:17:40
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../test-results/simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-Mobile-Chrome/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    ../test-results/simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-Mobile-Chrome/video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../test-results/simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-Mobile-Chrome/error-context.md
+]]>
+</failure>
+<system-out>
+<![CDATA[
+[[ATTACHMENT|simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-Mobile-Chrome/test-failed-1.png]]
+
+[[ATTACHMENT|simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-Mobile-Chrome/video.webm]]
+
+[[ATTACHMENT|simple-Configuration-Playw-2642f-der-à-la-page-d-inscription-Mobile-Chrome/error-context.md]]
+]]>
+</system-out>
+</testcase>
+<testcase name="Configuration Playwright › devrait pouvoir accéder à la page de connexion" classname="simple.spec.ts" time="0.45">
+</testcase>
+<testcase name="Configuration Playwright › devrait rediriger vers signin quand on accède au dashboard sans être connecté" classname="simple.spec.ts" time="0.398">
+</testcase>
+</testsuite>
+<testsuite name="auth/signin.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="Mobile Safari" tests="12" failures="12" skipped="0" time="0.015" errors="0">
+<testcase name="Connexion utilisateur › devrait afficher la page de connexion correctement" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:14:7 devrait afficher la page de connexion correctement" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:14:7 › Connexion utilisateur › devrait afficher la page de connexion correctement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait valider les champs requis" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:40:7 devrait valider les champs requis" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:40:7 › Connexion utilisateur › devrait valider les champs requis 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait valider le format de l&apos;email" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:49:7 devrait valider le format de l&apos;email" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:49:7 › Connexion utilisateur › devrait valider le format de l'email 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait se connecter avec des identifiants valides" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:58:7 devrait se connecter avec des identifiants valides" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:58:7 › Connexion utilisateur › devrait se connecter avec des identifiants valides 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait afficher une erreur avec des identifiants invalides" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:83:7 devrait afficher une erreur avec des identifiants invalides" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:83:7 › Connexion utilisateur › devrait afficher une erreur avec des identifiants invalides 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait afficher un indicateur de chargement" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:97:7 devrait afficher un indicateur de chargement" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:97:7 › Connexion utilisateur › devrait afficher un indicateur de chargement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait permettre la navigation vers la page d&apos;inscription" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:117:7 devrait permettre la navigation vers la page d&apos;inscription" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:117:7 › Connexion utilisateur › devrait permettre la navigation vers la page d'inscription 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait rediriger les utilisateurs non authentifiés" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:130:7 devrait rediriger les utilisateurs non authentifiés" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:130:7 › Connexion utilisateur › devrait rediriger les utilisateurs non authentifiés 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait gérer la connexion Google" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:140:7 devrait gérer la connexion Google" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:140:7 › Connexion utilisateur › devrait gérer la connexion Google 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait être responsive sur mobile" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:149:7 devrait être responsive sur mobile" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:149:7 › Connexion utilisateur › devrait être responsive sur mobile 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait supporter la navigation au clavier" classname="auth/signin.spec.ts" time="0.004">
+<failure message="signin.spec.ts:167:7 devrait supporter la navigation au clavier" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:167:7 › Connexion utilisateur › devrait supporter la navigation au clavier 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Connexion utilisateur › devrait permettre de basculer la visibilité du mot de passe" classname="auth/signin.spec.ts" time="0.001">
+<failure message="signin.spec.ts:191:7 devrait permettre de basculer la visibilité du mot de passe" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signin.spec.ts:191:7 › Connexion utilisateur › devrait permettre de basculer la visibilité du mot de passe 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="auth/signup.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="Mobile Safari" tests="10" failures="10" skipped="0" time="0.01" errors="0">
+<testcase name="Inscription utilisateur › devrait afficher la page d&apos;inscription correctement" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:14:7 devrait afficher la page d&apos;inscription correctement" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signup.spec.ts:14:7 › Inscription utilisateur › devrait afficher la page d'inscription correctement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider les champs requis" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:40:7 devrait valider les champs requis" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signup.spec.ts:40:7 › Inscription utilisateur › devrait valider les champs requis 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider le format de l&apos;email" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:62:7 devrait valider le format de l&apos;email" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signup.spec.ts:62:7 › Inscription utilisateur › devrait valider le format de l'email 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait valider la longueur du mot de passe" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:71:7 devrait valider la longueur du mot de passe" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signup.spec.ts:71:7 › Inscription utilisateur › devrait valider la longueur du mot de passe 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait créer un compte avec succès" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:82:7 devrait créer un compte avec succès" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signup.spec.ts:82:7 › Inscription utilisateur › devrait créer un compte avec succès 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait afficher une erreur si l&apos;email existe déjà" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:108:7 devrait afficher une erreur si l&apos;email existe déjà" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signup.spec.ts:108:7 › Inscription utilisateur › devrait afficher une erreur si l'email existe déjà 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait afficher un indicateur de chargement" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:126:7 devrait afficher un indicateur de chargement" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signup.spec.ts:126:7 › Inscription utilisateur › devrait afficher un indicateur de chargement 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait permettre la navigation vers la page de connexion" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:150:7 devrait permettre la navigation vers la page de connexion" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signup.spec.ts:150:7 › Inscription utilisateur › devrait permettre la navigation vers la page de connexion 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait être responsive sur mobile" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:163:7 devrait être responsive sur mobile" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signup.spec.ts:163:7 › Inscription utilisateur › devrait être responsive sur mobile 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Inscription utilisateur › devrait supporter la navigation au clavier" classname="auth/signup.spec.ts" time="0.001">
+<failure message="signup.spec.ts:181:7 devrait supporter la navigation au clavier" type="FAILURE">
+<![CDATA[  [Mobile Safari] › auth/signup.spec.ts:181:7 › Inscription utilisateur › devrait supporter la navigation au clavier 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
+<testsuite name="simple.spec.ts" timestamp="2025-09-23T23:17:56.272Z" hostname="Mobile Safari" tests="3" failures="3" skipped="0" time="0.002" errors="0">
+<testcase name="Configuration Playwright › devrait pouvoir accéder à la page d&apos;inscription" classname="simple.spec.ts" time="0.001">
+<failure message="simple.spec.ts:9:7 devrait pouvoir accéder à la page d&apos;inscription" type="FAILURE">
+<![CDATA[  [Mobile Safari] › simple.spec.ts:9:7 › Configuration Playwright › devrait pouvoir accéder à la page d'inscription 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Configuration Playwright › devrait pouvoir accéder à la page de connexion" classname="simple.spec.ts" time="0.001">
+<failure message="simple.spec.ts:37:7 devrait pouvoir accéder à la page de connexion" type="FAILURE">
+<![CDATA[  [Mobile Safari] › simple.spec.ts:37:7 › Configuration Playwright › devrait pouvoir accéder à la page de connexion 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+<testcase name="Configuration Playwright › devrait rediriger vers signin quand on accède au dashboard sans être connecté" classname="simple.spec.ts" time="0">
+<failure message="simple.spec.ts:59:7 devrait rediriger vers signin quand on accède au dashboard sans être connecté" type="FAILURE">
+<![CDATA[  [Mobile Safari] › simple.spec.ts:59:7 › Configuration Playwright › devrait rediriger vers signin quand on accède au dashboard sans être connecté 
+
+    Error: browserType.launch: Executable doesn't exist at /Users/seyfkaoueche/Library/Caches/ms-playwright/webkit-2203/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     pnpm exec playwright install                                        ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+]]>
+</failure>
+</testcase>
+</testsuite>
 </testsuites>
