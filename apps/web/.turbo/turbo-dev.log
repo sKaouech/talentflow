@@ -18,3 +18,5 @@
  GET /api/auth/session [32m200[39m in 2044ms
  GET /api/auth/session [32m200[39m in 4ms
  GET /api/auth/session [32m200[39m in 2ms
+ [32m[1m✓[22m[39m Compiled in 189ms (941 modules)
+[?25h
