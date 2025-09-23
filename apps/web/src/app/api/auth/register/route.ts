@@ -1,19 +1,7 @@
 import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
-import { z } from 'zod'
+import { registerSchema } from '@talentflow/validation'
 import { prisma } from '@/lib/prisma'
-
-const registerSchema = z.object({
-  firstName: z.string().min(2, 'Le prénom doit contenir au moins 2 caractères'),
-  lastName: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
-  email: z.string().email('Email invalide'),
-  password: z
-    .string()
-    .min(8, 'Le mot de passe doit contenir au moins 8 caractères'),
-  tenantName: z
-    .string()
-    .min(2, "Le nom de l'entreprise doit contenir au moins 2 caractères"),
-})
 
 export async function POST(request: Request) {
   try {

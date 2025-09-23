@@ -9,6 +9,7 @@ import {
   Avatar,
   AvatarImage,
   AvatarFallback,
+  Eye,
 } from '@talentflow/ui'
 import {
   Plus,

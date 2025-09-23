@@ -38,7 +38,7 @@ import { HealthModule } from './health/health.module'
               winston.format.simple()
             ),
           }),
-          ...(config.get('NODE_ENV') === 'production'
+          ...(_config.get('NODE_ENV') === 'production'
             ? [
                 new winston.transports.File({
                   filename: 'logs/error.log',
@@ -67,7 +67,7 @@ import { HealthModule } from './health/health.module'
       useFactory: (_config: ConfigService) => [
         {
           ttl: 60000, // 1 minute en millisecondes
-          limit: config.get('RATE_LIMIT_MAX', 100),
+          limit: _config.get('RATE_LIMIT_MAX', 100),
         },
       ],
     }),
@@ -86,9 +86,9 @@ import { HealthModule } from './health/health.module'
       inject: [ConfigService],
       useFactory: (_config: ConfigService) => ({
         redis: {
-          host: config.get('REDIS_HOST', 'localhost'),
-          port: config.get('REDIS_PORT', 6379),
-          password: config.get('REDIS_PASSWORD'),
+          host: _config.get('REDIS_HOST', 'localhost'),
+          port: _config.get('REDIS_PORT', 6379),
+          password: _config.get('REDIS_PASSWORD'),
         },
       }),
     }),
@@ -97,10 +97,10 @@ import { HealthModule } from './health/health.module'
     KeycloakConnectModule.registerAsync({
       inject: [ConfigService],
       useFactory: (_config: ConfigService) => ({
-        authServerUrl: config.get('KEYCLOAK_AUTH_SERVER_URL'),
-        realm: config.get('KEYCLOAK_REALM'),
-        clientId: config.get('KEYCLOAK_CLIENT_ID'),
-        secret: config.get('KEYCLOAK_CLIENT_SECRET'),
+        authServerUrl: _config.get('KEYCLOAK_AUTH_SERVER_URL'),
+        realm: _config.get('KEYCLOAK_REALM'),
+        clientId: _config.get('KEYCLOAK_CLIENT_ID'),
+        secret: _config.get('KEYCLOAK_CLIENT_SECRET'),
         cookieKey: 'KEYCLOAK_JWT',
         logLevels: ['verbose'],
         useNestLogger: true,

@@ -36,3 +36,13 @@ export function truncateText(text: string, maxLength: number): string {
 export function capitalize(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase()
 }
+
+/**
+ * Format currency
+ */
+export function formatCurrency(amount: number, currency = 'EUR'): string {
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency,
+  }).format(amount)
+}

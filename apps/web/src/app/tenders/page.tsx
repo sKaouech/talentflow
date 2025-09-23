@@ -5,9 +5,9 @@ import {
   Button,
   Card,
   CardContent,
-  
-  
   Badge,
+  Eye,
+  Filter,
 } from '@talentflow/ui'
 import { useTenders, useTenderStats } from '@/hooks/use-tenders'
 import { Plus, Search,   Edit, Archive, Share } from 'lucide-react'

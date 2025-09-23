@@ -1,59 +1,46 @@
 /**
- * Test data factories for generating mock data
+ * Test data factories
  */
 
-export interface MockUser {
-  id: string
-  email: string
-  name: string
-  role: 'ADMIN' | 'MANAGER' | 'USER'
-  tenantId: string
-  createdAt: string
-  updatedAt: string
-}
+export const userFactory = (overrides: any = {}) => ({
+  id: 'test-user-id',
+  email: 'test@example.com',
+  firstName: 'John',
+  lastName: 'Doe',
+  keycloakId: null,
+  avatar: null,
+  phone: null,
+  locale: 'fr',
+  timezone: 'Europe/Paris',
+  emailVerified: null,
+  passwordHash: 'hashed-password',
+  role: 'viewer',
+  preferences: {},
+  lastLoginAt: null,
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  deletedAt: null,
+  tenantId: 'test-tenant-id',
+  ...overrides,
+})
 
-export interface MockTenant {
-  id: string
-  name: string
-  slug: string
-  domain?: string
-  createdAt: string
-  updatedAt: string
-}
+export const tenantFactory = (overrides: any = {}) => ({
+  id: 'test-tenant-id',
+  name: 'Test Company',
+  slug: 'test-company',
+  domain: 'test.com',
+  plan: 'starter',
+  settings: {},
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  deletedAt: null,
+  ...overrides,
+})
 
-/**
- * Create a mock user for testing
- */
-export function createMockUser(overrides: Partial<MockUser> = {}): MockUser {
-  const now = new Date().toISOString()
-
-  return {
-    id: `user-${Math.random().toString(36).substr(2, 9)}`,
-    email: `test-${Math.random().toString(36).substr(2, 5)}@example.com`,
-    name: `Test User ${Math.random().toString(36).substr(2, 5)}`,
-    role: 'USER',
-    tenantId: `tenant-${Math.random().toString(36).substr(2, 9)}`,
-    createdAt: now,
-    updatedAt: now,
-    ...overrides,
-  }
-}
-
-/**
- * Create a mock tenant for testing
- */
-export function createMockTenant(
-  overrides: Partial<MockTenant> = {}
-): MockTenant {
-  const now = new Date().toISOString()
-  const randomId = Math.random().toString(36).substr(2, 9)
-
-  return {
-    id: `tenant-${randomId}`,
-    name: `Test Company ${randomId}`,
-    slug: `test-company-${randomId}`,
-    createdAt: now,
-    updatedAt: now,
-    ...overrides,
-  }
+export const formDataFactory = (data: Record<string, any>) => {
+  const formData = new FormData()
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value)
+  })
+  return formData
 }

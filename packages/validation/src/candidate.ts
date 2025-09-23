@@ -42,7 +42,7 @@ export const candidateSchema = z.object({
 
   // Localisation
   location: z.string().optional(),
-  remote: remoteSchema.default('hybrid'),
+  remote: remoteSchema.default('HYBRID'),
   mobility: z.array(z.string()).default([]),
 
   // Profil professionnel

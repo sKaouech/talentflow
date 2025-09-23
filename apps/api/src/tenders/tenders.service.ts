@@ -55,7 +55,7 @@ export class TendersService {
           endDate: validatedData.endDate
             ? new Date(validatedData.endDate)
             : null,
-          publishedAt: validatedData.status === 'active' ? new Date() : null,
+          publishedAt: validatedData.status === 'published' ? new Date() : null,
           expiresAt: validatedData.expiresAt
             ? new Date(validatedData.expiresAt)
             : null,
@@ -221,17 +221,18 @@ export class TendersService {
         this.prisma.tender.count({ where }),
       ])
 
-      const pages = Math.ceil(total / limit)
+      const totalPages = Math.ceil(total / limit)
 
       this.logger.log(`Found ${total} tenders for tenant ${tenantId}`)
 
       return {
-        items,
+        success: true,
+        data: items,
         pagination: {
           page,
           limit,
           total,
-          pages,
+          totalPages,
         },
       }
     } catch (error) {
@@ -265,8 +266,8 @@ export class TendersService {
       if (validatedData.endDate)
         updateData.endDate = new Date(validatedData.endDate)
 
-      // Si le statut passe à 'active', définir publishedAt
-      if (validatedData.status === 'active') {
+      // Si le statut passe à 'published', définir publishedAt
+      if (validatedData.status === 'published') {
         updateData.publishedAt = new Date()
       }
 
@@ -330,7 +331,7 @@ export class TendersService {
   async publish(id: string, tenantId: string): Promise<Tender> {
     this.logger.log(`Publishing tender ${id} for tenant ${tenantId}`)
 
-    return this.update(id, { status: 'active' }, tenantId)
+    return this.update(id, { status: 'published' }, tenantId)
   }
 
   /**
@@ -355,7 +356,7 @@ export class TendersService {
             where: { tenantId, deletedAt: null },
           }),
           this.prisma.tender.count({
-            where: { tenantId, status: 'active', deletedAt: null },
+            where: { tenantId, status: 'published', deletedAt: null },
           }),
           this.prisma.tender.count({
             where: { tenantId, status: 'draft', deletedAt: null },

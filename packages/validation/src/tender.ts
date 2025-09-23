@@ -1,136 +1,117 @@
 import { z } from 'zod'
-import {
-  idSchema,
-  paginationSchema,
-  searchSchema,
-  dateRangeSchema,
-} from './common'
 
-// Énumérations
-export const tenderTypeSchema = z.enum(['mission', 'cdi', 'freelance', 'stage'])
-export const tenderStatusSchema = z.enum([
-  'draft',
-  'active',
-  'paused',
-  'closed',
-  'archived',
-])
-export const prioritySchema = z.enum(['low', 'medium', 'high', 'urgent'])
-export const remoteSchema = z.enum(['onsite', 'remote', 'hybrid'])
-
-// Schéma de base pour un tender
+/**
+ * Tender validation schemas
+ */
 export const tenderSchema = z.object({
-  id: idSchema,
-  title: z.string().min(1).max(200),
+  id: z.string().uuid(),
+  title: z.string().min(1, 'Le titre est requis'),
   description: z.string().optional(),
-  content: z.string().min(1),
-  source: z.string().min(1),
+  content: z.string().min(1, 'Le contenu est requis'),
+  source: z.string().default('manual'),
   sourceUrl: z.string().url().optional(),
-
+  
   // Classification
-  type: tenderTypeSchema,
+  type: z.string().default('freelance'),
   domain: z.string().optional(),
   skills: z.array(z.string()).default([]),
   location: z.string().optional(),
-  remote: remoteSchema.default('hybrid'),
-
+  remote: z.string().default('hybrid'),
+  
   // Détails mission
-  startDate: z.string().datetime().optional(),
-  endDate: z.string().datetime().optional(),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
   duration: z.string().optional(),
   dailyRate: z.number().positive().optional(),
-  currency: z.string().length(3).default('EUR'),
+  currency: z.string().default('EUR'),
   clientName: z.string().optional(),
   clientIndustry: z.string().optional(),
-
+  
   // Workflow
-  status: tenderStatusSchema.default('draft'),
-  priority: prioritySchema.default('medium'),
-  assignedTo: idSchema.optional(),
-
+  status: z.string().default('draft'),
+  priority: z.string().default('medium'),
+  assignedTo: z.string().optional(),
+  
   // Publication
-  publishedAt: z.string().datetime().optional(),
-  expiresAt: z.string().datetime().optional(),
-
+  publishedAt: z.date().optional(),
+  expiresAt: z.date().optional(),
+  
+  // Relations
+  tenantId: z.string().uuid(),
+  
   // Métadonnées
-  tenantId: idSchema,
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+  deletedAt: z.date().optional(),
 })
 
-export type Tender = z.infer<typeof tenderSchema>
+export const createTenderSchema = tenderSchema.omit({ 
+  id: true, 
+  createdAt: true, 
+  updatedAt: true 
+})
 
-// Création d'un tender
-export const createTenderSchema = tenderSchema.omit({
+export const updateTenderSchema = createTenderSchema.partial()
+
+export const searchTendersSchema = z.object({
+  q: z.string().optional(),
+  status: z.string().optional(),
+  type: z.string().optional(),
+  location: z.string().optional(),
+  minBudget: z.number().positive().optional(),
+  maxBudget: z.number().positive().optional(),
+  skills: z.array(z.string()).optional(),
+  priority: z.string().optional(),
+  remote: z.string().optional(),
+  assignedTo: z.string().optional(),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
+  sortBy: z.string().optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+  filters: z.record(z.unknown()).optional(),
+  page: z.number().int().positive().default(1),
+  limit: z.number().int().positive().max(100).default(20),
+})
+
+/**
+ * Publication validation schemas
+ */
+export const publicationSchema = z.object({
+  id: z.string().uuid(),
+  tenderId: z.string().uuid(),
+  platform: z.enum(['LINKEDIN', 'INDEED', 'LEBONCOIN', 'FREELANCE', 'MALT']),
+  platformJobId: z.string().optional(),
+  title: z.string().optional(),
+  content: z.string().optional(),
+  hashtags: z.array(z.string()).optional(),
+  scheduledAt: z.date().optional(),
+  publishedAt: z.date().optional(),
+  status: z.enum(['PENDING', 'PUBLISHED', 'FAILED', 'EXPIRED']).default('PENDING'),
+  url: z.string().url().optional(),
+  metrics: z.record(z.unknown()).optional(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+})
+
+export const createPublicationSchema = publicationSchema.omit({
   id: true,
-  tenantId: true,
+  publishedAt: true,
   createdAt: true,
   updatedAt: true,
 })
 
+/**
+ * Remote work validation schema
+ */
+export const remoteSchema = z.enum(['REMOTE', 'HYBRID', 'ON_SITE']).default('ON_SITE')
+
+/**
+ * Inferred types
+ */
+export type Tender = z.infer<typeof tenderSchema>
 export type CreateTenderInput = z.infer<typeof createTenderSchema>
-
-// Mise à jour d'un tender
-export const updateTenderSchema = createTenderSchema.partial()
-
 export type UpdateTenderInput = z.infer<typeof updateTenderSchema>
-
-// Recherche de tenders
-export const searchTendersSchema = searchSchema
-  .extend({
-    type: tenderTypeSchema.optional(),
-    status: tenderStatusSchema.optional(),
-    priority: prioritySchema.optional(),
-    remote: remoteSchema.optional(),
-    skills: z.array(z.string()).optional(),
-    location: z.string().optional(),
-    assignedTo: idSchema.optional(),
-    ...dateRangeSchema.shape,
-  })
-  .merge(paginationSchema)
-
 export type SearchTendersInput = z.infer<typeof searchTendersSchema>
 
-// Publication
-export const publicationStatusSchema = z.enum([
-  'pending',
-  'published',
-  'failed',
-  'deleted',
-])
-export const platformSchema = z.enum([
-  'linkedin',
-  'indeed',
-  'apec',
-  'leboncoin',
-])
-
-export const publicationSchema = z.object({
-  id: idSchema,
-  platform: platformSchema,
-  platformId: z.string().optional(),
-  status: publicationStatusSchema.default('pending'),
-  title: z.string().min(1).max(200),
-  content: z.string().min(1),
-  hashtags: z.array(z.string()).default([]),
-  publishedAt: z.string().datetime().optional(),
-  scheduledAt: z.string().datetime().optional(),
-  errorMessage: z.string().optional(),
-  engagement: z.record(z.any()).default({}),
-  tenderId: idSchema,
-  createdAt: z.string().datetime(),
-  updatedAt: z.string().datetime(),
-})
-
 export type Publication = z.infer<typeof publicationSchema>
-
-// Création d'une publication
-export const createPublicationSchema = z.object({
-  platform: platformSchema,
-  title: z.string().min(1).max(200),
-  content: z.string().min(1),
-  hashtags: z.array(z.string()).default([]),
-  scheduledAt: z.string().datetime().optional(),
-})
-
 export type CreatePublicationInput = z.infer<typeof createPublicationSchema>
