@@ -15,6 +15,11 @@ const customJestConfig = {
     '<rootDir>/__tests__/**/*.(ts|tsx|js)',
     '<rootDir>/**/*.(test|spec).(ts|tsx|js)'
   ],
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/',
+    '<rootDir>/e2e/',
+    '\\.disabled'
+  ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@talentflow/(.*)$': '<rootDir>/../../packages/$1'
