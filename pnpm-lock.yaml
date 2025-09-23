@@ -326,6 +326,9 @@ importers:
         specifier: ^5.6.0
         version: 5.22.0(prisma@5.22.0)
     devDependencies:
+      '@types/node':
+        specifier: ^20.8.0
+        version: 20.19.17
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.0.0
         version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.1)(typescript@5.9.2)
@@ -418,6 +421,12 @@ importers:
         specifier: ^29.1.1
         version: 29.4.4(@babel/core@7.28.4)(jest@29.7.0)(typescript@5.9.2)
     devDependencies:
+      '@types/node':
+        specifier: ^20.8.0
+        version: 20.19.17
+      '@types/react':
+        specifier: ^18.2.37
+        version: 18.3.24
       '@typescript-eslint/eslint-plugin':
         specifier: ^6.0.0
         version: 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.1)(typescript@5.9.2)
@@ -433,6 +442,9 @@ importers:
       prettier:
         specifier: ^3.0.3
         version: 3.6.2
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
       typescript:
         specifier: ^5.2.2
         version: 5.9.2
