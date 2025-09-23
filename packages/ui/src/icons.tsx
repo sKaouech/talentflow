@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 
 export const Eye = ({ className, ...props }: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -18,7 +18,10 @@ export const Eye = ({ className, ...props }: React.SVGProps<SVGSVGElement>) => (
   </svg>
 )
 
-export const Calendar = ({ className, ...props }: React.SVGProps<SVGSVGElement>) => (
+export const Calendar = ({
+  className,
+  ...props
+}: React.SVGProps<SVGSVGElement>) => (
   <svg
     className={className}
     fill="none"
@@ -38,7 +41,10 @@ export const Calendar = ({ className, ...props }: React.SVGProps<SVGSVGElement>)
   </svg>
 )
 
-export const Filter = ({ className, ...props }: React.SVGProps<SVGSVGElement>) => (
+export const Filter = ({
+  className,
+  ...props
+}: React.SVGProps<SVGSVGElement>) => (
   <svg
     className={className}
     fill="none"

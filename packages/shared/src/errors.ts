@@ -73,7 +73,7 @@ export function createErrorResponse(error: unknown) {
 
   return {
     success: false,
-    error: 'Une erreur inconnue s\'est produite',
+    error: "Une erreur inconnue s'est produite",
     code: 'UNKNOWN_ERROR',
     statusCode: 500,
   }
