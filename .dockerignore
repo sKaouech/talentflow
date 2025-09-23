@@ -133,6 +133,7 @@ k8s/
 *.yaml
 *.yml
 !docker-compose*.yml
+!pnpm-workspace.yaml
 
 # Terraform
 *.tf
