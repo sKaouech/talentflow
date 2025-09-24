@@ -118,8 +118,8 @@ COPY --from=packages-builder /app/packages ./packages
 # Copier l'application API
 COPY apps/api ./apps/api
 
-# Copier les dépendances de production
-COPY --from=deps-prod /app/node_modules ./node_modules
+# Installer les dépendances de production localement
+RUN pnpm install --frozen-lockfile --prod
 
 # Générer le client Prisma
 RUN pnpm turbo db:generate
@@ -152,8 +152,8 @@ COPY --from=packages-builder /app/packages ./packages
 # Copier l'application web
 COPY apps/web ./apps/web
 
-# Copier les dépendances de développement (nécessaires pour Next.js build)
-COPY --from=deps-dev /app/node_modules ./node_modules
+# Installer les dépendances de développement localement
+RUN pnpm install --frozen-lockfile
 
 # Générer le client Prisma
 RUN pnpm turbo db:generate
