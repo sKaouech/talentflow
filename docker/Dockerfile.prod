@@ -102,10 +102,21 @@ WORKDIR /app
 
 # Copier les fichiers de configuration
 COPY package.json pnpm-workspace.yaml turbo.json ./
-COPY apps/api ./apps/api
+
+# Copier les package.json de tous les packages pour la résolution des dépendances
+COPY packages/database/package.json ./packages/database/
+COPY packages/shared/package.json ./packages/shared/
+COPY packages/validation/package.json ./packages/validation/
+COPY packages/ui/package.json ./packages/ui/
+COPY packages/testing/package.json ./packages/testing/
+COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
 
 # Copier les packages buildés
 COPY --from=packages-builder /app/packages ./packages
+
+# Copier l'application API
+COPY apps/api ./apps/api
 
 # Copier les dépendances de production
 COPY --from=deps-prod /app/node_modules ./node_modules
@@ -125,10 +136,21 @@ WORKDIR /app
 
 # Copier les fichiers de configuration
 COPY package.json pnpm-workspace.yaml turbo.json ./
-COPY apps/web ./apps/web
+
+# Copier les package.json de tous les packages pour la résolution des dépendances
+COPY packages/database/package.json ./packages/database/
+COPY packages/shared/package.json ./packages/shared/
+COPY packages/validation/package.json ./packages/validation/
+COPY packages/ui/package.json ./packages/ui/
+COPY packages/testing/package.json ./packages/testing/
+COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
 
 # Copier les packages buildés
 COPY --from=packages-builder /app/packages ./packages
+
+# Copier l'application web
+COPY apps/web ./apps/web
 
 # Copier les dépendances de développement (nécessaires pour Next.js build)
 COPY --from=deps-dev /app/node_modules ./node_modules
