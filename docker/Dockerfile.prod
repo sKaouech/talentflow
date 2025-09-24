@@ -4,7 +4,7 @@
 # ===================================
 
 # ===================================
-# Stage 1: Base avec pnpm
+# Stage 1: Base avec pnpm et optimisations de cache
 # ===================================
 FROM node:18-alpine AS base
 
@@ -17,10 +17,13 @@ RUN adduser --system --uid 1001 nextjs
 
 WORKDIR /app
 
+# Optimisation: Copier d'abord les fichiers de dépendances pour le cache Docker
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+
 # ===================================
-# Stage 2: Installation des dépendances
+# Stage 2: Installation des dépendances de production
 # ===================================
-FROM base AS deps
+FROM base AS deps-prod
 
 # Copier les fichiers de configuration pnpm
 COPY pnpm-lock.yaml ./
@@ -36,7 +39,29 @@ COPY packages/testing/package.json ./packages/testing/
 COPY apps/web/package.json ./apps/web/
 COPY apps/api/package.json ./apps/api/
 
-# Installer toutes les dépendances nécessaires pour Next.js
+# Installer uniquement les dépendances de production pour optimiser la taille
+RUN pnpm install --frozen-lockfile --prod
+
+# ===================================
+# Stage 3: Installation des dépendances de développement (pour le build)
+# ===================================
+FROM base AS deps-dev
+
+# Copier les fichiers de configuration pnpm
+COPY pnpm-lock.yaml ./
+COPY package.json ./
+COPY pnpm-workspace.yaml ./
+
+# Copier les package.json de tous les packages
+COPY packages/database/package.json ./packages/database/
+COPY packages/shared/package.json ./packages/shared/
+COPY packages/validation/package.json ./packages/validation/
+COPY packages/ui/package.json ./packages/ui/
+COPY packages/testing/package.json ./packages/testing/
+COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
+
+# Installer toutes les dépendances pour le build
 RUN pnpm install --frozen-lockfile
 
 # ===================================
@@ -69,22 +94,21 @@ RUN pnpm turbo db:generate
 RUN pnpm turbo build --filter="@talentflow/database" --filter="@talentflow/shared" --filter="@talentflow/validation" --filter="@talentflow/ui"
 
 # ===================================
-# Stage 4: Build de l'API
+# Stage 5: Build de l'API
 # ===================================
 FROM base AS api-builder
 
 WORKDIR /app
 
-# Copier les fichiers de configuration pour l'installation
-COPY --from=packages-builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
+# Copier les fichiers de configuration
 COPY package.json pnpm-workspace.yaml turbo.json ./
 COPY apps/api ./apps/api
 
 # Copier les packages buildés
 COPY --from=packages-builder /app/packages ./packages
 
-# Installer les dépendances (après avoir tous les packages)
-RUN pnpm install --frozen-lockfile
+# Copier les dépendances de production
+COPY --from=deps-prod /app/node_modules ./node_modules
 
 # Générer le client Prisma
 RUN pnpm turbo db:generate
@@ -93,22 +117,21 @@ RUN pnpm turbo db:generate
 RUN pnpm turbo build --filter="@talentflow/api"
 
 # ===================================
-# Stage 5: Build de l'application Web
+# Stage 6: Build de l'application Web
 # ===================================
 FROM base AS web-builder
 
 WORKDIR /app
 
-# Copier les fichiers de configuration pour l'installation
-COPY --from=packages-builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
+# Copier les fichiers de configuration
 COPY package.json pnpm-workspace.yaml turbo.json ./
 COPY apps/web ./apps/web
 
 # Copier les packages buildés
 COPY --from=packages-builder /app/packages ./packages
 
-# Installer les dépendances (après avoir tous les packages)
-RUN pnpm install --frozen-lockfile
+# Copier les dépendances de développement (nécessaires pour Next.js build)
+COPY --from=deps-dev /app/node_modules ./node_modules
 
 # Générer le client Prisma
 RUN pnpm turbo db:generate
@@ -121,7 +144,7 @@ ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXTAUTH_URL=$NEXTAUTH_URL
 ENV NODE_ENV=production
 
-# Build de l'application Next.js (avec deps installées)
+# Build de l'application Next.js
 RUN pnpm turbo build --filter="@talentflow/web"
 
 # ===================================
@@ -132,7 +155,7 @@ FROM base AS api-runtime
 WORKDIR /app
 
 # Copier les dépendances de production
-COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps-prod /app/node_modules ./node_modules
 COPY --from=packages-builder /app/packages ./packages
 
 # Copier l'API buildée
@@ -160,7 +183,7 @@ FROM base AS web-runtime
 WORKDIR /app
 
 # Copier les dépendances de production nécessaires pour Next.js
-COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps-prod /app/node_modules ./node_modules
 COPY --from=packages-builder /app/packages ./packages
 
 # Copier l'application Next.js buildée
