@@ -215,7 +215,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: ghcr.io/skaouech/talentflow
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -306,7 +306,7 @@ jobs:
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
             # Déployer la nouvelle version
-            export IMAGE_TAG=develop
+            export IMAGE_TAG=ghcr.io/skaouech/talentflow:develop
             export SMTP_PASS=""
             export SMTP_USER=""
             export GOOGLE_CLIENT_SECRET=""
