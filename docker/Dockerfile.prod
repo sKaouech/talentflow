@@ -84,10 +84,7 @@ COPY --from=packages-builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY apps/api ./apps/api
 COPY package.json pnpm-workspace.yaml turbo.json ./
 
-# Installer les dépendances si nécessaire
-RUN pnpm install --frozen-lockfile
-
-# Build de l'API
+# Build de l'API (node_modules déjà copiés depuis packages-builder)
 RUN pnpm turbo build --filter="@talentflow/api"
 
 # ===================================
@@ -106,9 +103,6 @@ COPY --from=packages-builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY apps/web ./apps/web
 COPY package.json pnpm-workspace.yaml turbo.json ./
 
-# Installer les dépendances si nécessaire
-RUN pnpm install --frozen-lockfile
-
 # Variables d'environnement pour le build
 ARG NEXT_PUBLIC_API_URL
 ARG NEXTAUTH_URL
@@ -117,7 +111,7 @@ ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXTAUTH_URL=$NEXTAUTH_URL
 ENV NODE_ENV=production
 
-# Build de l'application Next.js
+# Build de l'application Next.js (node_modules déjà copiés depuis packages-builder)
 RUN pnpm turbo build --filter="@talentflow/web"
 
 # ===================================
