@@ -306,7 +306,11 @@ jobs:
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
             # Déployer la nouvelle version
-            export IMAGE_TAG=${{ needs.build.outputs.image-tag }}
+            export IMAGE_TAG=develop
+            export SMTP_PASS=""
+            export SMTP_USER=""
+            export GOOGLE_CLIENT_SECRET=""
+            export GOOGLE_CLIENT_ID=""
             docker-compose -f docker-compose.dev.yml pull
             docker-compose -f docker-compose.dev.yml up -d --remove-orphans
             
