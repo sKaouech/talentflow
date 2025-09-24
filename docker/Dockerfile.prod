@@ -36,8 +36,8 @@ COPY packages/testing/package.json ./packages/testing/
 COPY apps/web/package.json ./apps/web/
 COPY apps/api/package.json ./apps/api/
 
-# Installer uniquement les dépendances de production
-RUN pnpm install --frozen-lockfile --prod
+# Installer toutes les dépendances nécessaires pour Next.js
+RUN pnpm install --frozen-lockfile
 
 # ===================================
 # Stage 3: Build des packages partagés

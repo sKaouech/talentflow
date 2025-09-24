@@ -155,8 +155,7 @@ services:
       - talentflow-dev
     depends_on:
       - api-dev
-      postgres-dev:
-        condition: service_healthy
+      - postgres-dev
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:3000/api/auth/session || exit 1"]
       interval: 30s
