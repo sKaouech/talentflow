@@ -78,10 +78,14 @@ WORKDIR /app
 # Copier les dépendances et packages buildés
 COPY --from=packages-builder /app/node_modules ./node_modules
 COPY --from=packages-builder /app/packages ./packages
+COPY --from=packages-builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 
 # Copier le code source de l'API
 COPY apps/api ./apps/api
 COPY package.json pnpm-workspace.yaml turbo.json ./
+
+# Installer les dépendances si nécessaire
+RUN pnpm install --frozen-lockfile
 
 # Build de l'API
 RUN pnpm turbo build --filter="@talentflow/api"
@@ -96,10 +100,14 @@ WORKDIR /app
 # Copier les dépendances et packages buildés
 COPY --from=packages-builder /app/node_modules ./node_modules
 COPY --from=packages-builder /app/packages ./packages
+COPY --from=packages-builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
 
 # Copier le code source de l'app web
 COPY apps/web ./apps/web
 COPY package.json pnpm-workspace.yaml turbo.json ./
+
+# Installer les dépendances si nécessaire
+RUN pnpm install --frozen-lockfile
 
 # Variables d'environnement pour le build
 ARG NEXT_PUBLIC_API_URL
