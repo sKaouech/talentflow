@@ -210,7 +210,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository }}
+          images: ghcr.io/skaouech/talentflow
           tags: |
             type=ref,event=branch
             type=ref,event=pr
@@ -248,7 +248,7 @@ jobs:
       - name: 🔍 Run Trivy Vulnerability Scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ghcr.io/${{ github.repository }}:${{ github.sha }}
+          image-ref: ghcr.io/skaouech/talentflow:${{ github.sha }}
           format: 'sarif'
           output: 'trivy-results.sarif'
 
@@ -288,7 +288,7 @@ jobs:
             cd /opt/talentflow/dev
             
             # Télécharger la configuration Docker
-            curl -o docker-compose.dev.yml https://raw.githubusercontent.com/${{ github.repository }}/develop/docker/docker-compose.dev.yml
+            curl -o docker-compose.dev.yml https://raw.githubusercontent.com/sKaouech/talentflow/develop/docker/docker-compose.dev.yml
             
             # Login au registry GitHub
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
@@ -351,7 +351,7 @@ jobs:
             fi
             
             # Télécharger la configuration Docker
-            curl -o docker-compose.prod.yml https://raw.githubusercontent.com/${{ github.repository }}/main/docker/docker-compose.prod.yml
+            curl -o docker-compose.prod.yml https://raw.githubusercontent.com/sKaouech/talentflow/main/docker/docker-compose.prod.yml
             
             # Login au registry GitHub
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
