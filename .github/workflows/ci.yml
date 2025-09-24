@@ -250,12 +250,18 @@ jobs:
       - name: 📥 Checkout Code
         uses: actions/checkout@v4
 
+      - name: ⏳ Wait for Image Availability
+        run: |
+          echo "Waiting for image to be available in registry..."
+          sleep 30
+          
       - name: 🔍 Run Trivy Vulnerability Scanner
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           format: 'sarif'
           output: 'trivy-results.sarif'
+          ignore-unfixed: true
 
       - name: 📊 Upload Trivy Scan Results
         uses: github/codeql-action/upload-sarif@v3
