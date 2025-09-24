@@ -75,16 +75,18 @@ FROM base AS api-builder
 
 WORKDIR /app
 
-# Copier les dépendances et packages buildés
-COPY --from=packages-builder /app/node_modules ./node_modules
-COPY --from=packages-builder /app/packages ./packages
+# Copier les fichiers de configuration pour l'installation
 COPY --from=packages-builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
-
-# Copier le code source de l'API
-COPY apps/api ./apps/api
 COPY package.json pnpm-workspace.yaml turbo.json ./
+COPY apps/api ./apps/api
 
-# Build de l'API (node_modules déjà copiés depuis packages-builder)
+# Installer les dépendances
+RUN pnpm install --frozen-lockfile
+
+# Copier les packages buildés
+COPY --from=packages-builder /app/packages ./packages
+
+# Build de l'API
 RUN pnpm turbo build --filter="@talentflow/api"
 
 # ===================================
@@ -94,14 +96,16 @@ FROM base AS web-builder
 
 WORKDIR /app
 
-# Copier les dépendances et packages buildés
-COPY --from=packages-builder /app/node_modules ./node_modules
-COPY --from=packages-builder /app/packages ./packages
+# Copier les fichiers de configuration pour l'installation
 COPY --from=packages-builder /app/pnpm-lock.yaml ./pnpm-lock.yaml
-
-# Copier le code source de l'app web
-COPY apps/web ./apps/web
 COPY package.json pnpm-workspace.yaml turbo.json ./
+COPY apps/web ./apps/web
+
+# Installer les dépendances
+RUN pnpm install --frozen-lockfile
+
+# Copier les packages buildés
+COPY --from=packages-builder /app/packages ./packages
 
 # Variables d'environnement pour le build
 ARG NEXT_PUBLIC_API_URL
@@ -111,7 +115,7 @@ ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 ENV NEXTAUTH_URL=$NEXTAUTH_URL
 ENV NODE_ENV=production
 
-# Build de l'application Next.js (node_modules déjà copiés depuis packages-builder)
+# Build de l'application Next.js (avec deps installées)
 RUN pnpm turbo build --filter="@talentflow/web"
 
 # ===================================
