@@ -59,7 +59,6 @@ services:
     image: ${IMAGE_TAG:-ghcr.io/your-org/talentflow:develop}
     container_name: talentflow-api-dev
     restart: unless-stopped
-    target: api-runtime
     environment:
       # Base de données
       DATABASE_URL: postgresql://talentflow_dev:${POSTGRES_PASSWORD:-dev_secure_password_123}@postgres-dev:5432/talentflow_dev
@@ -123,7 +122,6 @@ services:
     image: ${IMAGE_TAG:-ghcr.io/your-org/talentflow:develop}
     container_name: talentflow-web-dev
     restart: unless-stopped
-    target: web-runtime
     environment:
       # Next.js
       NODE_ENV: development
