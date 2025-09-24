@@ -108,12 +108,12 @@ services:
         condition: service_healthy
       redis-dev:
         condition: service_healthy
-    healthcheck:
-      test: ["CMD-SHELL", "nc -z localhost 3001 || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+    # healthcheck:
+    #   test: ["CMD-SHELL", "nc -z localhost 3001 || exit 1"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 40s
 
   # ===================================
   # Application Web Next.js
@@ -154,8 +154,7 @@ services:
     networks:
       - talentflow-dev
     depends_on:
-      api-dev:
-        condition: service_healthy
+      - api-dev
       postgres-dev:
         condition: service_healthy
     healthcheck:
