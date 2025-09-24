@@ -86,6 +86,9 @@ COPY --from=packages-builder /app/packages ./packages
 # Installer les dépendances (après avoir tous les packages)
 RUN pnpm install --frozen-lockfile
 
+# Générer le client Prisma
+RUN pnpm turbo db:generate
+
 # Build de l'API
 RUN pnpm turbo build --filter="@talentflow/api"
 
@@ -106,6 +109,9 @@ COPY --from=packages-builder /app/packages ./packages
 
 # Installer les dépendances (après avoir tous les packages)
 RUN pnpm install --frozen-lockfile
+
+# Générer le client Prisma
+RUN pnpm turbo db:generate
 
 # Variables d'environnement pour le build
 ARG NEXT_PUBLIC_API_URL
