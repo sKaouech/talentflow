@@ -320,7 +320,7 @@ jobs:
 
       - name: 🔔 Notify Deployment Success
         if: success()
-        uses: 8398a7/action-slack@v4
+        uses: 8398a7/action-slack@v3
         with:
           status: success
           text: '🚀 TalentFlow DEV déployé avec succès!'
@@ -392,7 +392,7 @@ jobs:
 
       - name: 🔔 Notify Production Deployment
         if: success()
-        uses: 8398a7/action-slack@v4
+        uses: 8398a7/action-slack@v3
         with:
           status: success
           text: '🏭 TalentFlow PROD déployé avec succès!'
