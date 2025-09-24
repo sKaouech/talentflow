@@ -259,7 +259,7 @@ jobs:
       - name: 🔍 Run Trivy Vulnerability Scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ghcr.io/${{ github.actor }}/talentflow:develop
+          image-ref: ghcr.io/skaouech/talentflow:develop
           format: 'sarif'
           output: 'trivy-results.sarif'
           ignore-unfixed: true
