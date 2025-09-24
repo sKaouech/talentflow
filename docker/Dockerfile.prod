@@ -46,16 +46,21 @@ FROM base AS packages-builder
 
 WORKDIR /app
 
-# Copier les dépendances depuis le stage deps
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/pnpm-lock.yaml ./pnpm-lock.yaml
-
-# Copier le code source des packages
-COPY packages/ ./packages/
-COPY package.json pnpm-workspace.yaml turbo.json ./
+# Copier les fichiers de configuration et les package.json
+COPY pnpm-lock.yaml package.json pnpm-workspace.yaml turbo.json ./
+COPY packages/database/package.json ./packages/database/
+COPY packages/shared/package.json ./packages/shared/
+COPY packages/validation/package.json ./packages/validation/
+COPY packages/ui/package.json ./packages/ui/
+COPY packages/testing/package.json ./packages/testing/
+COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
 
 # Installer toutes les dépendances (dev incluses pour le build)
 RUN pnpm install --frozen-lockfile
+
+# Copier le code source des packages
+COPY packages/ ./packages/
 
 # Générer Prisma Client
 RUN pnpm turbo db:generate
