@@ -67,7 +67,7 @@ services:
   # API Backend Production
   # ===================================
   api-prod:
-    image: ${IMAGE_TAG:-ghcr.io/your-org/talentflow:latest}
+    image: ${IMAGE_TAG:-ghcr.io/skaouech/talentflow:latest}
     container_name: talentflow-api-prod
     restart: always
     target: api-runtime
@@ -155,7 +155,7 @@ services:
   # Application Web Production
   # ===================================
   web-prod:
-    image: ${IMAGE_TAG:-ghcr.io/your-org/talentflow:latest}
+    image: ${IMAGE_TAG:-ghcr.io/skaouech/talentflow:latest}
     container_name: talentflow-web-prod
     restart: always
     target: web-runtime

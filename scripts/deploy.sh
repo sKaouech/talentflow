@@ -215,7 +215,7 @@ GOOGLE_CLIENT_SECRET=your-google-client-secret
 GRAFANA_PASSWORD=$(openssl rand -base64 16)
 
 # Image Docker
-IMAGE_TAG=ghcr.io/your-org/talentflow:${ENVIRONMENT}
+IMAGE_TAG=ghcr.io/skaouech/talentflow:${ENVIRONMENT}
 ENVEOF
 
         chmod 600 .env

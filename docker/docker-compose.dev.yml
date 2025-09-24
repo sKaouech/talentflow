@@ -56,7 +56,7 @@ services:
   # API Backend NestJS
   # ===================================
   api-dev:
-    image: ${IMAGE_TAG:-ghcr.io/your-org/talentflow:develop}
+    image: ${IMAGE_TAG:-ghcr.io/skaouech/talentflow:develop}
     container_name: talentflow-api-dev
     restart: unless-stopped
     environment:
@@ -119,7 +119,7 @@ services:
   # Application Web Next.js
   # ===================================
   web-dev:
-    image: ${IMAGE_TAG:-ghcr.io/your-org/talentflow:develop}
+    image: ${IMAGE_TAG:-ghcr.io/skaouech/talentflow:develop}
     container_name: talentflow-web-dev
     restart: unless-stopped
     environment:
