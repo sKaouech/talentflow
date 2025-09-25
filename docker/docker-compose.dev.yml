@@ -139,8 +139,8 @@ services:
       DATABASE_URL: postgresql://talentflow_dev:${POSTGRES_PASSWORD:-dev_secure_password_123}@postgres-dev:5432/talentflow_dev
       
       # OAuth Providers (Développement)
-      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
-      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-dev_google_client_id}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-dev_google_client_secret}
       
       # Features Flags
       FEATURE_ANALYTICS: true
