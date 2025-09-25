@@ -204,8 +204,8 @@ FROM base AS web-runtime
 
 WORKDIR /app
 
-# Copier les dépendances de production nécessaires pour Next.js
-COPY --from=deps-prod /app/node_modules ./node_modules
+# Copier les dépendances complètes depuis web-builder (inclut Next.js)
+COPY --from=web-builder /app/node_modules ./node_modules
 COPY --from=packages-builder /app/packages ./packages
 
 # Copier l'application Next.js buildée
